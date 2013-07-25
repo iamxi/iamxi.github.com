@@ -1,0 +1,6 @@
+safe: true
+auto: true
+pygments: true
+permalink: /:title
+author: QiweiShen
+
