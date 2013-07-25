@@ -1,6 +1,7 @@
-safe: true
-auto: true
+name: my blog site
 pygments: true
 permalink: /:title
-author: QiweiShen
+safe: true
+auto: true
+author: Qiwei Shen
 
