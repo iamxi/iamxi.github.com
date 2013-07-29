@@ -1,4 +1,6 @@
 name: QiweiShen's Blog
+
+markdown: rdiscount
 pygments: true
 permalink: /:title
 safe: true

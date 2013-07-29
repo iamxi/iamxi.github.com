@@ -10,10 +10,62 @@ category: mread
 ## 第一章
 与其他书不同，第一章是一个例子。很多书，包括大学教材啊，技术教材都是以要讲的内容的定义和一些学习的重要意义之类的做第一章，而此书却给了一个系统的小部分代码来做重构的小例子。这样写的原因作者说了，不过对于我们这种应试教育下出生的人来说有点小小的不习惯。
 
+{% highlight java linenos %}
+public String statement() {
+    double totalAmount = 0;     //总消费余额
+    int frequentRenterPoints = 0;    //常客积点
+    Enumeration rentals = _rentals.elements();
+    String result = "Rental Record for " + getName() + "\n";
+
+    while(rentals.hasMoreElements()) {
+        double thisAmount = 0;
+        //取得一笔租借记录
+        Rental each = (Rental) rentals.nextElement();
+        
+        //determine amounts for each line
+        switch(each.getDaysRented() > 2) {    //取得影片租价格
+            case Movie.REGULAR:    //普通片
+                thisAmount += 2;
+                if (each.getDaysRented() > 2)
+                    thisAmount += (each.getDaysRented() - 2)*1.5;
+                break;
+            case Movie.NEW_RELEASE:    //新片
+                thisAmount += each.getDaysRented() * 3;
+                break;
+            case Movie.CHILDRENS:   //儿童片
+                thisAmount += 1.5;
+                if (each.getDaysRented() > 3)
+                    thisAmount += (each.getDaysRented() - 3)*1.5;
+                break;
+        }
+
+        // add frequent renter points（累加 常客积点）
+        frequentRenterPoints++;
+        // add bonus for a two day new release rental
+        if (each.getMovie().getPriceCoe() == Movie.NEW_RELEASE &&
+            each.getDaysRented() > 1)
+            frequentRenterPoints++;
+
+        // show figures for this rental （显示此笔租借数据）
+        result += "\t" + each.getMovie().getTitle() + "\t" +
+                  String.valueOf(thisAmunt) + "\n";
+      
+        // add foot lines （结尾打印）
+        result += "Amount owed is " + String.valueOf(totalAmount)
+                  + "\n";
+        result += "You earned " +
+                  String.valueOf(frequentRenterPoints)
+                  + " frequent renter points";
+        return result;
+    }
+}
+{% endhighlight %}
 
 例子很简单，一个电影光碟出租店的简单系统，这里的部分是打印租碟的用户的费用和积分。书内的这个小例子真的很小很简单，简直就是一个 java 初学者写的课后实践题。如果换成我（好歹有工作经验）去写，估计也还是写成这个样子：按现实中的几个主体建立几个类——电影碟、顾客、租赁，然后在其中一个类里面写一个打印出某一次租赁的费用和积分的方法，这个方法没什么层次什么的，就一个完整的面向过程的代码。不光我，估计还多有一定经验的都会这么写，因为这个实在太简单，简单到都懒得过多思考。作者也怎么认为，不过他要读者把这样的代码放到更高的高度去看，放到一个庞大系统中去看。的确，不易于理解（逻辑判断多，循环内的逻辑太长），不符合面向对象精神（一个过程，全部塞一个方法里面，也不深究到底哪些实现该属于那个类）。
 
 之后作者就开始慢慢的，一步一步的重构这段代码。不多说了，那些都是看一眼就能懂的，这些重构的方法大部分为我们开发中常用的。不过神奇的事发生了——至少我是这么认为的，一段简陋的代码在作者折腾下，开始慢慢变得有模有样，层次清楚，功能分明，最后还给程序加上了一个状态模式，竟然和高深的设计模式搭上边了。
+
+![refactioring-1p](/images/mread/refactioring-1.png)
 
 这个小小的例子，把读者悄悄的领入了重构的世界，用简单的例子，把重构的神秘面纱给剥去（至少不会让人望而生畏）。
 
