@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "《重构》学习笔记一"
+title: "《重构》学习笔记-重构原则"
 date: 2013-07-28 22:01:00
 category: mread
 ---
