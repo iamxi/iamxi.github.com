@@ -14,7 +14,7 @@ tags: ["Design Patterns"]
 Kit
 
 ### 结构： 
-![AbstracFactory](/images/mread/Design-Patterns-abstract-factory.jpg)
+![AbstracFactory](/assets/images/post/mread/Design-Patterns-abstract-factory.jpg)
 
 ### 代码示例：
 AbstractFactory类

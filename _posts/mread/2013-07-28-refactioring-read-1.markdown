@@ -66,7 +66,7 @@ public String statement() {
 
 之后作者就开始慢慢的，一步一步的重构这段代码。不多说了，那些都是看一眼就能懂的，这些重构的方法大部分为我们开发中常用的。不过神奇的事发生了——至少我是这么认为的，一段简陋的代码在作者折腾下，开始慢慢变得有模有样，层次清楚，功能分明，最后还给程序加上了一个状态模式，竟然和高深的设计模式搭上边了。
 
-![refactioring-1p](/images/mread/refactioring-1.png)
+![refactioring-1p](/assets/images/post/mread/refactioring-1.png)
 
 这个小小的例子，把读者悄悄的领入了重构的世界，用简单的例子，把重构的神秘面纱给剥去（至少不会让人望而生畏）。
 
