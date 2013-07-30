@@ -2,6 +2,7 @@
 layout: post
 title: 《重构》学习笔记-构筑测试系统与大型重构
 date: 2013-07-29 13:28:00
+description: 学习《重构 改善既有代码的设计》，了解测试对重构的意义和作用，以及大型的重构。
 category: mread
 ---
 

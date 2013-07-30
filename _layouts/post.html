@@ -2,8 +2,19 @@
 layout: default
 ---
 <h2>{{ page.title }}</h2>
-<p class="meta">{{ page.date | date_to_string }}</p>
+<p class="meta">{{ page.date | date:"%Y-%m-%d" }}</p>
 
 <div class="post">
 {{ content }}
+
+<hr />
+<div>
+	{% if page.previous %}
+	<a href="{{ page.previous.url }}" > 上一篇：{{ page.previous.title | truncate:16}}</a>
+	{% endif %}
+|
+	{% if page.next %}
+	<a href="{{ page.next.url }}" > 下一篇：{{ page.next.title | truncate:16 }}</a>
+	{% endif %}
+</div>
 </div>

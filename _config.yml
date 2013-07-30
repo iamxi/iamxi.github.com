@@ -2,7 +2,7 @@ name: QiweiShen's Blog
 
 markdown: rdiscount
 pygments: true
-permalink: /:title
+permalink: /blog/:year/:month/:day/:title
 safe: true
 auto: true
 

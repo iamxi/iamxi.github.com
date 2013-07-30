@@ -2,6 +2,7 @@
 layout: post
 title: 《重构》学习笔记-代码的坏味道
 date: 2013-07-29 13:09:00
+description: 学习《重构 改善既有代码的设计》，认识代码的坏味道。
 category: mread
 ---
 

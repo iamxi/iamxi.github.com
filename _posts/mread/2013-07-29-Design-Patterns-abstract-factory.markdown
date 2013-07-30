@@ -2,6 +2,7 @@
 layout: post
 title: 设计模式学习-抽象工程（Abstract Factory）
 date: 2013-07-29 16:56:00
+description: 抽象工程，提供一个创建一系列相关或相互依赖对象的接口，而无需指定它们具体的类。
 category: mread
 tags: ["Design Patterns"]
 ---

@@ -2,6 +2,7 @@
 layout: post
 title: "《重构》学习笔记-重构原则"
 date: 2013-07-28 22:01:00
+description: 学习《重构 改善既有代码的设计》的笔记，了解如何重构以及重构的时机。
 category: mread
 ---
 
