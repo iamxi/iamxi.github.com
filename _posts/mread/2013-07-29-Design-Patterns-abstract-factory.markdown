@@ -105,7 +105,6 @@ public class Client {
 <li>当你要强调一系列相关的产品对象的设计以便进行联合使用时。</li>
 <li>当你提供一个产品类库，而只想显示它们的接口而不是实现时。</li>
 </ul>
- 
 
 ### 相关模式：
 Abstract Factory类通常用工厂方法（Factory Method）实现，但它们也可以用Prototype实现。一个具体的工厂通常是一个单件（Singelton）。
