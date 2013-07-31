@@ -9,7 +9,7 @@ tags: ["Design Patterns"]
 
 ### 创建型模式：
 
-用于创建对象的模式。包括单件模式（Singleton）、抽象工厂模式（Abstract Factory）、生成器模式（Builder）、工厂方法模式（Factory Method）、原型模式（Prototype）。
+用于创建对象的模式。包括[单件模式（Singleton）](/blog/2013/07/31/design-patterns-singleton)、[抽象工厂模式（Abstract Factory）](/blog/2013/07/30/Design-Patterns-abstract-factory)、[生成器模式（Builder）](/blog/2013/07/30/design-patterns-builder)、[工厂方法模式（Factory Method）](/blog/2013/07/31/design-patterns-factory-method)、[原型模式（Prototype）](/blog/2013/07/31/design-patterns-prototype)。
 
 用一个系统创建的那些对象的类对系统进行参数化有两种常用方法：
 
