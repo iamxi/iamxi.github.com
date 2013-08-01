@@ -1,4 +1,4 @@
-name: QiweiShen's Blog
+name: 陌上桑
 
 markdown: rdiscount
 pygments: true
@@ -6,7 +6,7 @@ permalink: /blog/:year/:month/:day/:title
 safe: true
 auto: true
 
-title: QiweiShen.com
+title: 陌上桑
 url: http://blog.qiweishen.com
 author: Qiwei Shen
 
