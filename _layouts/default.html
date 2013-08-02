@@ -3,9 +3,9 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-		<title>{% if page.title %}{{ page.title }}-{{ site.title }}{% else %}{{ site.title }}{% endif %}</title>
+		<title>{% if page.title %}{{ page.title }} - {{ site.title }}{% else %}{{ site.title }}{% endif %}</title>
 		<meta name="description" content="{% if page.description %}{{ page.description }}{% else %}陌上桑{% endif %}" />
-        <meta name="viewport" content="width=device-width">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 		<!-- google analytics -->
 		<script>
@@ -20,42 +20,42 @@
 		</script>
 
         <!-- syntax highlighting CSS -->
-        <link rel="stylesheet" href="/assets/css/syntax.css">
+		<link rel="stylesheet" href="/assets/css/syntax.css">
 
         <!-- Custom CSS -->
-        <link rel="stylesheet" href="/assets/css/main.css">
+        <!--<link rel="stylesheet" href="/assets/css/main.css">-->
 
+		<link href="/assets/themes/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+
+		<script src="/assets/js/jquery-1.10.2.min.js"></script>
+		<script src="/assets/themes/bootstrap/js/bootstrap.min.js"></script>
     </head>
-    <body>
+    <body style="padding-top: 70px;">
+
+		<div class="navbar navbar-fixed-top">
+			<div class="container">
+				<a class="navbar-brand" href="/">{{ site.name }}</a>
+				<ul class="nav navbar-nav">
+					<li><a href="/">首页</a>
+				</ul>
+			</div>
+		</div>
 
         <div class="container">
           <div class="site">
-            <div class="header">
-              <h1 class="title"><a href="/">{{ site.name }}</a></h1>
-              <a class="extra" href="/">首页</a>
-            </div>
 
                 {{ content }}
 
-            <div class="footer">
-              <div class="contact">
-                <p>
-                  博主<br />
-                  我的主页<br />
-		  项目主页<br />
-                  联系方式<br />
-                </p>
-              </div>
-              <div class="contact">
-                <p>
-		  沈奇炜<br />
-                  <a href="http://blog.qiweishen.com/">blog.qiweishen.com</a><br />
-		  <a href="http://github.com/iamxi/iamxi.github.com">github.com/iamxi/iamxi.github.com</a><br />
-		  shenqiwei@gmail.com
-                </p>
-              </div>
-            </div>
           </div>
+		  <hr />
+		  <footer class="pull-right">
+		  <div>
+			  My
+			  <a href="http://github.com/iamxi/">gihub</a>
+			  <a href="https://plus.google.com/101539871592203635828">Google+</a>
+			  . Powered by <a href="http://jekyllrb.com/">Jekyll</a>, hosted on <a href="https://github.com">GitHub</a>.
+		  </div>
+		  </footer>
         </div> <!-- /container -->
 
     </body>
