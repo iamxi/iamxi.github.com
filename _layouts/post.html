@@ -10,14 +10,13 @@ layout: default
 <div class="post">
 {{ content }}
 
-<hr />
-<div>
+<br />
+<ul class="pager">
 	{% if page.previous %}
-	<a href="{{ page.previous.url }}" > 上一篇：{{ page.previous.title | truncate:16}}</a>
+	<li class="previous"><a href="{{ page.previous.url }}" > 上一篇：{{ page.previous.title | truncate:16}}</a></li>
 	{% endif %}
-|
 	{% if page.next %}
-	<a href="{{ page.next.url }}" > 下一篇：{{ page.next.title | truncate:16 }}</a>
+	<li class="next"><a href="{{ page.next.url }}" > 下一篇：{{ page.next.title | truncate:16 }}</a></li>
 	{% endif %}
-</div>
+</ul>
 </div>
