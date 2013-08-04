@@ -6,7 +6,9 @@
 		<title>{% if page.title %}{{ page.title }} - {{ site.title }}{% else %}{{ site.title }}{% endif %}</title>
 		<meta name="description" content="{% if page.description %}{{ page.description }}{% else %}陌上桑{% endif %}" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+		{% if page.url == '/index.html' %}
 		<meta name="baidu-site-verification" content="wsMhwV14nM" />
+		{% endif %}
 
 		<!-- google analytics -->
 		<script>
