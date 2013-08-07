@@ -1,0 +1,22 @@
+---
+layout: default
+title: 多读书
+---
+
+<div class="page-header">
+	<h1>多读书<small>博学之 审问之 慎思之 明辨之 笃行之</small></h1>
+</div>
+<div id="home">
+	{% for post in site.categories.mread %}
+	<div class="panel">
+		<div class="panel-heading">
+			<a href="{{ post.url }}">
+				<h3>{{ post.title }}
+					<small>{{ post.date | date:"%Y-%m-%d" }}</small>
+				</h3>
+			</a>
+		</div>
+		{{ post.description }}
+	</div>
+	{% endfor %}
+</div>
