@@ -1,4 +1,4 @@
-name: 陌上桑
+name: 曲尺墨斗
 
 markdown: rdiscount
 pygments: true
@@ -6,7 +6,7 @@ permalink: /blog/:year/:month/:day/:title
 safe: true
 auto: true
 
-title: 陌上桑
+title: 曲尺墨斗
 url: http://blog.qiweishen.com
 author: Qiwei Shen
 
