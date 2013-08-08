@@ -4,7 +4,7 @@ title: 设计模式学习-组合模式（Composite）
 date: 2013-08-08 15:27:00
 description: 组合模式将对象组合成树形结构以表示“部分 -整体”的层次结构。Composite使得用户对单个对象和组合对象的使用具有一致性。
 category: mread
-tags: ["Design Pattern"]
+tags: ["Design Patterns"]
 ---
 
 ### 意图：
