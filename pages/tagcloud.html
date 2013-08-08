@@ -8,7 +8,10 @@ title: 分类目录
 		<ul class="list-group" id="tagcloud">
 			{% for tag in site.tags %}
 			<li class="list-group-item">
-			<a href="#{{ tag[0] }}" title="{{ tag[0] }}" rel="{{ tag[1].size }}">{{ tag[0] }}</a>
+			<a href="#{{ tag[0] }}" title="{{ tag[0] }}" rel="{{ tag[1].size }}">
+				<span class="badge pull-right">{{ tag[1].size }}</span>
+				{{ tag[0] }}
+			</a>
 			</li>
 			{% endfor %}
 		</ul>
@@ -16,11 +19,11 @@ title: 分类目录
 	<div class="col-lg-9" data-target="#tagcloud" data-spy="scroll">
 		<ul class="list-group">
 			{% for tag in site.tags %}
-			<li id="{{ tag[0] }}" class="list-group-item">
-			<h2>{{ tag[0] }}</h2>
+			<li class="list-group-item" style="border: 0px;">
+			<h2 id="{{ tag[0] }}">{{ tag[0] }}</h2>
 			<div class="list-group">
 				{% for post in tag[1] %}
-				<a hef="#" class="list-group-item">{{ post.title }}</a>
+				<a href="{{ post.url }}" class="list-group-item">{{ post.title }}</a>
 				{% endfor %}
 			</div>
 			</li>
