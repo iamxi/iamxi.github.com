@@ -5,6 +5,7 @@ date: 2013-07-31 13:44:00
 description: 桥接模式将抽象部分与它的实现部分分离，使它们都可以独立地变化。
 category: mread
 tags: ["Design Patterns"]
+keywords: 设计模式,桥接模式
 ---
 
 ### 意图
@@ -31,7 +32,7 @@ Handle/Body
 <br />
 
 ### 示例代码：
-{% highlight java linenos %}
+{% highlight java %}
 public abstract class Abstraction {  
     private Implementor impl;  
   

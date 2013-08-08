@@ -5,6 +5,7 @@ date: 2013-07-30 17:23:00
 description: 用原型实例指定创建对象的种类，并且通过拷贝这些原型创建新的对象。
 category: mread
 tags: ["Design Patterns"]
+keywords: 设计模式,原型模式
 ---
 
 很少见到，我都没遇到过，或是遇到过也没注意。
@@ -28,7 +29,7 @@ ConcretePrototype<br />
 </ul>
 <br />
 ### 示例代码:
-{% highlight java linenos %}
+{% highlight java %}
 public abstract class Prototype implements Cloneable {  
   
     public Prototype clone() {  

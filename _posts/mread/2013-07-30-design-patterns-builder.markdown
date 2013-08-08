@@ -5,6 +5,7 @@ date: 2013-07-30 15:56:00
 description: 将一个复杂对象的构建与它的表示分离，使得同样的构建过程可以创建不同的表示，java的StringBuilder就是一个Builder模式的例子。
 category: mread
 tags: ["Design Patterns"]
+keywords: 设计模式,生成器
 ---
 
 用来构建复杂的实例，java的StringBuilder就是一个Builder模式的例子。
@@ -19,7 +20,7 @@ tags: ["Design Patterns"]
 ### 代码示例：
 
 Builder类
-{% highlight java linenos %}
+{% highlight java %}
 public abstract class Builder {  
     protected String product;  
       
@@ -38,7 +39,7 @@ public abstract class Builder {
 {% endhighlight %}
 
 ConcreteBuilder类
-{% highlight java linenos %}
+{% highlight java %}
 public class ConcreteBuilder extends Builder {  
   
     @Override  
@@ -49,7 +50,7 @@ public class ConcreteBuilder extends Builder {
 {% endhighlight %}
 
 Director类
-{% highlight java linenos %}
+{% highlight java %}
 public class Director {  
     private Builder builder;  
       
@@ -70,7 +71,7 @@ public class Director {
 {% endhighlight %}
 
 调用
-{% highlight java linenos %}
+{% highlight java %}
 public class Client {  
   
     public static void main(String[] args) {  

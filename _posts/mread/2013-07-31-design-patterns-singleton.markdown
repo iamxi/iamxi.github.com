@@ -5,6 +5,7 @@ date: 2013-07-31 09:39:00
 description: 单件可以保证一个类仅有一个实例，并提供一个访问它的全局访问点。
 category: mread
 tags: ["Design Patterns"]
+keywords: 设计模式,单件
 ---
 
 ### 意图：
@@ -15,7 +16,7 @@ tags: ["Design Patterns"]
 ![Singleton](/assets/images/post/mread/design-patterns-singleton.jpg)
 
 ### 代码示例：
-{% highlight java linenos %}
+{% highlight java %}
 public class Singleton {  
     private static Singleton instance = new Singleton();  
       

@@ -3,6 +3,7 @@ layout: post
 title: Java可变参数方法及它的重载
 date: 2013-07-26 12:00:00
 description: Java可变参数方法及它的重载
+keywords: java,可变参数方法
 ---
 
 JAVA支持方法的可变参数。类似如下

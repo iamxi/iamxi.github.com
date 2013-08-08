@@ -1,10 +1,11 @@
 ---
 layout: post
-title: 设计模式学习-抽象工程（Abstract Factory）
+title: 设计模式学习-抽象工厂（Abstract Factory）
 date: 2013-07-29 16:56:00
-description: 抽象工程，提供一个创建一系列相关或相互依赖对象的接口，而无需指定它们具体的类。
+description: 抽象工厂，提供一个创建一系列相关或相互依赖对象的接口，而无需指定它们具体的类。
 category: mread
 tags: ["Design Patterns"]
+keywords: 设计模式,抽象工厂
 ---
 
 ### 意图：
@@ -18,7 +19,7 @@ Kit
 
 ### 代码示例：
 AbstractFactory类
-{% highlight java linenos %}
+{% highlight java %}
 public abstract class AbstractFactory {  
 
     public abstract AbstractProductA createProductA();  
@@ -28,7 +29,7 @@ public abstract class AbstractFactory {
 {% endhighlight %}
 
 ConcreteFactory类
-{% highlight java linenos %}
+{% highlight java %}
 public class ConcreteFactory1 extends AbstractFactory {  
 
     @Override  
@@ -59,7 +60,7 @@ public class ConcreteFactory2 extends AbstractFactory {
 {% endhighlight %}
 
 AbstractProduct类
-{% highlight java linenos %}
+{% highlight java %}
 public abstract class AbstractProductA {  
 }  
       
@@ -80,7 +81,7 @@ public class ProductB2 extends AbstractProductB {
 {% endhighlight %}
 
 Client类
-{% highlight java linenos %}
+{% highlight java %}
 public class Client {  
     public static void main(String[] args) {  
         AbstractFactory factory1 = new ConcreteFactory1();  

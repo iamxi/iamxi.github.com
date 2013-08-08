@@ -5,6 +5,7 @@ date: 2013-07-30 16:21:00
 description: 定义一个用于创建对象的接口，让子类决定实例化哪一个类。 Factory Method使一个类的实例化延迟到其子类。
 category: mread
 tags: ["Design Patterns"]
+keywords: 设计模式,工厂方法
 ---
 
 ### 意图：
@@ -44,7 +45,7 @@ ConcreteCreator<br />
 
 ### 代码示例：
 Creator类
-{% highlight java linenos %}
+{% highlight java %}
 public abstract class Creator {  
       
     protected abstract Product factoryMethod();  
@@ -57,7 +58,7 @@ public abstract class Creator {
 {% endhighlight %}
 
 ConcreteCreator类
-{% highlight java linenos %}
+{% highlight java %}
 public class ConcreteCreator extends Creator {  
   
     @Override  
