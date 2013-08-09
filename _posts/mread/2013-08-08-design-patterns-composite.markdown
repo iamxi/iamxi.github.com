@@ -14,6 +14,7 @@ keywords: 设计模式,组合模式
 
 ### 结构：
 ![Composite](/assets/images/post/mread/design-patterns-composite.jpg)
+
 参与者
 <ul>
 <li>
