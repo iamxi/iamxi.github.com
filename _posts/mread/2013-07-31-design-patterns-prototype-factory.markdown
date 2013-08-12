@@ -5,7 +5,6 @@ date: 2013-07-31 13:58:00
 description: 顾名思义就是原型模式和工厂模式的结合。在GOF的书里面，抽象工厂那节中对这个有描述，不过内容很少，所以看的时候也没注意到。
 category: mread
 tags: ["Design Patterns"]
-keywords: 设计模式,原型工厂模式
 ---
 
 顾名思义就是[原型模式](/blog/2013/07/31/design-patterns-prototype)和[工厂模式](/blog/2013/07/31/design-patterns-factory-method)的结合。在GOF的书里面，抽象工厂那节中对这个有描述，不过内容很少，所以看的时候也没注意到。

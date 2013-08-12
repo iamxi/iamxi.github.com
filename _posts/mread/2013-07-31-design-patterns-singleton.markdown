@@ -5,7 +5,6 @@ date: 2013-07-31 09:39:00
 description: 单件可以保证一个类仅有一个实例，并提供一个访问它的全局访问点。
 category: mread
 tags: ["Design Patterns"]
-keywords: 设计模式,单件
 ---
 
 ### 意图：

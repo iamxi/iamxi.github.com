@@ -3,7 +3,6 @@ layout: post
 title: itext中文本的绝对位置放置
 date: 2013-07-26 12:02:00
 description: itext中文本的绝对位置放置
-keywords: itext,中文绝对位置
 ---
 
 text中表格可以使用

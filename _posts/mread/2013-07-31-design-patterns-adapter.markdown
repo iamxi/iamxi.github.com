@@ -5,7 +5,6 @@ date: 2013-07-31 12:26:00
 description: 将一个类的接口转换成客户希望的另外一个接口。 Adapter模式使得原本由于接口不兼容而不能一起工作的那些类可以一起工作。
 category: mread
 tags: ["Design Patterns"]
-keywords: 设计模式,适配器模式
 ---
 
 如果你知道电源适配器的作用，就应该很容易理解这个模式。

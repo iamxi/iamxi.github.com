@@ -5,7 +5,6 @@ date: 2013-07-30 15:56:00
 description: 将一个复杂对象的构建与它的表示分离，使得同样的构建过程可以创建不同的表示，java的StringBuilder就是一个Builder模式的例子。
 category: mread
 tags: ["Design Patterns"]
-keywords: 设计模式,生成器
 ---
 
 用来构建复杂的实例，java的StringBuilder就是一个Builder模式的例子。

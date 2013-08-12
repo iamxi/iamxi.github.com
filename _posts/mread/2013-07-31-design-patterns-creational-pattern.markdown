@@ -5,7 +5,6 @@ date: 2013-07-31 09:59:00
 description: 用于创建对象的模式。包括单件模式（Singleton）、抽象工厂模式（Abstract Factory）、生成器模式（Builder）、工厂方法模式（Factory Method）、原型模式（Prototype）。
 category: mread
 tags: ["Design Patterns"]
-keywords: 设计模式,创建型模式
 ---
 
 ### 创建型模式：

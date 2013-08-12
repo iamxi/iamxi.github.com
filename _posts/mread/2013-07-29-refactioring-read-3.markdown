@@ -5,7 +5,6 @@ date: 2013-07-29 13:28:00
 description: 学习《重构 改善既有代码的设计》，了解测试对重构的意义和作用，以及大型的重构。
 category: mread
 tags: [Refactioring]
-keywords: 重构,构筑测试系统
 ---
 
 ## 构筑测试系统
