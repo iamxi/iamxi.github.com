@@ -1,0 +1,22 @@
+---
+layout: default
+title: 好之乐之
+---
+
+<div class="page-header">
+	<h1>好之乐之<small>知之者不如好之者，好之者不如乐之者</small></h1>
+</div>
+<div id="home">
+	{% for post in site.categories.likeit %}
+	<div class="panel">
+		<div class="panel-heading">
+			<a href="{{ post.url }}">
+				<h3>{{ post.title }}
+					<small class="pull-right">{{ post.date | date:"%Y-%m-%d"}}</small>
+				</h3>
+			</a>
+		</div>
+		{{ post.description }}
+	</div>
+	{% endfor %}
+</div>
