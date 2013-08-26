@@ -8,7 +8,7 @@ title: 杂谈
 </div>
 <div id="home">
 	{% for post in site.categories.others %}
-	<div class="panel">
+	<div class="panel panel-default">
 		<div class="panel-heading">
 			<a href="{{ post.url }}">
 				<h3>{{ post.title }}
@@ -18,7 +18,9 @@ title: 杂谈
 				</h3>
 			</a>
 		</div>
+		<div class="panel-body">
 		{{ post.description }}
+		</div>
 	</div>
 	{% endfor %}
 </div>
