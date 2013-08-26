@@ -8,7 +8,7 @@ title: 曲尺墨斗
 </div>
 <div id="home">
   {% for post in site.categories.mread %}
-  <div class="panel">
+  <div class="panel panel-default">
 	  <div class="panel-heading">
 		  <a href="{{ post.url }}">
 			  <h3>{{ post.title }}
@@ -16,7 +16,9 @@ title: 曲尺墨斗
 			  </h3>
 		  </a>
 	  </div>
+	  <div class="panel-body">
 	  {{ post.description }}
+	  </div>
   </div>
   {% endfor %}
   <div style="display: none;"><a href="https://plus.google.com/101539871592203635828?rel=author">沈奇炜</a></div>
