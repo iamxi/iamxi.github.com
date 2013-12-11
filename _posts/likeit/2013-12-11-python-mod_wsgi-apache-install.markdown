@@ -37,6 +37,8 @@ tags: [Django]
 
 	/usr/loacl/bin/python2.7 -V
 
+若是出现错误：python: error while loading shared  libraries: libpython2.7.so    .1.0: cannot open shared object file: No such file or directory。使用vim新建文件`/etc/ld.so.conf.d/python2.7.conf`，加入内容：`/usr/local/lib`。保存退出后运行：`ldconfig`，再次运行，看是否成功。
+
 ## 建立软链接
 用于替换shell下的默认python命令的版本
 
