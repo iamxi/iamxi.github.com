@@ -1,5 +1,5 @@
 ---
-layout:post
+layout: post
 title: Spring4定时任务的注解配置
 date: 2014-11-03 22:57:00
 description: Spring4框架下，不使用xml配置文件，而采用注解配置定时任务。
