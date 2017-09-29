@@ -53,7 +53,7 @@
 <link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="Tool," />
 
 
 
@@ -69,13 +69,18 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="我的博客">
-<meta property="og:url" content="http://blog.qiweishen.com/archives/2013/index.html">
+<meta name="description" content="我在win8.1下安装OpenVPN遇到了两个问题，一是安装时候TAP设备驱动程序安装失败，二是因为系统临时目录带中文而无法正确连接，下面是解决方法。">
+<meta name="keywords" content="Tool">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Win8.1下安装OpenVPN">
+<meta property="og:url" content="http://blog.qiweishen.com/post/win8-install-openvpn">
 <meta property="og:site_name" content="我的博客">
+<meta property="og:description" content="我在win8.1下安装OpenVPN遇到了两个问题，一是安装时候TAP设备驱动程序安装失败，二是因为系统临时目录带中文而无法正确连接，下面是解决方法。">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-09-29T08:34:20.239Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="我的博客">
+<meta name="twitter:title" content="Win8.1下安装OpenVPN">
+<meta name="twitter:description" content="我在win8.1下安装OpenVPN遇到了两个问题，一是安装时候TAP设备驱动程序安装失败，二是因为系统临时目录带中文而无法正确连接，下面是解决方法。">
 
 
 
@@ -105,13 +110,13 @@
 
 
 
-  <link rel="canonical" href="http://blog.qiweishen.com/archives/2013/"/>
+  <link rel="canonical" href="http://blog.qiweishen.com/post/win8-install-openvpn"/>
 
 
 
 
 
-  <title>归档 | 我的博客</title>
+  <title>Win8.1下安装OpenVPN | 我的博客</title>
   
 
 
@@ -130,7 +135,7 @@
     
   
 
-  <div class="container sidebar-position-left page-archive">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -224,410 +229,172 @@
           <div id="content" class="content">
             
 
+  <div id="posts" class="posts-expand">
+    
+
+  
+
   
   
   
-  <div class="post-block archive">
-    <div id="posts" class="posts-collapse">
-      <span class="archive-move-on"></span>
 
-      <span class="archive-page-counter">
-        
-        
-         
-        
-        OK! 目前共计 35 篇日志。 继续努力。
-      </span>
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://blog.qiweishen.com/post/win8-install-openvpn">
 
-      
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Qiwei Shen">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="我的博客">
+    </span>
+
+    
+      <header class="post-header">
 
         
         
+          <h1 class="post-title" itemprop="name headline">Win8.1下安装OpenVPN</h1>
         
 
-        
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2014-02-11T09:26:00+08:00">
+                2014-02-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
           
-          <div class="collection-title">
-            <h1 class="archive-year" id="archive-year-2013">2013</h1>
-          </div>
-        
-        
 
-        
+          
+            
+          
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+          
+          
 
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/post/python-mode-wsgi-apache-install" itemprop="url">
-              
-                <span itemprop="name">Linux下Django部署环境的搭建</span>
-              
-            </a>
-        
-      </h2>
+          
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2013-12-11T16:19:00+08:00"
-              content="2013-12-11" >
-          12-11
-        </time>
-      </div>
+          
 
-    </header>
-  </article>
+          
+              <div class="post-description">
+                  我在win8.1下安装OpenVPN遇到了两个问题，一是安装时候TAP设备驱动程序安装失败，二是因为系统临时目录带中文而无法正确连接，下面是解决方法。
+              </div>
+          
 
+        </div>
+      </header>
+    
 
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/post/java-clone" itemprop="url">
-              
-                <span itemprop="name">Clone使用方法详解</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2013-09-05T13:29:00+08:00"
-              content="2013-09-05" >
-          09-05
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
       
 
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/post/django-apache-mod-wsgi-deployment" itemprop="url">
-              
-                <span itemprop="name">Django+apache+mod_wsgi部署</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2013-09-02T10:20:00+08:00"
-              content="2013-09-02" >
-          09-02
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
+      
+        <p>我在win8.1下安装OpenVPN遇到了两个问题，一是安装时候TAP设备驱动程序安装失败，二是因为系统临时目录带中文而无法正确连接，下面是解决方法。</p>
+<p>系统及软件版本</p>
+<ul>
+<li>Win8.1 64位系统</li>
+<li>OpenVPN 2.3.2 64位</li>
+</ul>
+<p>##一、安装TAP设备驱动程序失败</p>
+<p>在安装OpenVPN时候，在最后报了<strong>“An error occurred installing the TAP device driver”</strong>这样的错误。这是说安装TAP驱动时候错误，可以不理会，这个时候OpenVPN其实已经安装完成。后面要做的事就是自己动手来安装TAP驱动了。</p>
+<p>不过手动安装虚拟网络设备的时候需要知道失败的原因，解决后才能在安装。在Win7下安装是正常的，而Win8/8.1就不行了，主要是因为系统开启了“驱动程序强制签名”，而在Win8.1下不认OpenVPN的TAP驱动程序签名导致的。这个不太清楚是OpenVPN版本有关还是和系统版本有关系。解决办法就是禁用驱动程序强制签名，步骤如下：</p>
+<ul>
+<li>1、按住Shift建不放，然后用鼠标点击右侧的Charm菜单中的重启按钮（注意，这里会重启系统，有文档没有保存的保存下）。</li>
+<li>2、在出现的界面中依次选择：疑难解答-&gt;高级选项-&gt;启动设置-&gt;重新启动</li>
+<li>3、在重启后的界面上选择“禁用驱动强制签名”</li>
+<li>4、用Charm菜单中的搜索功能搜索“add a new TAP virtual ethernet adapter”，以管理员身份运行，看到系统提示后点“始终…”，之后就算不在禁用驱动程序强制签名的模式下也可以正确安装。</li>
+</ul>
+<p>##二、系统临时目录中文问题</p>
+<p>我的微软账号中的名字是中文，所以在生成的用户目录也是中文的，在用户目录下的临时文件夹自然在路径上也带了中文，而OpenVPN的GUI程序默认在使用临时文件夹。看来OpenVPN的GUI程序也不支持中文啊。失败后在日志中看到的错误信息就是“–tmp-dir”这个参数指定的目录错误。如果使用命令行的话完全可以通过“–tmp–dir”参数指定其他的，不过那样不方便。</p>
+<p>其实自己的client.ovpn文件也同样可以指定参数，在里面加入一行“tmp-dir “e:\temp””（注意，这个路径必须有效），然后再重新打开OpenVPN就可以正常连接。再多说一句，Win7/8/8.1下，需要以管理员身份运行OpenVPN，不然显示连接上了，但是依然无法连接远程服务器。</p>
 
       
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/post/django-study-start" itemprop="url">
-              
-                <span itemprop="name">Django基础入门</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2013-08-29T17:01:00+08:00"
-              content="2013-08-29" >
-          08-29
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/post/java-static-code-block" itemprop="url">
-              
-                <span itemprop="name">Java静态代码块（static{}）</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2013-08-21T10:43:00+08:00"
-              content="2013-08-21" >
-          08-21
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/post/java-source-arraylist" itemprop="url">
-              
-                <span itemprop="name">Java源码解读——ArrayList</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2013-08-14T15:11:00+08:00"
-              content="2013-08-14" >
-          08-14
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/post/the-art-of-readable-code" itemprop="url">
-              
-                <span itemprop="name">编写可读代码的艺术-代码应当易于理解</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2013-08-09T17:12:00+08:00"
-              content="2013-08-09" >
-          08-09
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/post/farewell-my-concubine" itemprop="url">
-              
-                <span itemprop="name">霸王别姬-人生一场戏</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2013-08-09T12:39:00+08:00"
-              content="2013-08-09" >
-          08-09
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/post/design-patterns-composite" itemprop="url">
-              
-                <span itemprop="name">设计模式学习-组合模式（Composite）</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2013-08-08T15:27:00+08:00"
-              content="2013-08-08" >
-          08-08
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/post/design-patterns-prototype-factory" itemprop="url">
-              
-                <span itemprop="name">原型工厂模式</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2013-07-31T13:58:00+08:00"
-              content="2013-07-31" >
-          07-31
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
     </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Tool/" rel="tag"># Tool</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/post/putty-using-agent-forwarding" rel="next" title="PuTTY下如何使用agent forwarding">
+                <i class="fa fa-chevron-left"></i> PuTTY下如何使用agent forwarding
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/post/developer-read-books-coding" rel="prev" title="推荐程序员阅读的书籍 -- 编程实践">
+                推荐程序员阅读的书籍 -- 编程实践 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
-
-  
-  <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/archives/2013/page/2/">2</a><a class="page-number" href="/archives/2013/page/3/">3</a><a class="extend next" rel="next" href="/archives/2013/page/2/"><i class="fa fa-angle-right"></i></a>
-  </nav>
+  </article>
 
 
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -635,6 +402,10 @@
 
 
           
+  <div class="comments" id="comments">
+    
+  </div>
+
 
         </div>
         

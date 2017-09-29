@@ -71,7 +71,7 @@
 
 <meta property="og:type" content="website">
 <meta property="og:title" content="我的博客">
-<meta property="og:url" content="http://blog.qiweishen.com/index.html">
+<meta property="og:url" content="http://blog.qiweishen.com/page/4/index.html">
 <meta property="og:site_name" content="我的博客">
 <meta property="og:locale" content="zh-Hans">
 <meta name="twitter:card" content="summary">
@@ -105,7 +105,7 @@
 
 
 
-  <link rel="canonical" href="http://blog.qiweishen.com/"/>
+  <link rel="canonical" href="http://blog.qiweishen.com/page/4/"/>
 
 
 
@@ -239,7 +239,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://blog.qiweishen.com/post/springmvc-cant-fiter-root-url">
+    <link itemprop="mainEntityOfPage" href="http://blog.qiweishen.com/post/java-varargs-method-overload">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Qiwei Shen">
@@ -258,7 +258,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/post/springmvc-cant-fiter-root-url" itemprop="url">SpringMVC没有拦截根路径的问题</a></h1>
+                <a class="post-title-link" href="/post/java-varargs-method-overload" itemprop="url">Java可变参数方法及它的重载</a></h1>
         
 
         <div class="post-meta">
@@ -270,8 +270,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2014-12-02T15:22:00+08:00">
-                2014-12-02
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2012-04-28T12:00:00+08:00">
+                2012-04-28
               </time>
             
 
@@ -309,10 +309,10 @@
 
       
         
-          在使用tomcat和spring mvc开发web项目时候，月到了根路径无法被拦截器拦截的问题。
+          Java可变参数方法及它的重载
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/post/springmvc-cant-fiter-root-url">
+            <a class="btn" href="/post/java-varargs-method-overload">
               阅读全文 &raquo;
             </a>
           </div>
@@ -363,7 +363,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://blog.qiweishen.com/post/spring-scheduling-annotation-support">
+    <link itemprop="mainEntityOfPage" href="http://blog.qiweishen.com/post/hibernate-cannot-cast">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Qiwei Shen">
@@ -382,7 +382,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/post/spring-scheduling-annotation-support" itemprop="url">Spring4定时任务的注解配置</a></h1>
+                <a class="post-title-link" href="/post/hibernate-cannot-cast" itemprop="url">Hibernate获取返回值报XXX connot be cast to [Ljava.lang.Object</a></h1>
         
 
         <div class="post-meta">
@@ -394,8 +394,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2014-11-03T22:57:00+08:00">
-                2014-11-03
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2011-11-03T21:41:00+08:00">
+                2011-11-03
               </time>
             
 
@@ -433,10 +433,132 @@
 
       
         
-          Spring4框架下，不使用xml配置文件，而采用注解配置定时任务。
+          
+            <p>今天在测试时候发现在获取Hibernate返回数据时候报 <code>java.math.BigDecimal cannot be cast to \[Ljava.lang.Object</code> 异常，但是查看了代码，很简单也很平常，createNativeQuery执行，getResultList获取结果集，每行都用Object[]类型。调试时候发现返回结果集为[2]，也就是就一行且一个。也就是说，每行的类型不再是 Object[]。</p>
+<p>按以往， <code>getResultList</code> 的返回是一个 <code>List(Object\[\])</code>，当如果返回只有一个，比如1或2是，类型就变成了该数据库字段所对应的类型，在我这里就是BigDecimal。</p>
+<p>真是不明白，多个就是Object[]，一个就变成不是数组了。 Hibernate莫名其妙啊。发下牢骚。。。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://blog.qiweishen.com/post/itext-absolute-position">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Qiwei Shen">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="我的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/post/itext-absolute-position" itemprop="url">itext中文本的绝对位置放置</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2011-05-12T12:02:00+08:00">
+                2011-05-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          itext中文本的绝对位置放置
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/post/spring-scheduling-annotation-support">
+            <a class="btn" href="/post/itext-absolute-position">
               阅读全文 &raquo;
             </a>
           </div>
@@ -487,7 +609,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://blog.qiweishen.com/post/webpy-source-helloworld">
+    <link itemprop="mainEntityOfPage" href="http://blog.qiweishen.com/post/apache-ant-unzip-chinese">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Qiwei Shen">
@@ -506,7 +628,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/post/webpy-source-helloworld" itemprop="url">webpy源码阅读之HelloWorld</a></h1>
+                <a class="post-title-link" href="/post/apache-ant-unzip-chinese" itemprop="url">用apache的ant解压zip文件（中文文件或文件夹解决方法）</a></h1>
         
 
         <div class="post-meta">
@@ -518,8 +640,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2014-04-03T11:21:00+08:00">
-                2014-04-03
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2011-03-04T12:01:00+08:00">
+                2011-03-04
               </time>
             
 
@@ -557,10 +679,10 @@
 
       
         
-          学习webpy框架
+          用apache的ant解压zip文件（中文文件或文件夹解决方法）
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/post/webpy-source-helloworld">
+            <a class="btn" href="/post/apache-ant-unzip-chinese">
               阅读全文 &raquo;
             </a>
           </div>
@@ -611,7 +733,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://blog.qiweishen.com/post/developer-read-books-coding">
+    <link itemprop="mainEntityOfPage" href="http://blog.qiweishen.com/post/web-pic-stream">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Qiwei Shen">
@@ -630,7 +752,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/post/developer-read-books-coding" itemprop="url">推荐程序员阅读的书籍 -- 编程实践</a></h1>
+                <a class="post-title-link" href="/post/web-pic-stream" itemprop="url">“ClientAbortException: java.net.SocketException:”异常的问题</a></h1>
         
 
         <div class="post-meta">
@@ -642,154 +764,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2014-02-28T16:48:00+08:00">
-                2014-02-28
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/其他/" itemprop="url" rel="index">
-                    <span itemprop="name">其他</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          只是对自己读过的书的一些看法而已。
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/post/developer-read-books-coding">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://blog.qiweishen.com/post/win8-install-openvpn">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Qiwei Shen">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="我的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/post/win8-install-openvpn" itemprop="url">Win8.1下安装OpenVPN</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2014-02-11T09:26:00+08:00">
-                2014-02-11
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2010-12-08T22:35:00+08:00">
+                2010-12-08
               </time>
             
 
@@ -827,634 +803,15 @@
 
       
         
-          我在win8.1下安装OpenVPN遇到了两个问题，一是安装时候TAP设备驱动程序安装失败，二是因为系统临时目录带中文而无法正确连接，下面是解决方法。
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/post/win8-install-openvpn">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://blog.qiweishen.com/post/putty-using-agent-forwarding">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Qiwei Shen">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="我的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/post/putty-using-agent-forwarding" itemprop="url">PuTTY下如何使用agent forwarding</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2014-01-17T16:35:00+08:00">
-                2014-01-17
-              </time>
-            
-
-            
-
-            
-          </span>
+          
+            <p>前几天，在做图片以stream形式输出到页面上展现的时候，后台一直报异常，且页面上图片无法正常现实。异常内容为：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">ClientAbortException:  java.net.SocketException: Software caused connection abort: socket write error  </div><div class="line">at org.apache.catalina.connector.OutputBuffer.realWriteBytes(OutputBuffer.java:<span class="number">358</span>)  </div><div class="line">at org.apache.tomcat.util.buf.ByteChunk.flushBuffer(ByteChunk.java:<span class="number">434</span>)  </div><div class="line">at org.apache.catalina.connector.OutputBuffer.doFlush(OutputBuffer.java:<span class="number">309</span>)  </div><div class="line">at org.apache.catalina.connector.OutputBuffer.flush(OutputBuffer.java:<span class="number">288</span>)    </div><div class="line">at org.apache.catalina.connector.CoyoteOutputStream.flush(CoyoteOutputStream.java:<span class="number">98</span>)  </div><div class="line">at javax.imageio.stream.FileCacheImageOutputStream.close(FileCacheImageOutputStream.java:<span class="number">213</span>)  </div><div class="line">......</div></pre></td></tr></table></figure></p>
+<p>在网上找了好久，发现是个普遍问题，但原因各异，有人总结为：<br>1：服务器的并发连接数超过了其承载量，服务器会将其中一些连接Down掉；<br>2：客户关掉了浏览器，而服务器还在给客户端发送数据；<br>3：浏览器端按了Stop；<br>4：服务器给客户端响应结果给防火墙拦截了。  </p>
+<p>这些原因太过笼统，细查错误很难。<br>偶然在一个英文网页上看到了条有关这个异常的，本人英语水平差，只能说个大意：<br>这个已知异常出现在IE浏览器显示tif格式的图片的时候。  </p>
+<p>亲自试验了下，的确在chrome和火狐上显示时，后台不会报次错误，不过图片显示有点异样。因为图片是存于数据库的BLOB类型的字段中，所以一直没注意图片的格式，后来才发现，原来图片是gif格式，而我使用ImageIO.write(img, “jpeg”, response.getOutputStream());输出成jpg格式的图片，以致导致IE浏览器对图片解析有问题。在此将jpeg改成gif后不再出现异常。  </p>
+<p>忙乎了一天多，结果问题出在这里。  </p>
+<p>其问题导致的原因可能是：IE浏览器在解析错误图片格式或不支持的图片格式时，可能向服务器发送了多次请求或是直接关闭了连接，从而导致了tomcat报次异常。   </p>
 
           
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          PuTTY下如何使用agent forwarding
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/post/putty-using-agent-forwarding">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://blog.qiweishen.com/post/python-mode-wsgi-apache-install">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Qiwei Shen">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="我的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/post/python-mode-wsgi-apache-install" itemprop="url">Linux下Django部署环境的搭建</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2013-12-11T16:19:00+08:00">
-                2013-12-11
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          Linux环境下对Python版本的升级和apache、Mod wsgi的安装
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/post/python-mode-wsgi-apache-install">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://blog.qiweishen.com/post/java-clone">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Qiwei Shen">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="我的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/post/java-clone" itemprop="url">Clone使用方法详解</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2013-09-05T13:29:00+08:00">
-                2013-09-05
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          在实际编程过程中，我们常常要遇到这种情况：有一个对象A，在某一时刻A中已经包含了一些有效值，此时可能会需要一个和A完全相同新对象B，并且此后对B 任何改动都不会影响到A中的值，也就是说，A与B是两个独立的对象，但B的初始值是由A对象确定的。在Java语言中，用简单的赋值语句是不能满足这种需 求的。要满足这种需求虽然有很多途径，但实现clone（）方法是其中最简单，也是最高效的手段。
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/post/java-clone">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://blog.qiweishen.com/post/django-apache-mod-wsgi-deployment">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Qiwei Shen">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="我的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/post/django-apache-mod-wsgi-deployment" itemprop="url">Django+apache+mod_wsgi部署</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2013-09-02T10:20:00+08:00">
-                2013-09-02
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          Django+apache+mod_wsgi部署
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/post/django-apache-mod-wsgi-deployment">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://blog.qiweishen.com/post/django-study-start">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Qiwei Shen">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="我的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/post/django-study-start" itemprop="url">Django基础入门</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2013-08-29T17:01:00+08:00">
-                2013-08-29
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          Django基础
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/post/django-study-start">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
         
       
     </div>
@@ -1492,7 +849,7 @@
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/3/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span>
   </nav>
 
 

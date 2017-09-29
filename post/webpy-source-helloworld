@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="python,web.py," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="学习webpy框架">
+<meta name="keywords" content="python,web.py">
+<meta property="og:type" content="article">
+<meta property="og:title" content="webpy源码阅读之HelloWorld">
+<meta property="og:url" content="http://blog.qiweishen.com/post/webpy-source-helloworld">
+<meta property="og:site_name" content="我的博客">
+<meta property="og:description" content="学习webpy框架">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-09-29T08:36:44.650Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="webpy源码阅读之HelloWorld">
+<meta name="twitter:description" content="学习webpy框架">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.2',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://blog.qiweishen.com/post/webpy-source-helloworld"/>
+
+
+
+
+
+  <title>webpy源码阅读之HelloWorld | 我的博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">我的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://blog.qiweishen.com/post/webpy-source-helloworld">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Qiwei Shen">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="我的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">webpy源码阅读之HelloWorld</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2014-04-03T11:21:00+08:00">
+                2014-04-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+              <div class="post-description">
+                  学习webpy框架
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>使用过Django和web.py，只是一直没有好好深入学习过，Django使用时间比较长，不过Django庞大了点，不适合我这种没耐心的人去学习，所以选择了web.py。</p>
+<h2 id="Hello-World"><a href="#Hello-World" class="headerlink" title="Hello World!"></a>Hello World!</h2><p>先看下web.py官方cookbook的“Hello World!”例子</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> web</div><div class="line"></div><div class="line">urls = (<span class="string">"/.*"</span>), <span class="string">"hello"</span>)</div><div class="line">app = web.application(urls, globals())</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">hello</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">GET</span><span class="params">(self)</span>:</span></div><div class="line">        <span class="keyword">return</span> <span class="string">'Hello, world!'</span></div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</div><div class="line">    app.run()</div></pre></td></tr></table></figure>
+<p>在例子中可以看到app.run()是启动了服务，而app的是application的一个实例，初始化工作是web.application(urls, globals())，就拿这个做入口，来看下application类的源码吧。</p>
+<h2 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h2><p>初始化的流程：</p>
+<ul>
+<li>初始化mapping</li>
+<li>把_load和_unload变成钩子加入到processors</li>
+<li>把Reloader和reload_mapping变成钩子加入到processors</li>
+<li>载入main所在模块</li>
+</ul>
+<p>init的参数有三个，第一个mapping，上面例子中的urls；第二个fvars，例子中的globals()，globals()是python自带的一个函数，其返回值是全局名字空间，包括了函数、类、导入模块等等，是一个字典类型；第三个autoreload，是否允许自动重新载入。</p>
+<h3 id="mapping初始化"><a href="#mapping初始化" class="headerlink" title="mapping初始化"></a>mapping初始化</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">self.init_mapping(mapping)</div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">init_mapping</span><span class="params">(self, mapping)</span>:</span></div><div class="line">	self.mapping = list(utils.group(mapping, <span class="number">2</span>))</div></pre></td></tr></table></figure>
+<p>最后mapping的形式会是[[‘1’,’2’],[‘1’,’2’]]这样，这边就可以理解urls列表的样式了。</p>
+<h3 id="load和-unload变成钩子加入到processors"><a href="#load和-unload变成钩子加入到processors" class="headerlink" title="_load和_unload变成钩子加入到processors"></a>_load和_unload变成钩子加入到processors</h3><p>关于钩子和处理器详见<a href="http://webpy.org/cookbook/application_processors.zh-cn" target="_blank" rel="external">官网</a>。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">self.add_processor(loadhook(self._load))</div><div class="line">self.add_processor(unloadhook(self._unload))</div></pre></td></tr></table></figure>
+<p>loadhook函数的作用就是在执行其参数传入的函数前执行一些操作，unloadhook则是在其后执行一些操作。这两个都类似于python的decorator。而_load和_unload则是将application实例本身加入web.ctx.app_stack或从其中移除。</p>
+<p><strong><em>如果autoreload不为True则初始化就到此为止了。在初始化的时候，如果autoreload为None，则回去参数读取web.config内的debug的值，默认为False，所以如果autoreload参数没有传入，一般都是不会自动加载，后面操作不会再去进行了。</em></strong></p>
+<h3 id="Reloader和reload-mapping变成钩子加入到processors"><a href="#Reloader和reload-mapping变成钩子加入到processors" class="headerlink" title="Reloader和reload_mapping变成钩子加入到processors"></a>Reloader和reload_mapping变成钩子加入到processors</h3><p>和第二步相似，reload_mapping就是用来从新载入主的app，并初始化mapping。而Reloader则是在检查磁盘上任何模块是否有变化，如果有则重新加载。</p>
+<h3 id="重新import"><a href="#重新import" class="headerlink" title="重新import"></a>重新import</h3><p>通过main获取主app所在的模块名称和所在文件名，然后通过文件名重新import。这步还是简单的，不过代码值得一看，可以学好如sys.modules、getattr()及__import__()的用法。</p>
+<h2 id="启动服务"><a href="#启动服务" class="headerlink" title="启动服务"></a>启动服务</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">run</span><span class="params">(self, *middleware)</span>:</span></div><div class="line">	<span class="keyword">return</span> wsgi.runwsgi(self.wsgifunc(*middleware))</div></pre></td></tr></table></figure>
+<p>run函数调用wsgi模块的runwsgi函数，在hello world中就是启动一个http simple服务。具体内容等看到wsgi模块和httpserver模块再说了。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/python/" rel="tag"># python</a>
+          
+            <a href="/tags/web-py/" rel="tag"># web.py</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/post/developer-read-books-coding" rel="next" title="推荐程序员阅读的书籍 -- 编程实践">
+                <i class="fa fa-chevron-left"></i> 推荐程序员阅读的书籍 -- 编程实践
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/post/spring-scheduling-annotation-support" rel="prev" title="Spring4定时任务的注解配置">
+                Spring4定时任务的注解配置 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          
+            <p class="site-author-name" itemprop="name">Qiwei Shen</p>
+            <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+            
+              <a href="/archives/">
+            
+                <span class="site-state-item-count">35</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Hello-World"><span class="nav-number">1.</span> <span class="nav-text">Hello World!</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#初始化"><span class="nav-number">2.</span> <span class="nav-text">初始化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#mapping初始化"><span class="nav-number">2.1.</span> <span class="nav-text">mapping初始化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#load和-unload变成钩子加入到processors"><span class="nav-number">2.2.</span> <span class="nav-text">_load和_unload变成钩子加入到processors</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Reloader和reload-mapping变成钩子加入到processors"><span class="nav-number">2.3.</span> <span class="nav-text">Reloader和reload_mapping变成钩子加入到processors</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#重新import"><span class="nav-number">2.4.</span> <span class="nav-text">重新import</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#启动服务"><span class="nav-number">3.</span> <span class="nav-text">启动服务</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Qiwei Shen</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.2</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
