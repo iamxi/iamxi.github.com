@@ -239,6 +239,130 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://blog.qiweishen.com/post/design-patterns-singleton.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Qiwei Shen">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/1773138?v=4&s=400">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="我的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/post/design-patterns-singleton.html" itemprop="url">设计模式学习-单件（Singleton）</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2013-07-31T09:39:00+08:00">
+                2013-07-31
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          单件可以保证一个类仅有一个实例，并提供一个访问它的全局访问点。
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/post/design-patterns-singleton.html">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://blog.qiweishen.com/post/design-patterns-prototype.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1364,137 +1488,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://blog.qiweishen.com/post/mybatis-special-map.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Qiwei Shen">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/1773138?v=4&s=400">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="我的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/post/mybatis-special-map.html" itemprop="url">Mybatis返回特殊Map</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2012-08-04T23:00:00+08:00">
-                2012-08-04
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>想返回个特殊实体，一个Map，key是一个表的一个字段的值，value是另一个表的所有记录。参考了下网上的“攻略”，不过和攻略里面讲的有点不同，那里面key的值value的实体实在同一个表内，如果不同表，会报缺少set方法的异常。解决方法很简单，就是在实体里面加个字段对应的属性。但是并不愿意为了一个查询语句就要去改变实体。<br>   无聊看了下session的select，提供了通过 <code>ResultHandler</code> 来处理返回的结果集。所以尝试着解决这个问题。</p>
-<p>mapper.xml里面的配置如下：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">resultMap</span> <span class="attr">type</span>=<span class="string">"HashMap"</span> <span class="attr">id</span>=<span class="string">"testMap"</span>&gt;</span>  </div><div class="line">    <span class="tag">&lt;<span class="name">result</span> <span class="attr">column</span>=<span class="string">"UA_INFO"</span> <span class="attr">property</span>=<span class="string">"key"</span> /&gt;</span>  </div><div class="line">    <span class="tag">&lt;<span class="name">association</span> <span class="attr">property</span>=<span class="string">"value"</span> </span></div><div class="line"><span class="tag">        <span class="attr">resultMap</span>=<span class="string">"com.xxx.xxx.BaseResultMap"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">association</span>&gt;</span>  </div><div class="line">  <span class="tag">&lt;/<span class="name">resultMap</span>&gt;</span>  </div><div class="line">  </div><div class="line">  </div><div class="line"><span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">"getUaMapByTimestamp"</span> </span></div><div class="line"><span class="tag">    <span class="attr">parameterType</span>=<span class="string">"Map"</span> <span class="attr">resultMap</span>=<span class="string">"testMap"</span>&gt;</span>  </div><div class="line">  SQL语句  </div><div class="line"><span class="tag">&lt;/<span class="name">select</span>&gt;</span></div></pre></td></tr></table></figure></p>
-<p><code>com.xxx.xxx.BaseResultMap</code>是另一个实体的mapper的resultMap。这个查询，返回的每一条记录都是 <code>{key=..., value=...}</code></p>
-<p>这个结果集并不符合要求。不过通过ResultHandler来处理每一条记录就可以达到要求了。</p>
-<p>看下Mybatis源码里面有关继承 <code>ResultHandler</code> 的 <code>DefaultMapResultHandler</code>类。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DefaultMapResultHandler</span>&lt;<span class="title">K</span>, <span class="title">V</span>&gt;</span></div><div class="line"><span class="class">    <span class="keyword">implements</span> <span class="title">ResultHandler</span> </span>&#123;  </div><div class="line">  </div><div class="line">  <span class="keyword">private</span> <span class="keyword">final</span> Map&lt;K, V&gt; mappedResults;  </div><div class="line">  <span class="keyword">private</span> <span class="keyword">final</span> String mapKey;  </div><div class="line">  </div><div class="line">  <span class="meta">@SuppressWarnings</span>(<span class="string">"unchecked"</span>)  </div><div class="line">  <span class="function"><span class="keyword">public</span> <span class="title">DefaultMapResultHandler</span><span class="params">(String mapKey,</span></span></div><div class="line"><span class="function"><span class="params">    ObjectFactory objectFactory)</span> </span>&#123;  </div><div class="line">    <span class="keyword">this</span>.mappedResults = objectFactory.create(Map.class);  </div><div class="line">    <span class="keyword">this</span>.mapKey = mapKey;  </div><div class="line">  &#125;  </div><div class="line">  </div><div class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">handleResult</span><span class="params">(ResultContext context)</span> </span>&#123;  </div><div class="line">    <span class="comment">// TODO is that assignment always true?  </span></div><div class="line">    <span class="keyword">final</span> V value = (V) context.getResultObject();  </div><div class="line">    <span class="keyword">final</span> MetaObject mo = MetaObject.forObject(value);  </div><div class="line">    <span class="comment">// TODO is that assignment always true?  </span></div><div class="line">    <span class="keyword">final</span> K key = (K) mo.getValue(mapKey);  </div><div class="line">    mappedResults.put(key, value);  </div><div class="line">  &#125;  </div><div class="line">  </div><div class="line">  <span class="function"><span class="keyword">public</span> Map&lt;K, V&gt; <span class="title">getMappedResults</span><span class="params">()</span> </span>&#123;  </div><div class="line">    <span class="keyword">return</span> mappedResults;  </div><div class="line">  &#125;  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>这个 <code>DefaultMapResultHandler</code> 实现 <code>handleResult</code> 接口，处理每条数据。</p>
-<p>可以模仿这个类写个类来装配自己所需要的Map。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">MapResultHandler</span> <span class="keyword">implements</span> <span class="title">ResultHandler</span> </span>&#123;  </div><div class="line">      </div><div class="line">        <span class="meta">@SuppressWarnings</span>(<span class="string">"rawtypes"</span>)  </div><div class="line">        <span class="keyword">private</span> <span class="keyword">final</span> Map mappedResults = <span class="keyword">new</span> HashMap();  </div><div class="line">              </div><div class="line">        <span class="meta">@SuppressWarnings</span>(&#123; <span class="string">"unchecked"</span>, <span class="string">"rawtypes"</span> &#125;)  </div><div class="line">        <span class="meta">@Override</span>  </div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">handleResult</span><span class="params">(ResultContext context)</span> </span>&#123;  </div><div class="line">            Map map = (Map) context.getResultObject();  </div><div class="line">            mappedResults.put(map.get(<span class="string">"key"</span>), map.get(<span class="string">"value"</span>));  </div><div class="line">        &#125;  </div><div class="line">              </div><div class="line">        <span class="function"><span class="keyword">public</span> Map <span class="title">getMappedResults</span><span class="params">()</span> </span>&#123;  </div><div class="line">            <span class="keyword">return</span> mappedResults;  </div><div class="line">        &#125;  </div><div class="line">            </div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>使用：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">this</span>.getSqlSession().select(</div><div class="line">    getWholeSqlId(<span class="string">"getUaMapByTimestamp"</span>),handler);</div></pre></td></tr></table></figure>
-<p>这样就可以得到需要的结果集了。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1548,7 +1541,7 @@
             
               <a href="/archives/">
             
-                <span class="site-state-item-count">35</span>
+                <span class="site-state-item-count">36</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1570,7 +1563,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-count">12</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

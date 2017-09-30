@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://blog.qiweishen.com/post/blog-with-hexo3.html</loc>
+    
+    <lastmod>2017-09-30T20:24:52.942Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://blog.qiweishen.com/post/django-study-start.html</loc>
     
     <lastmod>2017-09-30T01:42:13.150Z</lastmod>

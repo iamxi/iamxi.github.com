@@ -239,6 +239,149 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://blog.qiweishen.com/post/blog-with-hexo3.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Qiwei Shen">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/1773138?v=4&s=400">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="我的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/post/blog-with-hexo3.html" itemprop="url">20171001-hexo3搭建博客</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-01T03:44:13+08:00">
+                2017-10-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>前几天心血来潮，翻出了不知道那年的博客，用户hexo重新搭建了下。把这个是记录下来。</p>
+<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>这个不多说，<a href="https://hexo.io/zh-cn/docs/" target="_blank" rel="external">hexo 官方文档</a>有介绍。</p>
+<h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><p>基本的一些配置上面，上面也有，还有一些我参考了<a href="http://www.jianshu.com/p/808554f12929" target="_blank" rel="external">这篇博客</a>，在此先谢过这位朋友的分享。</p>
+<h1 id="遇到的问题及解决"><a href="#遇到的问题及解决" class="headerlink" title="遇到的问题及解决"></a>遇到的问题及解决</h1><h2 id="CNAME-文件"><a href="#CNAME-文件" class="headerlink" title="CNAME 文件"></a>CNAME 文件</h2><p>因为 Github 需要 CNAME 文件，用于指定域名。不过放在 <code>public</code> 文件夹中的话，只要 <code>clean</code> 一次就没了。网站找了下资料，应该将其放在 <code>source</code> 目录总，这样在生成时候就会一起带到 <code>public</code> 文件夹中。一些博文中需要的图片（images）和favicon.ico等不变的内容也可以一起放在 <code>source</code> 目录下。</p>
+<h2 id="README-md文件不渲染"><a href="#README-md文件不渲染" class="headerlink" title="README.md文件不渲染"></a>README.md文件不渲染</h2><p>在站点配置文件中添加</p>
+<pre><code>skip_render: README.md
+</code></pre><h2 id="stiemap-的生成"><a href="#stiemap-的生成" class="headerlink" title="stiemap 的生成"></a>stiemap 的生成</h2><p>需要安装插件</p>
+<pre><code>npm install hexo-generator-sitemap --save
+</code></pre><p>站点配置文件中添加配置</p>
+<pre><code>sitemap:
+    path: sitemap.xml
+</code></pre><h2 id="博文永久连接"><a href="#博文永久连接" class="headerlink" title="博文永久连接"></a>博文永久连接</h2><p>默认是时间分开。但是这样路径比较长。不方便管理。网上有种方法是urlname。使用urlname来作为链接，避免使用文件名。这样文件名就可以自己定义，方便本地管理。</p>
+<p>具体做法是，在站点配置文件中，修改配置如下：</p>
+<pre><code>permalink: post/:urlname.html
+</code></pre><p>然后在每一篇 <code>post</code> 中都需要加一个urlname，如这篇文章的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">title: 20171001-hexo3搭建博客</div><div class="line">date: 2017-10-01 03:44:13</div><div class="line">tags: hexo</div><div class="line">urlname: blog-with-hexo3</div></pre></td></tr></table></figure>
+<p>缺点是，如果那篇忘记了这个，那生成的 <code>html</code> 文件将会是未知</p>
+<h2 id="图片保存"><a href="#图片保存" class="headerlink" title="图片保存"></a>图片保存</h2><p>hexo官网有推荐的方法，<a href="https://hexo.io/zh-cn/docs/asset-folders.html" target="_blank" rel="external">文档</a>。当时我的觉这个太依赖hexo，不符合markdown的理念。所以，还是选择土办法管理图片，放在 <code>source/images</code> 目录下，post中直接用相对路径应用。亲测可行。</p>
+<h2 id="博客的版本控制"><a href="#博客的版本控制" class="headerlink" title="博客的版本控制"></a>博客的版本控制</h2><p>hexo 的部署功能，只能建 <code>public</code> 文件夹中的内容推送到 Github 上。而配置文件和博客源文件都无法提交。如果换了电脑或电脑换了，那就什么都要从新开始了。</p>
+<p>解决方法是，将整个博客目录都提交到 Github 上。</p>
+<p>hexo 生成站点目录时候，已经有一个 <code>.gitignore</code> 文件，里面帮我们忽略了所有的没必要提交的内容。我估计这个文件的目录就是方便保存配置和源文件。</p>
+<p>我的做法是，Github 上使用同一个源，用不同分支分别保存生成的页面和源文件。如 <code>master</code> 保存生成的整个站点。<code>post</code> 分支保存源文件。<code>master</code> 由 hexo 部署命令自动推送。 <code>post</code> 由我手动推送。</p>
+<p>这里说到主题的版本控制。我使用的 NexT 主题。按教程，我是直接从 Github 上 clone 下来的。<code>themes/next</code> 文件夹中有 git 的版本信息。这样，我提交博客配置时候，这个文件夹无法被提交， git 当他是一个子项目。后来看了下网站相同问题的解决方法。大致是将主题 fork 到自己的仓库中。然后在 clone 下来。这样如果主题配置或样式有改动，可以提交到自己的远程仓库中。不然他人的源肯定是不给提交的。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>hexo 这东西还是很容易上手的。完全就看能不能持久的写博客了。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://blog.qiweishen.com/post/springmvc-cant-fiter-root-url.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1364,130 +1507,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://blog.qiweishen.com/post/django-study-start.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Qiwei Shen">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/1773138?v=4&s=400">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="我的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/post/django-study-start.html" itemprop="url">Django基础入门</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2013-08-29T17:01:00+08:00">
-                2013-08-29
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          Django基础
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/post/django-study-start.html">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1541,7 +1560,7 @@
             
               <a href="/archives/">
             
-                <span class="site-state-item-count">35</span>
+                <span class="site-state-item-count">36</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1563,7 +1582,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-count">12</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

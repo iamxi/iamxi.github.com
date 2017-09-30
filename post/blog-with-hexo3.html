@@ -53,7 +53,7 @@
 <link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Design Patterns,设计模式," />
+  <meta name="keywords" content="hexo," />
 
 
 
@@ -69,20 +69,18 @@
 
 
 
-<meta name="description" content="定义一个用于创建对象的接口，让子类决定实例化哪一个类。 Factory Method使一个类的实例化延迟到其子类。">
-<meta name="keywords" content="Design Patterns,设计模式">
+<meta name="description" content="前几天心血来潮，翻出了不知道那年的博客，用户hexo重新搭建了下。把这个是记录下来。 安装这个不多说，hexo 官方文档有介绍。 配置基本的一些配置上面，上面也有，还有一些我参考了这篇博客，在此先谢过这位朋友的分享。 遇到的问题及解决CNAME 文件因为 Github 需要 CNAME 文件，用于指定域名。不过放在 public 文件夹中的话，只要 clean 一次就没了。网站找了下资料，应该将其">
+<meta name="keywords" content="hexo">
 <meta property="og:type" content="article">
-<meta property="og:title" content="设计模式学习-工厂方法（Factory Method）">
-<meta property="og:url" content="http://blog.qiweishen.com/post/design-patterns-factory-method.html">
+<meta property="og:title" content="20171001-hexo3搭建博客">
+<meta property="og:url" content="http://blog.qiweishen.com/post/blog-with-hexo3.html">
 <meta property="og:site_name" content="我的博客">
-<meta property="og:description" content="定义一个用于创建对象的接口，让子类决定实例化哪一个类。 Factory Method使一个类的实例化延迟到其子类。">
+<meta property="og:description" content="前几天心血来潮，翻出了不知道那年的博客，用户hexo重新搭建了下。把这个是记录下来。 安装这个不多说，hexo 官方文档有介绍。 配置基本的一些配置上面，上面也有，还有一些我参考了这篇博客，在此先谢过这位朋友的分享。 遇到的问题及解决CNAME 文件因为 Github 需要 CNAME 文件，用于指定域名。不过放在 public 文件夹中的话，只要 clean 一次就没了。网站找了下资料，应该将其">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://blog.qiweishen.com/images/post/design-patterns/design-patterns-factory-method.jpg">
-<meta property="og:updated_time" content="2017-09-29T09:44:27.044Z">
+<meta property="og:updated_time" content="2017-09-30T20:24:52.942Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="设计模式学习-工厂方法（Factory Method）">
-<meta name="twitter:description" content="定义一个用于创建对象的接口，让子类决定实例化哪一个类。 Factory Method使一个类的实例化延迟到其子类。">
-<meta name="twitter:image" content="http://blog.qiweishen.com/images/post/design-patterns/design-patterns-factory-method.jpg">
+<meta name="twitter:title" content="20171001-hexo3搭建博客">
+<meta name="twitter:description" content="前几天心血来潮，翻出了不知道那年的博客，用户hexo重新搭建了下。把这个是记录下来。 安装这个不多说，hexo 官方文档有介绍。 配置基本的一些配置上面，上面也有，还有一些我参考了这篇博客，在此先谢过这位朋友的分享。 遇到的问题及解决CNAME 文件因为 Github 需要 CNAME 文件，用于指定域名。不过放在 public 文件夹中的话，只要 clean 一次就没了。网站找了下资料，应该将其">
 
 
 
@@ -112,13 +110,13 @@
 
 
 
-  <link rel="canonical" href="http://blog.qiweishen.com/post/design-patterns-factory-method.html"/>
+  <link rel="canonical" href="http://blog.qiweishen.com/post/blog-with-hexo3.html"/>
 
 
 
 
 
-  <title>设计模式学习-工厂方法（Factory Method） | 我的博客</title>
+  <title>20171001-hexo3搭建博客 | 我的博客</title>
   
 
 
@@ -245,7 +243,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://blog.qiweishen.com/post/design-patterns-factory-method.html">
+    <link itemprop="mainEntityOfPage" href="http://blog.qiweishen.com/post/blog-with-hexo3.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Qiwei Shen">
@@ -262,7 +260,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">设计模式学习-工厂方法（Factory Method）</h1>
+          <h1 class="post-title" itemprop="name headline">20171001-hexo3搭建博客</h1>
         
 
         <div class="post-meta">
@@ -274,8 +272,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2013-07-30T16:21:00+08:00">
-                2013-07-30
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-01T03:44:13+08:00">
+                2017-10-01
               </time>
             
 
@@ -298,10 +296,6 @@
           
 
           
-              <div class="post-description">
-                  定义一个用于创建对象的接口，让子类决定实例化哪一个类。 Factory Method使一个类的实例化延迟到其子类。
-              </div>
-          
 
         </div>
       </header>
@@ -316,29 +310,30 @@
       
 
       
-        <h3 id="意图："><a href="#意图：" class="headerlink" title="意图："></a>意图：</h3><p>定义一个用于创建对象的接口，让子类决定实例化哪一个类。 Factory Method使一个类的实例化延迟到其子类。</p>
-<h3 id="别名："><a href="#别名：" class="headerlink" title="别名："></a>别名：</h3><p>虚构造器（Virtual Constructor）</p>
-<h3 id="结构："><a href="#结构：" class="headerlink" title="结构："></a>结构：</h3><p><img src="/images/post/design-patterns/design-patterns-factory-method.jpg" alt="Factory Method"></p>
-<p><ul></ul></p>
-<p><li><br>Product<br><br>— 定义工厂方法所创建的对象的接口。<br></li></p>
-<p><li><br>ConcreteProduct<br><br>— 实现Productt接口。<br></li></p>
-<p><li><br>Creator<br><br>— 声明工厂方法，该方法返回一个 Product类型的对象。Creator也可以定义一个工厂方法的缺省实现，它返回一个缺省的 ConcreteProduct对象。<br></li></p>
-<p><li><br>ConcreteProduct对象<br><br>— 可以调用工厂方法以创建一个Product对象。<br></li></p>
-<p><li><br>ConcreteCreator<br><br>— 重定义工厂方法以返回一个ConcreteProduct实例。<br></li><br><br><br></p>
-<h3 id="代码示例："><a href="#代码示例：" class="headerlink" title="代码示例："></a>代码示例：</h3><p>Creator类<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Creator</span> </span>&#123;  </div><div class="line">      </div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">abstract</span> Product <span class="title">factoryMethod</span><span class="params">()</span></span>;  </div><div class="line">      </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">anOperation</span><span class="params">()</span> </span>&#123;  </div><div class="line">        Product product = factoryMethod();  </div><div class="line">        <span class="comment">//do some thing  </span></div><div class="line">    &#125;  </div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>ConcreteCreator类<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConcreteCreator</span> <span class="keyword">extends</span> <span class="title">Creator</span> </span>&#123;  </div><div class="line">  </div><div class="line">    <span class="meta">@Override</span>  </div><div class="line">    <span class="function"><span class="keyword">protected</span> Product <span class="title">factoryMethod</span><span class="params">()</span> </span>&#123;  </div><div class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ConcreteProduct();  </div><div class="line">    &#125;  </div><div class="line">  </div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<h3 id="问题："><a href="#问题：" class="headerlink" title="问题："></a>问题：</h3><p>可能仅为了创建适当的 Product对象而迫使你创建Creator子类。</p>
-<h3 id="适用性："><a href="#适用性：" class="headerlink" title="适用性："></a>适用性：</h3><ul>
-<li>一个系统要独立于它的产品的创建、组合和表示时。</li>
-<li>一个系统要由多个产品系列中的一个来配置时。</li>
-<li>当你要强调一系列相关的产品对象的设计以便进行联合使用时。</li>
-<li>当你提供一个产品类库，而只想显示它们的接口而不是实现时。</li>
-</ul>
-<h3 id="相关模式："><a href="#相关模式：" class="headerlink" title="相关模式："></a>相关模式：</h3><ul>
-<li>Abstract Factory经常用工厂方法来实现；</li>
-<li>工厂方法通常在Template Method中被调用；</li>
-<li>Prototype不需要创建Creator的子类。但是，它们通常要求一个针对Product类的Initialize操作。Creator使用Initialize来初始化对象。而Factory Method不需要这样的操作。</li>
-</ul>
+        <p>前几天心血来潮，翻出了不知道那年的博客，用户hexo重新搭建了下。把这个是记录下来。</p>
+<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>这个不多说，<a href="https://hexo.io/zh-cn/docs/" target="_blank" rel="external">hexo 官方文档</a>有介绍。</p>
+<h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><p>基本的一些配置上面，上面也有，还有一些我参考了<a href="http://www.jianshu.com/p/808554f12929" target="_blank" rel="external">这篇博客</a>，在此先谢过这位朋友的分享。</p>
+<h1 id="遇到的问题及解决"><a href="#遇到的问题及解决" class="headerlink" title="遇到的问题及解决"></a>遇到的问题及解决</h1><h2 id="CNAME-文件"><a href="#CNAME-文件" class="headerlink" title="CNAME 文件"></a>CNAME 文件</h2><p>因为 Github 需要 CNAME 文件，用于指定域名。不过放在 <code>public</code> 文件夹中的话，只要 <code>clean</code> 一次就没了。网站找了下资料，应该将其放在 <code>source</code> 目录总，这样在生成时候就会一起带到 <code>public</code> 文件夹中。一些博文中需要的图片（images）和favicon.ico等不变的内容也可以一起放在 <code>source</code> 目录下。</p>
+<h2 id="README-md文件不渲染"><a href="#README-md文件不渲染" class="headerlink" title="README.md文件不渲染"></a>README.md文件不渲染</h2><p>在站点配置文件中添加</p>
+<pre><code>skip_render: README.md
+</code></pre><h2 id="stiemap-的生成"><a href="#stiemap-的生成" class="headerlink" title="stiemap 的生成"></a>stiemap 的生成</h2><p>需要安装插件</p>
+<pre><code>npm install hexo-generator-sitemap --save
+</code></pre><p>站点配置文件中添加配置</p>
+<pre><code>sitemap:
+    path: sitemap.xml
+</code></pre><h2 id="博文永久连接"><a href="#博文永久连接" class="headerlink" title="博文永久连接"></a>博文永久连接</h2><p>默认是时间分开。但是这样路径比较长。不方便管理。网上有种方法是urlname。使用urlname来作为链接，避免使用文件名。这样文件名就可以自己定义，方便本地管理。</p>
+<p>具体做法是，在站点配置文件中，修改配置如下：</p>
+<pre><code>permalink: post/:urlname.html
+</code></pre><p>然后在每一篇 <code>post</code> 中都需要加一个urlname，如这篇文章的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">title: 20171001-hexo3搭建博客</div><div class="line">date: 2017-10-01 03:44:13</div><div class="line">tags: hexo</div><div class="line">urlname: blog-with-hexo3</div></pre></td></tr></table></figure>
+<p>缺点是，如果那篇忘记了这个，那生成的 <code>html</code> 文件将会是未知</p>
+<h2 id="图片保存"><a href="#图片保存" class="headerlink" title="图片保存"></a>图片保存</h2><p>hexo官网有推荐的方法，<a href="https://hexo.io/zh-cn/docs/asset-folders.html" target="_blank" rel="external">文档</a>。当时我的觉这个太依赖hexo，不符合markdown的理念。所以，还是选择土办法管理图片，放在 <code>source/images</code> 目录下，post中直接用相对路径应用。亲测可行。</p>
+<h2 id="博客的版本控制"><a href="#博客的版本控制" class="headerlink" title="博客的版本控制"></a>博客的版本控制</h2><p>hexo 的部署功能，只能建 <code>public</code> 文件夹中的内容推送到 Github 上。而配置文件和博客源文件都无法提交。如果换了电脑或电脑换了，那就什么都要从新开始了。</p>
+<p>解决方法是，将整个博客目录都提交到 Github 上。</p>
+<p>hexo 生成站点目录时候，已经有一个 <code>.gitignore</code> 文件，里面帮我们忽略了所有的没必要提交的内容。我估计这个文件的目录就是方便保存配置和源文件。</p>
+<p>我的做法是，Github 上使用同一个源，用不同分支分别保存生成的页面和源文件。如 <code>master</code> 保存生成的整个站点。<code>post</code> 分支保存源文件。<code>master</code> 由 hexo 部署命令自动推送。 <code>post</code> 由我手动推送。</p>
+<p>这里说到主题的版本控制。我使用的 NexT 主题。按教程，我是直接从 Github 上 clone 下来的。<code>themes/next</code> 文件夹中有 git 的版本信息。这样，我提交博客配置时候，这个文件夹无法被提交， git 当他是一个子项目。后来看了下网站相同问题的解决方法。大致是将主题 fork 到自己的仓库中。然后在 clone 下来。这样如果主题配置或样式有改动，可以提交到自己的远程仓库中。不然他人的源肯定是不给提交的。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>hexo 这东西还是很容易上手的。完全就看能不能持久的写博客了。</p>
 
       
     </div>
@@ -356,9 +351,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Design-Patterns/" rel="tag"># Design Patterns</a>
-          
-            <a href="/tags/设计模式/" rel="tag"># 设计模式</a>
+            <a href="/tags/hexo/" rel="tag"># hexo</a>
           
         </div>
       
@@ -371,8 +364,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/post/design-patterns-builder.html" rel="next" title="设计模式学习-生成器（Builder）">
-                <i class="fa fa-chevron-left"></i> 设计模式学习-生成器（Builder）
+              <a href="/post/springmvc-cant-fiter-root-url.html" rel="next" title="SpringMVC没有拦截根路径的问题">
+                <i class="fa fa-chevron-left"></i> SpringMVC没有拦截根路径的问题
               </a>
             
           </div>
@@ -380,10 +373,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/post/design-patterns-prototype.html" rel="prev" title="设计模式学习-原型（Prototype）">
-                设计模式学习-原型（Prototype） <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -528,7 +517,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#意图："><span class="nav-number">1.</span> <span class="nav-text">意图：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#别名："><span class="nav-number">2.</span> <span class="nav-text">别名：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#结构："><span class="nav-number">3.</span> <span class="nav-text">结构：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#代码示例："><span class="nav-number">4.</span> <span class="nav-text">代码示例：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#问题："><span class="nav-number">5.</span> <span class="nav-text">问题：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#适用性："><span class="nav-number">6.</span> <span class="nav-text">适用性：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#相关模式："><span class="nav-number">7.</span> <span class="nav-text">相关模式：</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#安装"><span class="nav-number">1.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#配置"><span class="nav-number">2.</span> <span class="nav-text">配置</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#遇到的问题及解决"><span class="nav-number">3.</span> <span class="nav-text">遇到的问题及解决</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#CNAME-文件"><span class="nav-number">3.1.</span> <span class="nav-text">CNAME 文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#README-md文件不渲染"><span class="nav-number">3.2.</span> <span class="nav-text">README.md文件不渲染</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#stiemap-的生成"><span class="nav-number">3.3.</span> <span class="nav-text">stiemap 的生成</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#博文永久连接"><span class="nav-number">3.4.</span> <span class="nav-text">博文永久连接</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#图片保存"><span class="nav-number">3.5.</span> <span class="nav-text">图片保存</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#博客的版本控制"><span class="nav-number">3.6.</span> <span class="nav-text">博客的版本控制</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
             
 
           </div>
