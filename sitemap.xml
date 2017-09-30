@@ -2,6 +2,83 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://blog.qiweishen.com/post/django-study-start.html</loc>
+    
+    <lastmod>2017-09-30T01:42:13.150Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://blog.qiweishen.com/post/django-apache-mod-wsgi-deployment.html</loc>
+    
+    <lastmod>2017-09-30T01:41:59.094Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://blog.qiweishen.com/post/webpy-source-helloworld.html</loc>
+    
+    <lastmod>2017-09-30T01:41:48.034Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://blog.qiweishen.com/post/web-pic-stream.html</loc>
+    
+    <lastmod>2017-09-30T01:41:24.604Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://blog.qiweishen.com/post/apache-ant-unzip-chinese.html</loc>
+    
+    <lastmod>2017-09-30T01:41:13.813Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://blog.qiweishen.com/post/itext-absolute-position.html</loc>
+    
+    <lastmod>2017-09-30T01:41:02.388Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://blog.qiweishen.com/post/hibernate-cannot-cast.html</loc>
+    
+    <lastmod>2017-09-30T01:40:50.423Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://blog.qiweishen.com/post/java-varargs-method-overload.html</loc>
+    
+    <lastmod>2017-09-30T01:40:38.767Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://blog.qiweishen.com/post/mybatis-special-map.html</loc>
+    
+    <lastmod>2017-09-30T01:40:22.777Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://blog.qiweishen.com/tags/index.html</loc>
+    
+    <lastmod>2017-09-30T01:37:49.939Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://blog.qiweishen.com/categories/index.html</loc>
+    
+    <lastmod>2017-09-30T01:34:53.129Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://blog.qiweishen.com/post/design-patterns-creational-pattern.html</loc>
     
     <lastmod>2017-09-29T09:52:03.307Z</lastmod>
@@ -128,27 +205,6 @@
   </url>
   
   <url>
-    <loc>http://blog.qiweishen.com/post/django-study-start.html</loc>
-    
-    <lastmod>2017-09-29T08:37:18.974Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://blog.qiweishen.com/post/django-apache-mod-wsgi-deployment.html</loc>
-    
-    <lastmod>2017-09-29T08:37:04.829Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://blog.qiweishen.com/post/webpy-source-helloworld.html</loc>
-    
-    <lastmod>2017-09-29T08:36:44.650Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://blog.qiweishen.com/post/win8-install-openvpn.html</loc>
     
     <lastmod>2017-09-29T08:34:20.239Z</lastmod>
@@ -201,48 +257,6 @@
     <loc>http://blog.qiweishen.com/post/eclipse-green-color-theme.html</loc>
     
     <lastmod>2017-09-29T08:03:58.902Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://blog.qiweishen.com/post/java-varargs-method-overload.html</loc>
-    
-    <lastmod>2017-09-29T08:01:30.743Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://blog.qiweishen.com/post/mybatis-special-map.html</loc>
-    
-    <lastmod>2017-09-29T07:53:28.205Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://blog.qiweishen.com/post/apache-ant-unzip-chinese.html</loc>
-    
-    <lastmod>2017-09-29T07:50:31.421Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://blog.qiweishen.com/post/itext-absolute-position.html</loc>
-    
-    <lastmod>2017-09-29T07:50:08.601Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://blog.qiweishen.com/post/hibernate-cannot-cast.html</loc>
-    
-    <lastmod>2017-09-29T07:49:37.963Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://blog.qiweishen.com/post/web-pic-stream.html</loc>
-    
-    <lastmod>2017-09-29T07:43:51.309Z</lastmod>
     
   </url>
   
