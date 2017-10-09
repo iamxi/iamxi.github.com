@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="dubbo," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="问题最近换了岗位，工作内容改成跟着架构师完善公司的技术架构。第一个任务就是做一个统一的异常拦截并返回相关错误码的方案。 公司采用dubbo做分布式框架，按dubbo的推荐，异常已经直接抛给调用方（consumer），只是公司现有的约定是使用错误码。问了几个前辈后才知道，原来dubbo在处理自定义异常的时候有些限制。 12345678910111213141516171819202122232425">
+<meta name="keywords" content="dubbo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Dubbo统一异常拦截">
+<meta property="og:url" content="http://blog.qiweishen.com/post/dubbo-exception-filter.html">
+<meta property="og:site_name" content="我的博客">
+<meta property="og:description" content="问题最近换了岗位，工作内容改成跟着架构师完善公司的技术架构。第一个任务就是做一个统一的异常拦截并返回相关错误码的方案。 公司采用dubbo做分布式框架，按dubbo的推荐，异常已经直接抛给调用方（consumer），只是公司现有的约定是使用错误码。问了几个前辈后才知道，原来dubbo在处理自定义异常的时候有些限制。 12345678910111213141516171819202122232425">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-10-09T03:10:17.590Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Dubbo统一异常拦截">
+<meta name="twitter:description" content="问题最近换了岗位，工作内容改成跟着架构师完善公司的技术架构。第一个任务就是做一个统一的异常拦截并返回相关错误码的方案。 公司采用dubbo做分布式框架，按dubbo的推荐，异常已经直接抛给调用方（consumer），只是公司现有的约定是使用错误码。问了几个前辈后才知道，原来dubbo在处理自定义异常的时候有些限制。 12345678910111213141516171819202122232425">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.2',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://blog.qiweishen.com/post/dubbo-exception-filter.html"/>
+
+
+
+
+
+  <title>Dubbo统一异常拦截 | 我的博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">我的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://blog.qiweishen.com/post/dubbo-exception-filter.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Qiwei Shen">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/1773138?v=4&s=400">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="我的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Dubbo统一异常拦截</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-09T10:02:55+08:00">
+                2017-10-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><p>最近换了岗位，工作内容改成跟着架构师完善公司的技术架构。第一个任务就是做一个统一的异常拦截并返回相关错误码的方案。</p>
+<p>公司采用dubbo做分布式框架，按dubbo的推荐，异常已经直接抛给调用方（consumer），只是公司现有的约定是使用错误码。问了几个前辈后才知道，原来dubbo在处理自定义异常的时候有些限制。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> Result <span class="title">invoke</span><span class="params">(Invoker&lt;?&gt; invoker, Invocation invocation)</span> <span class="keyword">throws</span> RpcException </span>&#123;</div><div class="line">    <span class="keyword">try</span> &#123;</div><div class="line">        Result result = invoker.invoke(invocation);</div><div class="line">        <span class="keyword">if</span> (result.hasException() &amp;&amp; GenericService.class != invoker.getInterface()) &#123;</div><div class="line">            <span class="keyword">try</span> &#123;</div><div class="line">                Throwable exception = result.getException();</div><div class="line"></div><div class="line">                <span class="comment">// 如果是checked异常，直接抛出</span></div><div class="line">                <span class="keyword">if</span> (! (exception <span class="keyword">instanceof</span> RuntimeException) &amp;&amp; (exception <span class="keyword">instanceof</span> Exception)) &#123;</div><div class="line">                    <span class="keyword">return</span> result;</div><div class="line">                &#125;</div><div class="line">                <span class="comment">// 在方法签名上有声明，直接抛出</span></div><div class="line">                <span class="keyword">try</span> &#123;</div><div class="line">                    Method method = invoker.getInterface().getMethod(invocation.getMethodName(), invocation.getParameterTypes());</div><div class="line">                    Class&lt;?&gt;[] exceptionClassses = method.getExceptionTypes();</div><div class="line">                    <span class="keyword">for</span> (Class&lt;?&gt; exceptionClass : exceptionClassses) &#123;</div><div class="line">                        <span class="keyword">if</span> (exception.getClass().equals(exceptionClass)) &#123;</div><div class="line">                            <span class="keyword">return</span> result;</div><div class="line">                        &#125;</div><div class="line">                    &#125;</div><div class="line">                &#125; <span class="keyword">catch</span> (NoSuchMethodException e) &#123;</div><div class="line">                    <span class="keyword">return</span> result;</div><div class="line">                &#125;</div><div class="line"></div><div class="line">                <span class="comment">// 未在方法签名上定义的异常，在服务器端打印ERROR日志</span></div><div class="line">                logger.error(<span class="string">"Got unchecked and undeclared exception which called by "</span> + RpcContext.getContext().getRemoteHost()</div><div class="line">                        + <span class="string">". service: "</span> + invoker.getInterface().getName() + <span class="string">", method: "</span> + invocation.getMethodName()</div><div class="line">                        + <span class="string">", exception: "</span> + exception.getClass().getName() + <span class="string">": "</span> + exception.getMessage(), exception);</div><div class="line"></div><div class="line">                <span class="comment">// 异常类和接口类在同一jar包里，直接抛出</span></div><div class="line">                String serviceFile = ReflectUtils.getCodeBase(invoker.getInterface());</div><div class="line">                String exceptionFile = ReflectUtils.getCodeBase(exception.getClass());</div><div class="line">                <span class="keyword">if</span> (serviceFile == <span class="keyword">null</span> || exceptionFile == <span class="keyword">null</span> || serviceFile.equals(exceptionFile))&#123;</div><div class="line">                    <span class="keyword">return</span> result;</div><div class="line">                &#125;</div><div class="line">                <span class="comment">// 是JDK自带的异常，直接抛出</span></div><div class="line">                String className = exception.getClass().getName();</div><div class="line">                <span class="keyword">if</span> (className.startsWith(<span class="string">"java."</span>) || className.startsWith(<span class="string">"javax."</span>)) &#123;</div><div class="line">                    <span class="keyword">return</span> result;</div><div class="line">                &#125;</div><div class="line">                <span class="comment">// 是Dubbo本身的异常，直接抛出</span></div><div class="line">                <span class="keyword">if</span> (exception <span class="keyword">instanceof</span> RpcException) &#123;</div><div class="line">                    <span class="keyword">return</span> result;</div><div class="line">                &#125;</div><div class="line"></div><div class="line">                <span class="comment">// 否则，包装成RuntimeException抛给客户端</span></div><div class="line">                <span class="keyword">return</span> <span class="keyword">new</span> RpcResult(<span class="keyword">new</span> RuntimeException(StringUtils.toString(exception)));</div><div class="line">            &#125; <span class="keyword">catch</span> (Throwable e) &#123;</div><div class="line">                logger.warn(<span class="string">"Fail to ExceptionFilter when called by "</span> + RpcContext.getContext().getRemoteHost()</div><div class="line">                        + <span class="string">". service: "</span> + invoker.getInterface().getName() + <span class="string">", method: "</span> + invocation.getMethodName()</div><div class="line">                        + <span class="string">", exception: "</span> + e.getClass().getName() + <span class="string">": "</span> + e.getMessage(), e);</div><div class="line">                <span class="keyword">return</span> result;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> result;</div><div class="line">    &#125; <span class="keyword">catch</span> (RuntimeException e) &#123;</div><div class="line">        logger.error(<span class="string">"Got unchecked and undeclared exception which called by "</span> + RpcContext.getContext().getRemoteHost()</div><div class="line">                + <span class="string">". service: "</span> + invoker.getInterface().getName() + <span class="string">", method: "</span> + invocation.getMethodName()</div><div class="line">                + <span class="string">", exception: "</span> + e.getClass().getName() + <span class="string">": "</span> + e.getMessage(), e);</div><div class="line">        <span class="keyword">throw</span> e;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这是dubbo的 <code>ExceptionFilter</code> 源码，是默认的异常处理。从代码中可以看到，异常对象需要满足一定的条件才会原样返回给前端。条件是：</p>
+<ol>
+<li>是checked异常</li>
+<li>或者方法签名上有申明的</li>
+<li>或者异常类和接口类在同一个jar包里</li>
+<li>或者JDK自带的异常</li>
+<li>或者Dubbo本身的异常</li>
+<li>或者继承了 <code>GenericService</code></li>
+</ol>
+<p>不是上述条件之一的话，就包装一层在返回。这样，对于自定义个的异常，上层就可能无法正确拿到。但是如果按dubbo的要求来，有出现一些问题，如果所有方法都声明异常或是抛出checked异常，肯定不符合实际要求，而且一旦出现未声明或不是checked的，上层就可能不知所措。如果异常类和接口类在同一个jar包，那每个工程最后打包都要有自己的异常类，这样就无法做到统一。对于继承 <code>GenericService</code> 类，这就让不用dubbo的工程也硬性依赖dubbo的内容。</p>
+<p>架构师也给了一些参考，如通过Spring AOP，在所有Service接口打点。这样就在Dubbo前处理了异常。这种方法比较普遍，估计了解Spring AOP的都会实现。同样，这个配置也要求开发中在自己的工程中遵守一定的约定，并开启AOP和配置打点位置。过多的自主配置就会带来项目间的不一致性，所以还是先考虑其他方案。</p>
+<h1 id="方案"><a href="#方案" class="headerlink" title="方案"></a>方案</h1><p>既然使用了Dubbo，我想这自然可以使用一些Dubbo的特性。翻了网上一些资料，最后决定通过自定义filter的方式来处理。参考Dubbo自己的 <code>ExceptionFilter</code>，我写了个大致的测试代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestExceptionFilter</span> <span class="keyword">implements</span> <span class="title">Filter</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> Result <span class="title">invoke</span><span class="params">(Invoker&lt;?&gt; invoker, Invocation invocation)</span> <span class="keyword">throws</span> RpcException </span>&#123;</div><div class="line"></div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            Result result = invoker.invoke(invocation);</div><div class="line">            <span class="keyword">if</span> (result.hasException()) &#123;</div><div class="line">                <span class="keyword">return</span> <span class="keyword">new</span> RpcResult(<span class="string">"1"</span>);</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">return</span> result;</div><div class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">new</span> RpcResult(<span class="string">"1"</span>);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这个代码这是拿来测试可行性的。实际证明这个方法可行。Consumer 那头拿到的就是 <code>1</code>。</p>
+<p>网上还有说通过 <code>-exception</code> 方式去掉dubbo的默认异常处理。对于直接抛以上到上层的来说，确定有这个必要，那样的话我们自定义个的filter的就要写得很健壮，处理满足自己的需求外，还要包含dubbo默认异常处理的逻辑。不过我这边是返回错误码的，所以并不需要这么做。</p>
+<h1 id="关于执行顺序"><a href="#关于执行顺序" class="headerlink" title="关于执行顺序"></a>关于执行顺序</h1><p>虽然，我这种方式，对Filter的执行顺序没有啥要求，不过还是最好了解下，避免出现一些莫名其妙的问题。dubbo的Filter有自己的执行顺序，对于自定义的Filter的，不定义其顺序的话，一般都会在默认的Filter之后执行。dubbo的Filter使用了装饰模式，一层调一层，所以在 <code>Result result = invoker.invoke(invocation);</code> 这行代码前是正序执行，而这行代码后是逆序执行。如果我们喜欢自定义的Filter在Dubbo的默认处理之前执行，我们可以通过一下配置来实现。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">dubbo:provider</span> <span class="attr">filter</span>=<span class="string">"myException,default"</span> /&gt;</span></div></pre></td></tr></table></figure>
+<p>不过异常处理其实是在拿到result之后，实际我们要的顺序是默认在前，自定义在后。这和dubbo的默认顺序一致，也就没啥好改的了。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>Dubbo 提供了很灵活的自定义方式。我们应该善勇这种特性，帮助我们简化工作。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/dubbo/" rel="tag"># dubbo</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/post/blog-with-hexo3.html" rel="next" title="hexo3搭建博客">
+                <i class="fa fa-chevron-left"></i> hexo3搭建博客
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          
+            <img class="site-author-image" itemprop="image"
+              src="https://avatars2.githubusercontent.com/u/1773138?v=4&s=400"
+              alt="Qiwei Shen" />
+          
+            <p class="site-author-name" itemprop="name">Qiwei Shen</p>
+            <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+            
+              <a href="/archives/">
+            
+                <span class="site-state-item-count">37</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/iamxi" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>GitHub</a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#问题"><span class="nav-number">1.</span> <span class="nav-text">问题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#方案"><span class="nav-number">2.</span> <span class="nav-text">方案</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#关于执行顺序"><span class="nav-number">3.</span> <span class="nav-text">关于执行顺序</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Qiwei Shen</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.2</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
