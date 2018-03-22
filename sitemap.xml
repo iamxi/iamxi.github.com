@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://blog.qiweishen.com/post/django2-template-path-config.html</loc>
+    
+    <lastmod>2018-03-22T07:54:49.036Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://blog.qiweishen.com/post/spring-cloud-feign-add-Interceptor.html</loc>
     
     <lastmod>2018-01-25T13:18:20.257Z</lastmod>
