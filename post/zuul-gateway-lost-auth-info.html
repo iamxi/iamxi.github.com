@@ -53,7 +53,7 @@
 <link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="spring cloud,feign,zuul," />
+  <meta name="keywords" content="feign,zuul,spring cloud," />
 
 
 
@@ -70,14 +70,14 @@
 
 
 <meta name="description" content="公司有个项目使用spring cloud全家桶。由zuul做入口，路由到各个业务系统。其中路由完成登陆鉴权。后来有一个业务系统需要用到这些登陆信息，所以希望路由这端将登陆的信息通过消息头的方式带到业务系统。 想想实现很简单，定义一个feign的拦截器，把登陆信息填到header中。不过中间遇到个小问题。统一的路由中将信息保持到了一个ThreadLocal中，拦截器会从这个ThreadLocal中取">
-<meta name="keywords" content="spring cloud,feign,zuul">
+<meta name="keywords" content="feign,zuul,spring cloud">
 <meta property="og:type" content="article">
 <meta property="og:title" content="zuul网关丢失鉴权信息问题">
-<meta property="og:url" content="http://blog.qiweishen.com/post/zuul-gateway-lost-auth-info.html">
+<meta property="og:url" content="https://blog.qiwei.dev/post/zuul-gateway-lost-auth-info.html">
 <meta property="og:site_name" content="我的博客">
 <meta property="og:description" content="公司有个项目使用spring cloud全家桶。由zuul做入口，路由到各个业务系统。其中路由完成登陆鉴权。后来有一个业务系统需要用到这些登陆信息，所以希望路由这端将登陆的信息通过消息头的方式带到业务系统。 想想实现很简单，定义一个feign的拦截器，把登陆信息填到header中。不过中间遇到个小问题。统一的路由中将信息保持到了一个ThreadLocal中，拦截器会从这个ThreadLocal中取">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-07-01T09:00:00.588Z">
+<meta property="og:updated_time" content="2019-08-14T02:15:49.941Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="zuul网关丢失鉴权信息问题">
 <meta name="twitter:description" content="公司有个项目使用spring cloud全家桶。由zuul做入口，路由到各个业务系统。其中路由完成登陆鉴权。后来有一个业务系统需要用到这些登陆信息，所以希望路由这端将登陆的信息通过消息头的方式带到业务系统。 想想实现很简单，定义一个feign的拦截器，把登陆信息填到header中。不过中间遇到个小问题。统一的路由中将信息保持到了一个ThreadLocal中，拦截器会从这个ThreadLocal中取">
@@ -110,7 +110,7 @@
 
 
 
-  <link rel="canonical" href="http://blog.qiweishen.com/post/zuul-gateway-lost-auth-info.html"/>
+  <link rel="canonical" href="https://blog.qiwei.dev/post/zuul-gateway-lost-auth-info.html"/>
 
 
 
@@ -252,7 +252,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://blog.qiweishen.com/post/zuul-gateway-lost-auth-info.html">
+    <link itemprop="mainEntityOfPage" href="https://blog.qiwei.dev/post/zuul-gateway-lost-auth-info.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Qiwei Shen">
@@ -281,8 +281,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-22T15:43:46+08:00">
-                2018-03-22
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-28T15:43:46+08:00">
+                2019-06-28
               </time>
             
 
@@ -356,11 +356,11 @@
       
         <div class="post-tags">
           
-            <a href="/tags/spring-cloud/" rel="tag"># spring cloud</a>
-          
             <a href="/tags/feign/" rel="tag"># feign</a>
           
             <a href="/tags/zuul/" rel="tag"># zuul</a>
+          
+            <a href="/tags/spring-cloud/" rel="tag"># spring cloud</a>
           
         </div>
       
