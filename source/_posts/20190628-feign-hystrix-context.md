@@ -1,6 +1,6 @@
 ---
 title: zuul网关丢失鉴权信息问题
-date: 2018-03-22 15:43:46
+date: 2019-06-28 15:43:46
 tags: [feign, zuul, spring cloud]
 urlname: zuul-gateway-lost-auth-info
 ---
