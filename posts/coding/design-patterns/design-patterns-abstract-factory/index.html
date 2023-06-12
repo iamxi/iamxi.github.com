@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>设计模式学习-抽象工厂（Abstract Factory） | 我的博客</title>
+<meta name="keywords" content="Design Patterns, 设计模式">
+<meta name="description" content="抽象工厂，提供一个创建一系列相关或相互依赖对象的接口，而无需指定它们具体的类。">
+<meta name="author" content="">
+<link rel="canonical" href="https://dev.qiwei.dev/posts/coding/design-patterns/design-patterns-abstract-factory/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.3613efbd0b1772781e8f49935e973cae632a7f61471c05b17be155505ccf87b5.css" integrity="sha256-NhPvvQsXcngej0mTXpc8rmMqf2FHHAWxe&#43;FVUFzPh7U=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://dev.qiwei.dev/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://dev.qiwei.dev/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://dev.qiwei.dev/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://dev.qiwei.dev/apple-touch-icon.png">
+<link rel="mask-icon" href="https://dev.qiwei.dev/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="设计模式学习-抽象工厂（Abstract Factory）" />
+<meta property="og:description" content="抽象工厂，提供一个创建一系列相关或相互依赖对象的接口，而无需指定它们具体的类。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://dev.qiwei.dev/posts/coding/design-patterns/design-patterns-abstract-factory/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2013-07-29T16:56:00+08:00" />
+<meta property="article:modified_time" content="2013-07-29T16:56:00+08:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="设计模式学习-抽象工厂（Abstract Factory）"/>
+<meta name="twitter:description" content="抽象工厂，提供一个创建一系列相关或相互依赖对象的接口，而无需指定它们具体的类。"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://dev.qiwei.dev/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "设计模式学习-抽象工厂（Abstract Factory）",
+      "item": "https://dev.qiwei.dev/posts/coding/design-patterns/design-patterns-abstract-factory/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "设计模式学习-抽象工厂（Abstract Factory）",
+  "name": "设计模式学习-抽象工厂（Abstract Factory）",
+  "description": "抽象工厂，提供一个创建一系列相关或相互依赖对象的接口，而无需指定它们具体的类。",
+  "keywords": [
+    "Design Patterns", "设计模式"
+  ],
+  "articleBody": "意图： 提供一个创建一系列相关或相互依赖对象的接口，而无需指定它们具体的类 。\n别名： Kit\n结构： 代码示例： AbstractFactory类\npublic abstract class AbstractFactory { public abstract AbstractProductA createProductA(); public abstract AbstractProductB createProductB(); } ConcreteFactory类\npublic class ConcreteFactory1 extends AbstractFactory { @Override public AbstractProductA createProductA() { return new ProductA1(); } @Override public AbstractProductB createProductB() { return new ProductB1(); } } public class ConcreteFactory2 extends AbstractFactory { @Override public AbstractProductA createProductA() { return new ProductA2(); } @Override public AbstractProductB createProductB() { return new ProductB2(); } } AbstractProduct类\npublic abstract class AbstractProductA { } public abstract class AbstractProductB { } public class ProductA1 extends AbstractProductA { } public class ProductA2 extends AbstractProductA { } public class ProductB1 extends AbstractProductB { } public class ProductB2 extends AbstractProductB { } Client类\npublic class Client { public static void main(String[] args) { AbstractFactory factory1 = new ConcreteFactory1(); AbstractFactory factory2 = new ConcreteFactory2(); AbstractProductA productA1 = factory1.createProductA(); AbstractProductA productA2 = factory2.createProductA(); AbstractProductB productB1 = factory1.createProductB(); AbstractProductB productB2 = factory2.createProductB(); } } 缺点: 难以支持新种类的产品，解决这个缺点的方法很多。\n适用性: 在以下情况可以使用Abstract Factory模式\n一个系统要独立于它的产品的创建、组合和表示时。 一个系统要由多个产品系列中的一个来配置时。 当你要强调一系列相关的产品对象的设计以便进行联合使用时。 当你提供一个产品类库，而只想显示它们的接口而不是实现时。 相关模式： Abstract Factory类通常用工厂方法（Factory Method）实现，但它们也可以用Prototype实现。一个具体的工厂通常是一个单件（Singelton）。\n",
+  "wordCount" : "166",
+  "inLanguage": "en",
+  "datePublished": "2013-07-29T16:56:00+08:00",
+  "dateModified": "2013-07-29T16:56:00+08:00",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://dev.qiwei.dev/posts/coding/design-patterns/design-patterns-abstract-factory/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "我的博客",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://dev.qiwei.dev/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://dev.qiwei.dev/" accesskey="h" title="我的博客 (Alt + H)">我的博客</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://dev.qiwei.dev/posts" title="Blogs">
+                    <span>Blogs</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://dev.qiwei.dev/categories/" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://dev.qiwei.dev/tags/" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://dev.qiwei.dev/about/" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      设计模式学习-抽象工厂（Abstract Factory）
+    </h1>
+    <div class="post-description">
+      抽象工厂，提供一个创建一系列相关或相互依赖对象的接口，而无需指定它们具体的类。
+    </div>
+    <div class="post-meta"><span title='2013-07-29 16:56:00 +0800 CST'>July 29, 2013</span>
+
+</div>
+  </header> 
+  <div class="post-content"><h3 id="意图">意图：<a hidden class="anchor" aria-hidden="true" href="#意图">#</a></h3>
+<p><strong>提供一个创建一系列相关或相互依赖对象的接口，而无需指定它们具体的类 。</strong></p>
+<h3 id="别名">别名：<a hidden class="anchor" aria-hidden="true" href="#别名">#</a></h3>
+<p>Kit</p>
+<h3 id="结构">结构：<a hidden class="anchor" aria-hidden="true" href="#结构">#</a></h3>
+<p><img loading="lazy" src="Design-Patterns-abstract-factory.jpg" alt="AbstracFactory"  />
+</p>
+<h3 id="代码示例">代码示例：<a hidden class="anchor" aria-hidden="true" href="#代码示例">#</a></h3>
+<p>AbstractFactory类</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">abstract</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">AbstractFactory</span> <span style="color:#f92672">{</span>  
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">abstract</span> AbstractProductA <span style="color:#a6e22e">createProductA</span><span style="color:#f92672">();</span>  
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">abstract</span> AbstractProductB <span style="color:#a6e22e">createProductB</span><span style="color:#f92672">();</span>  
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>ConcreteFactory类</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ConcreteFactory1</span> <span style="color:#66d9ef">extends</span> AbstractFactory <span style="color:#f92672">{</span>  
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Override</span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> AbstractProductA <span style="color:#a6e22e">createProductA</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> ProductA1<span style="color:#f92672">();</span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>  
+</span></span><span style="display:flex;"><span>      
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Override</span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> AbstractProductB <span style="color:#a6e22e">createProductB</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> ProductB1<span style="color:#f92672">();</span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>  
+</span></span><span style="display:flex;"><span>      
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>  
+</span></span><span style="display:flex;"><span>      
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ConcreteFactory2</span> <span style="color:#66d9ef">extends</span> AbstractFactory <span style="color:#f92672">{</span>  
+</span></span><span style="display:flex;"><span>      
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Override</span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> AbstractProductA <span style="color:#a6e22e">createProductA</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> ProductA2<span style="color:#f92672">();</span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>  
+</span></span><span style="display:flex;"><span>      
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Override</span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> AbstractProductB <span style="color:#a6e22e">createProductB</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> ProductB2<span style="color:#f92672">();</span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>  
+</span></span><span style="display:flex;"><span>      
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>  
+</span></span></code></pre></div><p>AbstractProduct类</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">abstract</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">AbstractProductA</span> <span style="color:#f92672">{</span>  
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>  
+</span></span><span style="display:flex;"><span>      
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">abstract</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">AbstractProductB</span> <span style="color:#f92672">{</span>  
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>  
+</span></span><span style="display:flex;"><span>      
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ProductA1</span> <span style="color:#66d9ef">extends</span> AbstractProductA <span style="color:#f92672">{</span>  
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>  
+</span></span><span style="display:flex;"><span>      
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ProductA2</span> <span style="color:#66d9ef">extends</span> AbstractProductA <span style="color:#f92672">{</span>  
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>  
+</span></span><span style="display:flex;"><span>      
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ProductB1</span> <span style="color:#66d9ef">extends</span> AbstractProductB <span style="color:#f92672">{</span>  
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>  
+</span></span><span style="display:flex;"><span>      
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ProductB2</span> <span style="color:#66d9ef">extends</span> AbstractProductB <span style="color:#f92672">{</span>  
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>  
+</span></span></code></pre></div><p>Client类</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Client</span> <span style="color:#f92672">{</span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>  
+</span></span><span style="display:flex;"><span>        AbstractFactory factory1 <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ConcreteFactory1<span style="color:#f92672">();</span>  
+</span></span><span style="display:flex;"><span>        AbstractFactory factory2 <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ConcreteFactory2<span style="color:#f92672">();</span>  
+</span></span><span style="display:flex;"><span>        AbstractProductA productA1 <span style="color:#f92672">=</span> factory1<span style="color:#f92672">.</span><span style="color:#a6e22e">createProductA</span><span style="color:#f92672">();</span>  
+</span></span><span style="display:flex;"><span>        AbstractProductA productA2 <span style="color:#f92672">=</span> factory2<span style="color:#f92672">.</span><span style="color:#a6e22e">createProductA</span><span style="color:#f92672">();</span>  
+</span></span><span style="display:flex;"><span>        AbstractProductB productB1 <span style="color:#f92672">=</span> factory1<span style="color:#f92672">.</span><span style="color:#a6e22e">createProductB</span><span style="color:#f92672">();</span>  
+</span></span><span style="display:flex;"><span>        AbstractProductB productB2 <span style="color:#f92672">=</span> factory2<span style="color:#f92672">.</span><span style="color:#a6e22e">createProductB</span><span style="color:#f92672">();</span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>  
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>  
+</span></span></code></pre></div><h3 id="缺点">缺点:<a hidden class="anchor" aria-hidden="true" href="#缺点">#</a></h3>
+<p>难以支持新种类的产品，解决这个缺点的方法很多。</p>
+<h3 id="适用性">适用性:<a hidden class="anchor" aria-hidden="true" href="#适用性">#</a></h3>
+<p>在以下情况可以使用Abstract Factory模式</p>
+<ul>
+<li>一个系统要独立于它的产品的创建、组合和表示时。</li>
+<li>一个系统要由多个产品系列中的一个来配置时。</li>
+<li>当你要强调一系列相关的产品对象的设计以便进行联合使用时。</li>
+<li>当你提供一个产品类库，而只想显示它们的接口而不是实现时。</li>
+</ul>
+<h3 id="相关模式">相关模式：<a hidden class="anchor" aria-hidden="true" href="#相关模式">#</a></h3>
+<p>Abstract Factory类通常用工厂方法（Factory Method）实现，但它们也可以用Prototype实现。一个具体的工厂通常是一个单件（Singelton）。</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://dev.qiwei.dev/tags/design-patterns/">Design Patterns</a></li>
+      <li><a href="https://dev.qiwei.dev/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li>
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="https://dev.qiwei.dev/">我的博客</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

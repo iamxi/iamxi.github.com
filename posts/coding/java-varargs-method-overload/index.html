@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Java可变参数方法及它的重载 | 我的博客</title>
+<meta name="keywords" content="Java">
+<meta name="description" content="Java可变参数方法及它的重载">
+<meta name="author" content="">
+<link rel="canonical" href="https://dev.qiwei.dev/posts/coding/java-varargs-method-overload/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.3613efbd0b1772781e8f49935e973cae632a7f61471c05b17be155505ccf87b5.css" integrity="sha256-NhPvvQsXcngej0mTXpc8rmMqf2FHHAWxe&#43;FVUFzPh7U=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://dev.qiwei.dev/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://dev.qiwei.dev/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://dev.qiwei.dev/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://dev.qiwei.dev/apple-touch-icon.png">
+<link rel="mask-icon" href="https://dev.qiwei.dev/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="Java可变参数方法及它的重载" />
+<meta property="og:description" content="Java可变参数方法及它的重载" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://dev.qiwei.dev/posts/coding/java-varargs-method-overload/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2012-04-28T12:00:00+08:00" />
+<meta property="article:modified_time" content="2012-04-28T12:00:00+08:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Java可变参数方法及它的重载"/>
+<meta name="twitter:description" content="Java可变参数方法及它的重载"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://dev.qiwei.dev/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Java可变参数方法及它的重载",
+      "item": "https://dev.qiwei.dev/posts/coding/java-varargs-method-overload/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Java可变参数方法及它的重载",
+  "name": "Java可变参数方法及它的重载",
+  "description": "Java可变参数方法及它的重载",
+  "keywords": [
+    "Java"
+  ],
+  "articleBody": "JAVA支持方法的可变参数。类似如下\npublic void method1(String... arg1); 这样，调用method1时候，参数的数量是可变的，如method1(“1”,“2”,“3”)。注意可变参数只能是最后一个参数。\nJAVA内部是把这样的参数看成一个数组来处理。在获取多个参数的时候可以用数组遍历来完成。\nfor (String temp : arg1) { System.out.println(\"one of the arguments is \" + temp); } 可能有人会说，这样的循环遍历像List那样的集合也可以，凭什么说是数组。那好，再看下面代码：\npublic void method1(String... arg1); public void method1(String[] arg1); 这样的重载，在编译时候会报错，JAVA不允许这样的重载，其实理由很简单，String… 和String[]对编译器来说是一样的。参数一样自然无法重载。\n下面是可变参数方法的重载：\npublic void method1(String... arg1) { } public void method1(String a, String... arg1) { } 我在eclipse中测试，IDE并没有提示错误。但是在实例后调用就不行了，IDE报 The method method1(String[]) is ambiguous for the type ...，大致是说这个方法有混淆，无法正确的调用。话说类编译的时候没问题，到实例后调用就会提示错误。\npublic void method1(String... arg1) { System.out.println(\"1\"); } public void method1(String a, String b) { System.out.println(\"2\"); } 上述是完全可以的，但是如果方法被调用是输入的参数是2个的时候，到底上面哪个会被调用呢。答案是参数固定那个。能匹配定长的方法，那么优先匹配该方法。含有不定参数的那个重载方法是最后被选中的。\n之前对可变参数方法及这种方法的重载也就个模糊的影像，在开发中偶尔用下，昨天遇到了个奇怪的问题。\n定义了两个方法：\nprotected List executeQueryMultiplyResult(String sql, Object... params); protected List executeQueryMultiplyResult(String sql, Class\u003cT\u003e arg, Object... params); 一开始很正常，比如 executeQueryMultiplyResult(\"sql\", a.class, new Object[])，这种调用能正确的调用上述的第二种。昨天，因为设计的需要，把这两个方法 pull up 到了父类中去。结果就有了问题，有些能正确调用，有些却不能。如果都不能，也就当时编译器无法正确区分这两个。网上差了好多可变参数方法的重载问题，我都没有犯那些错误。调试了半天，后来发现在IDE代码只能不全的时候提示第二种方法的第二个参数是固定的。自己研究了下代码，原来Class arg中的T是泛型，子类在继承父类时指定了这个泛型。所以这边，实际arg参数实际已经固定了。如果子类的T是类a，那么如果传a.class，就会选择第二个方法，如果传入了其他，如b.class，就变了第一种方法，Object也是包含了Class的。唉，滥用泛型导致的错误啊。\n",
+  "wordCount" : "100",
+  "inLanguage": "en",
+  "datePublished": "2012-04-28T12:00:00+08:00",
+  "dateModified": "2012-04-28T12:00:00+08:00",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://dev.qiwei.dev/posts/coding/java-varargs-method-overload/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "我的博客",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://dev.qiwei.dev/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://dev.qiwei.dev/" accesskey="h" title="我的博客 (Alt + H)">我的博客</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://dev.qiwei.dev/posts" title="Blogs">
+                    <span>Blogs</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://dev.qiwei.dev/categories/" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://dev.qiwei.dev/tags/" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://dev.qiwei.dev/about/" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      Java可变参数方法及它的重载
+    </h1>
+    <div class="post-description">
+      Java可变参数方法及它的重载
+    </div>
+    <div class="post-meta"><span title='2012-04-28 12:00:00 +0800 CST'>April 28, 2012</span>
+
+</div>
+  </header> 
+  <div class="post-content"><p>JAVA支持方法的可变参数。类似如下</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">method1</span><span style="color:#f92672">(</span>String<span style="color:#f92672">...</span> arg1<span style="color:#f92672">);</span>
+</span></span></code></pre></div><p>这样，调用method1时候，参数的数量是可变的，如method1(&ldquo;1&rdquo;,&ldquo;2&rdquo;,&ldquo;3&rdquo;)。注意可变参数只能是最后一个参数。</p>
+<p>JAVA内部是把这样的参数看成一个数组来处理。在获取多个参数的时候可以用数组遍历来完成。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span>String temp <span style="color:#f92672">:</span> arg1<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>  
+</span></span><span style="display:flex;"><span>      System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;one of the arguments is &#34;</span> <span style="color:#f92672">+</span> temp<span style="color:#f92672">);</span>  
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>可能有人会说，这样的循环遍历像List那样的集合也可以，凭什么说是数组。那好，再看下面代码：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">method1</span><span style="color:#f92672">(</span>String<span style="color:#f92672">...</span> arg1<span style="color:#f92672">);</span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">method1</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> arg1<span style="color:#f92672">);</span>
+</span></span></code></pre></div><p>这样的重载，在编译时候会报错，JAVA不允许这样的重载，其实理由很简单，String&hellip; 和String[]对编译器来说是一样的。参数一样自然无法重载。</p>
+<p>下面是可变参数方法的重载：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">method1</span><span style="color:#f92672">(</span>String<span style="color:#f92672">...</span> arg1<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>  
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">method1</span><span style="color:#f92672">(</span>String a<span style="color:#f92672">,</span> String<span style="color:#f92672">...</span> arg1<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>  
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>我在eclipse中测试，IDE并没有提示错误。但是在实例后调用就不行了，IDE报 <code>The method method1(String[]) is ambiguous for the type ...</code>，大致是说这个方法有混淆，无法正确的调用。话说类编译的时候没问题，到实例后调用就会提示错误。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">method1</span><span style="color:#f92672">(</span>String<span style="color:#f92672">...</span> arg1<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>  
+</span></span><span style="display:flex;"><span>    System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;1&#34;</span><span style="color:#f92672">);</span>  
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">method1</span><span style="color:#f92672">(</span>String a<span style="color:#f92672">,</span> String b<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>  
+</span></span><span style="display:flex;"><span>    System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;2&#34;</span><span style="color:#f92672">);</span>  
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>上述是完全可以的，但是如果方法被调用是输入的参数是2个的时候，到底上面哪个会被调用呢。答案是参数固定那个。能匹配定长的方法，那么优先匹配该方法。含有不定参数的那个重载方法是最后被选中的。</p>
+<p>之前对可变参数方法及这种方法的重载也就个模糊的影像，在开发中偶尔用下，昨天遇到了个奇怪的问题。</p>
+<p>定义了两个方法：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">protected</span> List <span style="color:#a6e22e">executeQueryMultiplyResult</span><span style="color:#f92672">(</span>String sql<span style="color:#f92672">,</span>
+</span></span><span style="display:flex;"><span>    Object<span style="color:#f92672">...</span> params<span style="color:#f92672">);</span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">protected</span> List <span style="color:#a6e22e">executeQueryMultiplyResult</span><span style="color:#f92672">(</span>String sql<span style="color:#f92672">,</span>
+</span></span><span style="display:flex;"><span>    Class<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> arg<span style="color:#f92672">,</span> Object<span style="color:#f92672">...</span> params<span style="color:#f92672">);</span>
+</span></span></code></pre></div><p>一开始很正常，比如 <code>executeQueryMultiplyResult(&quot;sql&quot;, a.class, new Object[])</code>，这种调用能正确的调用上述的第二种。昨天，因为设计的需要，把这两个方法 <code>pull up</code> 到了父类中去。结果就有了问题，有些能正确调用，有些却不能。如果都不能，也就当时编译器无法正确区分这两个。网上差了好多可变参数方法的重载问题，我都没有犯那些错误。调试了半天，后来发现在IDE代码只能不全的时候提示第二种方法的第二个参数是固定的。自己研究了下代码，原来Class<T> arg中的T是泛型，子类在继承父类时指定了这个泛型。所以这边，实际arg参数实际已经固定了。如果子类的T是类a，那么如果传a.class，就会选择第二个方法，如果传入了其他，如b.class，就变了第一种方法，Object也是包含了Class的。唉，滥用泛型导致的错误啊。</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://dev.qiwei.dev/tags/java/">Java</a></li>
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="https://dev.qiwei.dev/">我的博客</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

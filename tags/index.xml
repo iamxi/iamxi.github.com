@@ -6,11 +6,56 @@
     <description>Recent content in Tags on 我的博客</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Thu, 12 May 2011 12:02:00 +0800</lastBuildDate><atom:link href="https://dev.qiwei.dev/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 08 Aug 2013 15:27:00 +0800</lastBuildDate><atom:link href="https://dev.qiwei.dev/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Design Patterns</title>
+      <link>https://dev.qiwei.dev/tags/design-patterns/</link>
+      <pubDate>Thu, 08 Aug 2013 15:27:00 +0800</pubDate>
+      
+      <guid>https://dev.qiwei.dev/tags/design-patterns/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>设计模式</title>
+      <link>https://dev.qiwei.dev/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Thu, 08 Aug 2013 15:27:00 +0800</pubDate>
+      
+      <guid>https://dev.qiwei.dev/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Refactioring</title>
+      <link>https://dev.qiwei.dev/tags/refactioring/</link>
+      <pubDate>Mon, 29 Jul 2013 13:28:00 +0800</pubDate>
+      
+      <guid>https://dev.qiwei.dev/tags/refactioring/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>重构</title>
+      <link>https://dev.qiwei.dev/tags/%E9%87%8D%E6%9E%84/</link>
+      <pubDate>Mon, 29 Jul 2013 13:28:00 +0800</pubDate>
+      
+      <guid>https://dev.qiwei.dev/tags/%E9%87%8D%E6%9E%84/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>eclipse</title>
+      <link>https://dev.qiwei.dev/tags/eclipse/</link>
+      <pubDate>Fri, 26 Jul 2013 12:02:00 +0800</pubDate>
+      
+      <guid>https://dev.qiwei.dev/tags/eclipse/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>Java</title>
       <link>https://dev.qiwei.dev/tags/java/</link>
-      <pubDate>Thu, 12 May 2011 12:02:00 +0800</pubDate>
+      <pubDate>Sat, 04 Aug 2012 23:00:00 +0800</pubDate>
       
       <guid>https://dev.qiwei.dev/tags/java/</guid>
       <description></description>

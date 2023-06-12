@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>重构 | 我的博客</title>
+<meta name="keywords" content="">
+<meta name="description" content="">
+<meta name="author" content="">
+<link rel="canonical" href="https://dev.qiwei.dev/tags/%E9%87%8D%E6%9E%84/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.3613efbd0b1772781e8f49935e973cae632a7f61471c05b17be155505ccf87b5.css" integrity="sha256-NhPvvQsXcngej0mTXpc8rmMqf2FHHAWxe&#43;FVUFzPh7U=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://dev.qiwei.dev/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://dev.qiwei.dev/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://dev.qiwei.dev/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://dev.qiwei.dev/apple-touch-icon.png">
+<link rel="mask-icon" href="https://dev.qiwei.dev/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" type="application/rss+xml" href="https://dev.qiwei.dev/tags/%E9%87%8D%E6%9E%84/index.xml">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="重构" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://dev.qiwei.dev/tags/%E9%87%8D%E6%9E%84/" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="重构"/>
+<meta name="twitter:description" content=""/>
+
+</head>
+
+<body class="list" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://dev.qiwei.dev/" accesskey="h" title="我的博客 (Alt + H)">我的博客</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://dev.qiwei.dev/posts" title="Blogs">
+                    <span>Blogs</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://dev.qiwei.dev/categories/" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://dev.qiwei.dev/tags/" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://dev.qiwei.dev/about/" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main"> 
+<header class="page-header">
+  <h1>
+    重构
+  </h1>
+</header>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>《重构》学习笔记-构筑测试系统与大型重构
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>构筑测试系统 测试……一年前，我开发的时候还是很不在乎测试，不过那个时候也没人告诉我测试的重要性。直到意识到要提高自己，学习中看到了那么多提到测试的，所以慢慢的尝试使用（大部分是单元测试），然后深深的爱上了单元测试（其他测试呢，好吧，编程中的确比较少用到其他测试，我比较懒）。
+作者在前面反复提到测试在重构中的重要性，这章就是介绍测试的。
+自我测试代码的价值： 编码往往只占了开发中的小部分时间，很多时间不是在沟通、设计，就是在找 BUG 。。。专业点，应该叫调试（ debug ）。测试的主要作用就是帮助调试，帮助开发中发现潜在的 BUG ，这样我们就可以少话点时间在调试上了。频繁进行测试是极限编程（下一个学习的内容）的重要一环。
+确保所有测试都是自动化，让它们检查自己的测试结果。
+一整组测试就是一个强大的 BUG 侦测器，能够大大缩减查找 BUG 所需要的时间。
+JUNIT ： 看来 JUNIT 的历史很悠久啊，作者写书的时候就已经很成熟了。我想这个不需要多说了，现在有关 JUNIT 的介绍到处都是。我也喜欢用 JUNIT ，不过看书中的介绍的 JUNIT 的基本使用有点老了，完全忽略吧。
+重构前先为需要重构的功能构建好测试用列，在重构中，每次变动都需要进行测试，以确保重构没有给程序带来什么BUG。这个很重要。
+大型重构 大型重构的重要性：大型重构没有那些小动作那样立竿见影的效果，不过它可以帮助我们解决那些堆积了很久，影响范围又很大的问题。
+Tease Apart Inheritance （梳理并分解继承体系） 用于处理混乱的继承体系——这种继承体系往往以一种令人迷惑的方式组合了数个不同方面的变化（ variations ）。
+某个继承体系（ inheritance hierarchy ）同时承担两项责任。
+建立两个继承体系，并通过委托关系（ delegation ）让其中一个可以调用另一个。
+Convert Procedural Design to Object （将过程化设计转化为对象设计） 可以帮助你解决一个「古典」问题：如何处理程序性代码（ procedural code ）？
+你手上有一些代码，以传统的过程化风格（ procedural style ）写就。
+将数据记录（ data records ）变成对象，将行为分开，并将行为移入相关对象之中。
+Separate Domain from Presentation （将领域和表述 / 显示分离） 将业务逻辑（ business logic ）与用户界面（ user interface ）隔离开来。...</p>
+  </div>
+  <footer class="entry-footer"><span title='2013-07-29 13:28:00 +0800 CST'>July 29, 2013</span></footer>
+  <a class="entry-link" aria-label="post link to 《重构》学习笔记-构筑测试系统与大型重构" href="https://dev.qiwei.dev/posts/coding/refactioring/refactioring-read-3/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>《重构》学习笔记-代码的坏味道
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>代码的坏味道 … 老外没有艺术细胞，作为一名大师级人物，好歹给起个好听点的名称。向金庸老人家学习下，让我们也感染下艺术气息。
+我认为吗，坏味道就是对一段问题代码的感觉，从感性慢慢分析到理性。这种感觉需要在实践中培养。观看这里的介绍只能有个大概的理解方向，只有在反复在实际的代码中去体会，才能运用自如。
+我也是爱国人士，也很不喜欢英语，不过毕竟都是老外的东西，为了避免一些名词的混淆，我还是用英语加翻译的方式。
+一、 重复代码（ Duplicated Code ） 很直观的一个问题，就算新手也很快能看出。如果是同一个类里面有重复代码，使用 Extract Method （提炼函数）把重复的给提取出来；如果重复代码分别在一个类的两个子类中，则先提取代码，然后使用 Pull Up Method （函数上移）把提取的函数放到 superclass 中；如果在好不相干的两个类中，则考虑使用 Extract Class （提炼类）把重复代码独立成一个类，也可以把函数放在其中一个类中，另一个应用这个之，看实际情况了。
+二、 过长函数（ Long Method ） 看 50 行的 20 个函数比看一千行的一个函数强多了，所以么函数不宜过长，或者说就应该短， java 在调用函数时候的开销很小，一般不会产生性能问题。我也讨厌那些长函数，看到后面逻辑都乱了，本人见过两千行的函数，唉，一半注解一半代码。
+99% 的场合只需要使用 Extract Method （提炼函数）。如果函数内有大量的参数和临时变量，可以尝试 Extract Method （提炼函数）把那些参数和临时变量当作参数，运用 Replace Temp With Query （以查询取代临时变量）来消除暂时元素。 Introduce Parameter Object （引入参数对象）和 Preserve Whole Object （保持对象完整）则可以把过长的参数变简洁。如果做完上述发现还是有太多参数和变量，可以使用杀手锏： Replace Method With Method Object （以函数对象取代函数）。条件和循环常常是提取的信号，可以使用 Decompose Conditional （分解条件式）来处理条件式。循环则可以提炼一个独立的函数。
+三、 过长类（ Large Class ） 这种可以使用 Extract Class （提炼类）提炼出内容有相关性的。如果类里面有数个变量有着一样的前缀或后缀，用 Extract Subclass （提炼子类）会比较简单。如果是 GUI 类，可以把数据和行为移到单独的 domain 对象中去，运用 Duplicate Observed Data （复制被监视数据）同步数据。...</p>
+  </div>
+  <footer class="entry-footer"><span title='2013-07-29 13:09:00 +0800 CST'>July 29, 2013</span></footer>
+  <a class="entry-link" aria-label="post link to 《重构》学习笔记-代码的坏味道" href="https://dev.qiwei.dev/posts/coding/refactioring/refactioring-read-2/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>《重构》学习笔记-重构原则
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>码农真得很辛苦，每天除了要下地编码之外，还需要挑灯夜战，学习专业知识，唉。不抱怨了，抱怨都是那些自暴自弃的人愤世嫉俗的。最近看《重构》一书，话说是一本很多人推荐看的好书，封面上还写着“从初级程序员到编程高手的秘籍”。好吧，我承认是初级程序员。所以我看了。
+第一章 与其他书不同，第一章是一个例子。很多书，包括大学教材啊，技术教材都是以要讲的内容的定义和一些学习的重要意义之类的做第一章，而此书却给了一个系统的小部分代码来做重构的小例子。这样写的原因作者说了，不过对于我们这种应试教育下出生的人来说有点小小的不习惯。
+public String statement() { double totalAmount = 0; //总消费余额 int frequentRenterPoints = 0; //常客积点 Enumeration rentals = _rentals.elements(); String result = &#34;Rental Record for &#34; &#43; getName() &#43; &#34;\n&#34;; while(rentals.hasMoreElements()) { double thisAmount = 0; //取得一笔租借记录 Rental each = (Rental) rentals.nextElement(); //determine amounts for each line switch(each.getDaysRented() &gt; 2) { //取得影片租价格 case Movie.REGULAR: //普通片 thisAmount &#43;= 2; if (each.getDaysRented() &gt; 2) thisAmount &#43;= (each.getDaysRented() - 2)*1.5; break; case Movie....</p>
+  </div>
+  <footer class="entry-footer"><span title='2013-07-28 22:01:00 +0800 CST'>July 28, 2013</span></footer>
+  <a class="entry-link" aria-label="post link to 《重构》学习笔记-重构原则" href="https://dev.qiwei.dev/posts/coding/refactioring/refactioring-read-1/"></a>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="https://dev.qiwei.dev/">我的博客</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

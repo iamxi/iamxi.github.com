@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>设计模式 | 我的博客</title>
+<meta name="keywords" content="">
+<meta name="description" content="">
+<meta name="author" content="">
+<link rel="canonical" href="https://dev.qiwei.dev/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.3613efbd0b1772781e8f49935e973cae632a7f61471c05b17be155505ccf87b5.css" integrity="sha256-NhPvvQsXcngej0mTXpc8rmMqf2FHHAWxe&#43;FVUFzPh7U=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://dev.qiwei.dev/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://dev.qiwei.dev/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://dev.qiwei.dev/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://dev.qiwei.dev/apple-touch-icon.png">
+<link rel="mask-icon" href="https://dev.qiwei.dev/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" type="application/rss+xml" href="https://dev.qiwei.dev/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/index.xml">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="设计模式" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://dev.qiwei.dev/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="设计模式"/>
+<meta name="twitter:description" content=""/>
+
+</head>
+
+<body class="list" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://dev.qiwei.dev/" accesskey="h" title="我的博客 (Alt + H)">我的博客</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://dev.qiwei.dev/posts" title="Blogs">
+                    <span>Blogs</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://dev.qiwei.dev/categories/" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://dev.qiwei.dev/tags/" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://dev.qiwei.dev/about/" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main"> 
+<header class="page-header">
+  <h1>
+    设计模式
+  </h1>
+</header>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>设计模式学习-组合模式（Composite）
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>意图： 将对象组合成树形结构以表示“部分-整体”的层次结构。Composite使得用户对单个对象和组合对象的使用具有一致性。
+结构： 参与者
+Component(Graphic) 为组合中的对象声明接口。 在适当的情况下，实现所有类共有接口的缺省行为。 (可选)在递归结构中定义一个接口，用于访问一个父部件，并在合适的情况下实现它。 Leaf(Rectangle、Line、Text等) 在组合中表示叶节点对象，叶节点没有子节点。 在组合中定义图元对象的行为。 Composite(Picture) 定义有子部件的那些部件的行为。 存储子部件。 在Component接口中实现与子部件有关的操作。 Client 通过Component接口操纵组合部件的对象。 代码示例： Component
+public interface Component { public void operation(); public void add(Component item); void remove(Component item); public Component getChild(int i); } Composite
+public class Composite implements Component { private List&lt;Component&gt; children = new ArrayList&lt;Component&gt;(); @Override public void operation() { for (Component child : children) { child.operation(); } } @Override public void add(Component item) { this....</p>
+  </div>
+  <footer class="entry-footer"><span title='2013-08-08 15:27:00 +0800 CST'>August 8, 2013</span></footer>
+  <a class="entry-link" aria-label="post link to 设计模式学习-组合模式（Composite）" href="https://dev.qiwei.dev/posts/coding/design-patterns/design-patterns-composite/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>原型工厂模式
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>顾名思义就是原型模式和工厂模式的结合。在GOF的书里面，抽象工厂那节中对这个有描述，不过内容很少，所以看的时候也没注意到。
+说个实际的问题：系统需要向用户发送短信，但是根据场景的不同，发送的短信格式也不同，比如重置密码和发送临时验证码的短信格式就有区别，而之前的开发人员使用了策略模式，每个内容都有一个类，现在也不方便去改动这些。但是随需求的增加，发送的场景在不断增加，策略&#43;工厂方法模式的情况下需要去增加更多的if-else，导致扩展困难，也使得调用时候不直观。
+本人自认为自己小脑瓜没有能力想出好办法，只好去翻下书籍，无意中看到了抽象工厂内介绍原型工厂的内容，想着可以借鉴。如果依靠一定规范的传入参数，通过if-else来判断需要使用的算法闲代码忒长，那么不为什么不直接传入算法呢。当然传入算法的类的话太费资源，但是传个Class或Class Name不适问题。
+参数就是用枚举，这比String参数好，原因是String可以传入任何字符串，而枚举只能是枚举内的指定值，枚举代码如下：
+public enum MessageBuilderEnum { RESET_PASSWORD_SMS(ResetPwSmsMsgSendServiceImpl.class), RESET_PASSWORD_EMAIL(ResetPwMailMsgSendServiceImpl.class), SMS_FEE(SmsFeeMsgSendServiceImpl.class), TEMP_CODE_SMS(TempCodeSmsMsgSendServiceImpl.class), UNIVERSAL_SMS(BoundMsgSendServiceImpl.class); private Class&lt;?&gt; builderClass; MessageBuilderEnum(Class&lt;?&gt; builderClass) { this.builderClass = builderClass; } public Class&lt;?&gt; getBuidlerClass() { return builderClass; } } 再看下功能实现的代码
+private static ConcurrentHashMap&lt;String, AbstractMsgSendServiceImpl&gt; messageBuilder = new ConcurrentHashMap&lt;String, AbstractMsgSendServiceImpl&gt;(); public MessageSendServiceImpl() { for (MessageBuilderEnum builderClass : MessageBuilderEnum.values()) { try { messageBuilder.put(builderClass.getBuidlerClass() .getSimpleName(), (AbstractMsgSendServiceImpl) builderClass .getBuidlerClass().newInstance()); } catch (InstantiationException e) { logger.error(e.getMessage(), e); } catch (IllegalAccessException e) { logger....</p>
+  </div>
+  <footer class="entry-footer"><span title='2013-07-31 13:58:00 +0800 CST'>July 31, 2013</span></footer>
+  <a class="entry-link" aria-label="post link to 原型工厂模式" href="https://dev.qiwei.dev/posts/coding/design-patterns/design-patterns-prototype-factory/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>设计模式学习-桥接模式（Bridge）
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>意图 将抽象部分与它的实现部分分离，使它们都可以独立地变化。
+别名 Handle/Body
+结构 参与者
+Abstraction
+— 定义抽象类的接口。
+— 维护一个指向Implementor类型对象的指针。 RefinedAbstraction
+— 扩充由Abstraction定义的接口。 Implementor
+— 定义实现类的接口，该接口不一定要与Abstraction的接口完全一致；事实上这两个接口可以完全不同。一般来讲，Implementor接口仅提供基本操作，而Abstraction则定义了基于这些基本操作的较高层次的操作。 ConcreteImplementor
+— 实现Implementor接口并定义它的具体实现。 示例代码： public abstract class Abstraction { private Implementor impl; public Implementor getImpl() { return impl; } public void setImpl(Implementor impl) { this.impl = impl; } public Abstraction(Implementor impl) { this.impl = impl; } public abstract void operation(); } public class RefinedAbstraction extends Abstraction { public RefinedAbstraction(Implementor impl) { super(impl); } @Override public void operation() { getImpl()....</p>
+  </div>
+  <footer class="entry-footer"><span title='2013-07-31 13:44:00 +0800 CST'>July 31, 2013</span></footer>
+  <a class="entry-link" aria-label="post link to 设计模式学习-桥接模式（Bridge）" href="https://dev.qiwei.dev/posts/coding/design-patterns/design-patterns-bridge/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>设计模式学习-适配器（Adapter）
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>如果你知道电源适配器的作用，就应该很容易理解这个模式。
+意图： 将一个类的接口转换成客户希望的另外一个接口。 Adapter模式使得原本由于接口不兼容而不能一起工作的那些类可以一起工作。
+别名： 包装器 Wrapper
+结构： 类适配器
+对象适配器
+适用： 以下情况使用Adapter模式
+你想使用一个已经存在的类，而它的接口不符合你的需求。 你想创建一个可以复用的类，该类可以与其他不相关的类或不可预见的类（即那些接口可能不一定兼容的类）协同工作。 （仅适用于对象Adapter）你想使用一些已经存在的子类，但是不可能对每一个都进行子类化以匹配它们的接口。对象适配器可以适配它的父类接口。 双向适配器： 一般适配器对使用target接口的透明，无法给使用adaptee接口的使用。双向适配器可以解决这个问题，使适配器更透明。
+相关模式： 模式Bridge的结构与对象适配器类似，但是Bridge模式的出发点不同：Bridge目的是将接口部分和实现部分分离，从而对它们可以较为容易也相对独立的加以改变。而Adapter则意味着改变一个已有对象的接口。
+Decorator模式增强了其他对象的功能而同时又不改变它的接口。因此Decorator对应用程序的透明性比适配器要好。结果是Decorator支持递归组合，而纯粹使用适配器是不可能实现这一点的。
+模式Proxy在不改变它的接口的条件下，为另一个对象定义了一个代理。</p>
+  </div>
+  <footer class="entry-footer"><span title='2013-07-31 12:26:00 +0800 CST'>July 31, 2013</span></footer>
+  <a class="entry-link" aria-label="post link to 设计模式学习-适配器（Adapter）" href="https://dev.qiwei.dev/posts/coding/design-patterns/design-patterns-adapter/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>设计模式学习-创建型模式
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>用于创建对象的模式。包括单件模式（Singleton）、抽象工厂模式（Abstract Factory）、生成器模式（Builder）、工厂方法模式（Factory Method）、原型模式（Prototype）。
+用一个系统创建的那些对象的类对系统进行参数化有两种常用方法：
+一、生成创建对象的类的子类；这对应于使用 Factory Method模式。这种方法的主要缺点是，仅为了改变产品类，就可能需要创建一个新的子类。这样的改变可能是级联的。
+二、对系统进行参数化的方法更多的依赖于对象复合：定义一个对象负责明确产品对象的类，并将它作为该系统的参数。这是 Abstract Factory、Builder和Prototype模式的关键特征。所有这三个模式都涉及到创建一个新的负责创建产品对象的“工厂对象”。Abstract Factory由这个工厂对象产生多个类的对象。 Builder由这个工厂对象使用一个相对复杂的协议，逐步创建一个复杂产品。 Prototype由该工厂对象通过拷贝原型对象来创建产品对象。
+如何选择： 使用Abstract Factory、Prototype或Builder的设计甚至比使用Factory Method的那些设计更灵活，但它们也更加复杂。通常，设计以使用 Factory Method开始，并且当设计者发现需要更大的灵活性时，设计便会向其他创建型模式演化。
+当然没必要就不要用。</p>
+  </div>
+  <footer class="entry-footer"><span title='2013-07-31 09:59:00 +0800 CST'>July 31, 2013</span></footer>
+  <a class="entry-link" aria-label="post link to 设计模式学习-创建型模式" href="https://dev.qiwei.dev/posts/coding/design-patterns/design-patterns-creational-pattern/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>设计模式学习-单件（Singleton）
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>意图： 保证一个类仅有一个实例，并提供一个访问它的全局访问点。
+结构图： 代码示例： public class Singleton { private static Singleton instance = new Singleton(); private Singleton() { } public static Singleton getInstance() { return instance; } public void test() { System.out.println(&#34;Singleton test&#34;); } public static void main(String[] args) { Singleton s = Singleton.getInstance(); s.test(); } } 效果： 因为Singleton类封装它的唯一实例，所以它可以严格的控制。
+注意： Singleton不是说只能唯一，也可以控制其实例的数量，对多个实例的创建和控制。
+Singleton类可以有子类，而且用这个扩展类的实例来配置一个应用是很容易的。你可以用你所需要的类的实例在运行时刻配置应用。
+实现： 保证一个唯一的实例是该模式的重点，不同语言对此有不同的方法。面对语言特性，还需要注意并发同步等问题。
+相关模式： Abstract Factory、Builder、Prototype都可以用Singleton实现。</p>
+  </div>
+  <footer class="entry-footer"><span title='2013-07-31 09:39:00 +0800 CST'>July 31, 2013</span></footer>
+  <a class="entry-link" aria-label="post link to 设计模式学习-单件（Singleton）" href="https://dev.qiwei.dev/posts/coding/design-patterns/design-patterns-singleton/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>设计模式学习-工厂方法（Factory Method）
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>意图： 定义一个用于创建对象的接口，让子类决定实例化哪一个类。 Factory Method使一个类的实例化延迟到其子类。
+别名： 虚构造器（Virtual Constructor）
+结构： Product
+— 定义工厂方法所创建的对象的接口。 ConcreteProduct
+— 实现Productt接口。 Creator
+— 声明工厂方法，该方法返回一个 Product类型的对象。Creator也可以定义一个工厂方法的缺省实现，它返回一个缺省的 ConcreteProduct对象。 ConcreteProduct对象 — 可以调用工厂方法以创建一个Product对象。 ConcreteCreator
+— 重定义工厂方法以返回一个ConcreteProduct实例。 代码示例： Creator类
+public abstract class Creator { protected abstract Product factoryMethod(); public void anOperation() { Product product = factoryMethod(); //do some thing } } ConcreteCreator类
+public class ConcreteCreator extends Creator { @Override protected Product factoryMethod() { return new ConcreteProduct(); } } 问题： 可能仅为了创建适当的 Product对象而迫使你创建Creator子类。
+适用性： 一个系统要独立于它的产品的创建、组合和表示时。 一个系统要由多个产品系列中的一个来配置时。 当你要强调一系列相关的产品对象的设计以便进行联合使用时。 当你提供一个产品类库，而只想显示它们的接口而不是实现时。 相关模式： Abstract Factory经常用工厂方法来实现； 工厂方法通常在Template Method中被调用； Prototype不需要创建Creator的子类。但是，它们通常要求一个针对Product类的Initialize操作。Creator使用Initialize来初始化对象。而Factory Method不需要这样的操作。 </p>
+  </div>
+  <footer class="entry-footer"><span title='2013-07-30 16:21:00 +0800 CST'>July 30, 2013</span></footer>
+  <a class="entry-link" aria-label="post link to 设计模式学习-工厂方法（Factory Method）" href="https://dev.qiwei.dev/posts/coding/design-patterns/design-patterns-factory-method/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>设计模式学习-生成器（Builder）
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>用来构建复杂的实例，java的StringBuilder就是一个Builder模式的例子。
+意图： 将一个复杂对象的构建与它的表示分离，使得同样的构建过程可以创建不同的表示
+结构： 代码示例： Builder类
+public abstract class Builder { protected String product; public Builder() { product = new String(&#34;&#34;); } public void buildPart(String part) { //默认空实现 } public String getResult() { return product; } } ConcreteBuilder类
+public class ConcreteBuilder extends Builder { @Override public void buildPart(String part) { product &#43;= part; } } Director类
+public class Director { private Builder builder; public Director(Builder builder) { this.builder = builder; } public void Construct() { for (int i = 0; i &lt; 10; i&#43;&#43;) { builder....</p>
+  </div>
+  <footer class="entry-footer"><span title='2013-07-30 15:56:00 +0800 CST'>July 30, 2013</span></footer>
+  <a class="entry-link" aria-label="post link to 设计模式学习-生成器（Builder）" href="https://dev.qiwei.dev/posts/coding/design-patterns/design-patterns-builder/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>设计模式学习-抽象工厂（Abstract Factory）
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>意图： 提供一个创建一系列相关或相互依赖对象的接口，而无需指定它们具体的类 。
+别名： Kit
+结构： 代码示例： AbstractFactory类
+public abstract class AbstractFactory { public abstract AbstractProductA createProductA(); public abstract AbstractProductB createProductB(); } ConcreteFactory类
+public class ConcreteFactory1 extends AbstractFactory { @Override public AbstractProductA createProductA() { return new ProductA1(); } @Override public AbstractProductB createProductB() { return new ProductB1(); } } public class ConcreteFactory2 extends AbstractFactory { @Override public AbstractProductA createProductA() { return new ProductA2(); } @Override public AbstractProductB createProductB() { return new ProductB2(); } } AbstractProduct类...</p>
+  </div>
+  <footer class="entry-footer"><span title='2013-07-29 16:56:00 +0800 CST'>July 29, 2013</span></footer>
+  <a class="entry-link" aria-label="post link to 设计模式学习-抽象工厂（Abstract Factory）" href="https://dev.qiwei.dev/posts/coding/design-patterns/design-patterns-abstract-factory/"></a>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="https://dev.qiwei.dev/">我的博客</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

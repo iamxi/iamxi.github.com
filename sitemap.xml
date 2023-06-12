@@ -5,27 +5,100 @@
     <loc>https://dev.qiwei.dev/about/</loc>
     <lastmod>2023-06-01T14:12:43+08:00</lastmod>
   </url><url>
-    <loc>https://dev.qiwei.dev/posts/java/itext-absolute-position/</loc>
-    <lastmod>2011-05-12T12:02:00+08:00</lastmod>
-  </url><url>
-    <loc>https://dev.qiwei.dev/tags/java/</loc>
-    <lastmod>2011-05-12T12:02:00+08:00</lastmod>
+    <loc>https://dev.qiwei.dev/tags/design-patterns/</loc>
+    <lastmod>2013-08-08T15:27:00+08:00</lastmod>
   </url><url>
     <loc>https://dev.qiwei.dev/posts/</loc>
-    <lastmod>2011-05-12T12:02:00+08:00</lastmod>
+    <lastmod>2013-08-08T15:27:00+08:00</lastmod>
   </url><url>
     <loc>https://dev.qiwei.dev/tags/</loc>
-    <lastmod>2011-05-12T12:02:00+08:00</lastmod>
+    <lastmod>2013-08-08T15:27:00+08:00</lastmod>
   </url><url>
     <loc>https://dev.qiwei.dev/</loc>
-    <lastmod>2011-05-12T12:02:00+08:00</lastmod>
+    <lastmod>2013-08-08T15:27:00+08:00</lastmod>
   </url><url>
-    <loc>https://dev.qiwei.dev/posts/java/apache-ant-unzip-chinese/</loc>
-    <lastmod>2011-03-04T12:01:00+08:00</lastmod>
+    <loc>https://dev.qiwei.dev/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/</loc>
+    <lastmod>2013-08-08T15:27:00+08:00</lastmod>
   </url><url>
-    <loc>https://dev.qiwei.dev/posts/java/web-pic-stream/</loc>
-    <lastmod>2010-12-08T22:35:00+08:00</lastmod>
+    <loc>https://dev.qiwei.dev/posts/coding/design-patterns/design-patterns-composite/</loc>
+    <lastmod>2013-08-08T15:27:00+08:00</lastmod>
+  </url><url>
+    <loc>https://dev.qiwei.dev/posts/coding/design-patterns/design-patterns-prototype-factory/</loc>
+    <lastmod>2013-07-31T13:58:00+08:00</lastmod>
+  </url><url>
+    <loc>https://dev.qiwei.dev/posts/coding/design-patterns/design-patterns-bridge/</loc>
+    <lastmod>2013-07-31T13:44:00+08:00</lastmod>
+  </url><url>
+    <loc>https://dev.qiwei.dev/posts/coding/design-patterns/design-patterns-adapter/</loc>
+    <lastmod>2013-07-31T12:26:00+08:00</lastmod>
+  </url><url>
+    <loc>https://dev.qiwei.dev/posts/coding/design-patterns/design-patterns-creational-pattern/</loc>
+    <lastmod>2013-07-31T09:59:00+08:00</lastmod>
+  </url><url>
+    <loc>https://dev.qiwei.dev/posts/coding/design-patterns/design-patterns-singleton/</loc>
+    <lastmod>2013-07-31T09:39:00+08:00</lastmod>
+  </url><url>
+    <loc>https://dev.qiwei.dev/posts/coding/design-patterns/design-patterns-prototype/</loc>
+    <lastmod>2013-07-30T17:23:00+08:00</lastmod>
+  </url><url>
+    <loc>https://dev.qiwei.dev/posts/coding/design-patterns/design-patterns-factory-method/</loc>
+    <lastmod>2013-07-30T16:21:00+08:00</lastmod>
+  </url><url>
+    <loc>https://dev.qiwei.dev/posts/coding/design-patterns/design-patterns-builder/</loc>
+    <lastmod>2013-07-30T15:56:00+08:00</lastmod>
+  </url><url>
+    <loc>https://dev.qiwei.dev/posts/coding/design-patterns/design-patterns-abstract-factory/</loc>
+    <lastmod>2013-07-29T16:56:00+08:00</lastmod>
+  </url><url>
+    <loc>https://dev.qiwei.dev/posts/coding/refactioring/refactioring-read-3/</loc>
+    <lastmod>2013-07-29T13:28:00+08:00</lastmod>
+  </url><url>
+    <loc>https://dev.qiwei.dev/tags/refactioring/</loc>
+    <lastmod>2013-07-29T13:28:00+08:00</lastmod>
+  </url><url>
+    <loc>https://dev.qiwei.dev/tags/%E9%87%8D%E6%9E%84/</loc>
+    <lastmod>2013-07-29T13:28:00+08:00</lastmod>
+  </url><url>
+    <loc>https://dev.qiwei.dev/posts/coding/refactioring/refactioring-read-2/</loc>
+    <lastmod>2013-07-29T13:09:00+08:00</lastmod>
+  </url><url>
+    <loc>https://dev.qiwei.dev/posts/coding/refactioring/refactioring-read-1/</loc>
+    <lastmod>2013-07-28T22:01:00+08:00</lastmod>
+  </url><url>
+    <loc>https://dev.qiwei.dev/tags/eclipse/</loc>
+    <lastmod>2013-07-26T12:02:00+08:00</lastmod>
+  </url><url>
+    <loc>https://dev.qiwei.dev/posts/tool/eclipse-green-color-theme/</loc>
+    <lastmod>2013-07-26T12:02:00+08:00</lastmod>
   </url><url>
     <loc>https://dev.qiwei.dev/categories/</loc>
+    <lastmod>2013-07-25T21:51:00+08:00</lastmod>
+  </url><url>
+    <loc>https://dev.qiwei.dev/categories/%E5%85%B6%E4%BB%96/</loc>
+    <lastmod>2013-07-25T21:51:00+08:00</lastmod>
+  </url><url>
+    <loc>https://dev.qiwei.dev/posts/other/my-first-blog/</loc>
+    <lastmod>2013-07-25T21:51:00+08:00</lastmod>
+  </url><url>
+    <loc>https://dev.qiwei.dev/tags/java/</loc>
+    <lastmod>2012-08-04T23:00:00+08:00</lastmod>
+  </url><url>
+    <loc>https://dev.qiwei.dev/posts/coding/mybatis-special-map/</loc>
+    <lastmod>2012-08-04T23:00:00+08:00</lastmod>
+  </url><url>
+    <loc>https://dev.qiwei.dev/posts/coding/java-varargs-method-overload/</loc>
+    <lastmod>2012-04-28T12:00:00+08:00</lastmod>
+  </url><url>
+    <loc>https://dev.qiwei.dev/posts/coding/hibernate-cannot-cast/</loc>
+    <lastmod>2011-11-03T21:41:00+08:00</lastmod>
+  </url><url>
+    <loc>https://dev.qiwei.dev/posts/coding/itext-absolute-position/</loc>
+    <lastmod>2011-05-12T12:02:00+08:00</lastmod>
+  </url><url>
+    <loc>https://dev.qiwei.dev/posts/coding/apache-ant-unzip-chinese/</loc>
+    <lastmod>2011-03-04T12:01:00+08:00</lastmod>
+  </url><url>
+    <loc>https://dev.qiwei.dev/posts/coding/web-pic-stream/</loc>
+    <lastmod>2010-12-08T22:35:00+08:00</lastmod>
   </url>
 </urlset>

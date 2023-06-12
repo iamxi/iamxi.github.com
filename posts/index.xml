@@ -6,31 +6,201 @@
     <description>Recent content in Posts on 我的博客</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Thu, 12 May 2011 12:02:00 +0800</lastBuildDate><atom:link href="https://dev.qiwei.dev/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 08 Aug 2013 15:27:00 +0800</lastBuildDate><atom:link href="https://dev.qiwei.dev/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>设计模式学习-组合模式（Composite）</title>
+      <link>https://dev.qiwei.dev/posts/coding/design-patterns/design-patterns-composite/</link>
+      <pubDate>Thu, 08 Aug 2013 15:27:00 +0800</pubDate>
+      
+      <guid>https://dev.qiwei.dev/posts/coding/design-patterns/design-patterns-composite/</guid>
+      <description>组合模式将对象组合成树形结构以表示“部分 -整体”的层次结构。Composite使得用户对单个对象和组合对象的使用具有一致性。</description>
+    </item>
+    
+    <item>
+      <title>原型工厂模式</title>
+      <link>https://dev.qiwei.dev/posts/coding/design-patterns/design-patterns-prototype-factory/</link>
+      <pubDate>Wed, 31 Jul 2013 13:58:00 +0800</pubDate>
+      
+      <guid>https://dev.qiwei.dev/posts/coding/design-patterns/design-patterns-prototype-factory/</guid>
+      <description>顾名思义就是原型模式和工厂模式的结合。在GOF的书里面，抽象工厂那节中对这个有描述，不过内容很少，所以看的时候也没注意到。</description>
+    </item>
+    
+    <item>
+      <title>设计模式学习-桥接模式（Bridge）</title>
+      <link>https://dev.qiwei.dev/posts/coding/design-patterns/design-patterns-bridge/</link>
+      <pubDate>Wed, 31 Jul 2013 13:44:00 +0800</pubDate>
+      
+      <guid>https://dev.qiwei.dev/posts/coding/design-patterns/design-patterns-bridge/</guid>
+      <description>桥接模式将抽象部分与它的实现部分分离，使它们都可以独立地变化。</description>
+    </item>
+    
+    <item>
+      <title>设计模式学习-适配器（Adapter）</title>
+      <link>https://dev.qiwei.dev/posts/coding/design-patterns/design-patterns-adapter/</link>
+      <pubDate>Wed, 31 Jul 2013 12:26:00 +0800</pubDate>
+      
+      <guid>https://dev.qiwei.dev/posts/coding/design-patterns/design-patterns-adapter/</guid>
+      <description>将一个类的接口转换成客户希望的另外一个接口。 Adapter模式使得原本由于接口不兼容而不能一起工作的那些类可以一起工作。</description>
+    </item>
+    
+    <item>
+      <title>设计模式学习-创建型模式</title>
+      <link>https://dev.qiwei.dev/posts/coding/design-patterns/design-patterns-creational-pattern/</link>
+      <pubDate>Wed, 31 Jul 2013 09:59:00 +0800</pubDate>
+      
+      <guid>https://dev.qiwei.dev/posts/coding/design-patterns/design-patterns-creational-pattern/</guid>
+      <description>用于创建对象的模式。包括单件模式（Singleton）、抽象工厂模式（Abstract Factory）、生成器模式（Builder）、工厂方法模式（Factory Method）、原型模式（Prototype）。</description>
+    </item>
+    
+    <item>
+      <title>设计模式学习-单件（Singleton）</title>
+      <link>https://dev.qiwei.dev/posts/coding/design-patterns/design-patterns-singleton/</link>
+      <pubDate>Wed, 31 Jul 2013 09:39:00 +0800</pubDate>
+      
+      <guid>https://dev.qiwei.dev/posts/coding/design-patterns/design-patterns-singleton/</guid>
+      <description>单件可以保证一个类仅有一个实例，并提供一个访问它的全局访问点。</description>
+    </item>
+    
+    <item>
+      <title>设计模式学习-原型（Prototype）</title>
+      <link>https://dev.qiwei.dev/posts/coding/design-patterns/design-patterns-prototype/</link>
+      <pubDate>Tue, 30 Jul 2013 17:23:00 +0800</pubDate>
+      
+      <guid>https://dev.qiwei.dev/posts/coding/design-patterns/design-patterns-prototype/</guid>
+      <description>用原型实例指定创建对象的种类，并且通过拷贝这些原型创建新的对象。</description>
+    </item>
+    
+    <item>
+      <title>设计模式学习-工厂方法（Factory Method）</title>
+      <link>https://dev.qiwei.dev/posts/coding/design-patterns/design-patterns-factory-method/</link>
+      <pubDate>Tue, 30 Jul 2013 16:21:00 +0800</pubDate>
+      
+      <guid>https://dev.qiwei.dev/posts/coding/design-patterns/design-patterns-factory-method/</guid>
+      <description>定义一个用于创建对象的接口，让子类决定实例化哪一个类。 Factory Method使一个类的实例化延迟到其子类。</description>
+    </item>
+    
+    <item>
+      <title>设计模式学习-生成器（Builder）</title>
+      <link>https://dev.qiwei.dev/posts/coding/design-patterns/design-patterns-builder/</link>
+      <pubDate>Tue, 30 Jul 2013 15:56:00 +0800</pubDate>
+      
+      <guid>https://dev.qiwei.dev/posts/coding/design-patterns/design-patterns-builder/</guid>
+      <description>将一个复杂对象的构建与它的表示分离，使得同样的构建过程可以创建不同的表示，java的StringBuilder就是一个Builder模式的例子。</description>
+    </item>
+    
+    <item>
+      <title>设计模式学习-抽象工厂（Abstract Factory）</title>
+      <link>https://dev.qiwei.dev/posts/coding/design-patterns/design-patterns-abstract-factory/</link>
+      <pubDate>Mon, 29 Jul 2013 16:56:00 +0800</pubDate>
+      
+      <guid>https://dev.qiwei.dev/posts/coding/design-patterns/design-patterns-abstract-factory/</guid>
+      <description>抽象工厂，提供一个创建一系列相关或相互依赖对象的接口，而无需指定它们具体的类。</description>
+    </item>
+    
+    <item>
+      <title>《重构》学习笔记-构筑测试系统与大型重构</title>
+      <link>https://dev.qiwei.dev/posts/coding/refactioring/refactioring-read-3/</link>
+      <pubDate>Mon, 29 Jul 2013 13:28:00 +0800</pubDate>
+      
+      <guid>https://dev.qiwei.dev/posts/coding/refactioring/refactioring-read-3/</guid>
+      <description>学习《重构 改善既有代码的设计》，了解测试对重构的意义和作用，以及大型的重构。</description>
+    </item>
+    
+    <item>
+      <title>《重构》学习笔记-代码的坏味道</title>
+      <link>https://dev.qiwei.dev/posts/coding/refactioring/refactioring-read-2/</link>
+      <pubDate>Mon, 29 Jul 2013 13:09:00 +0800</pubDate>
+      
+      <guid>https://dev.qiwei.dev/posts/coding/refactioring/refactioring-read-2/</guid>
+      <description>学习《重构 改善既有代码的设计》，认识代码的坏味道。</description>
+    </item>
+    
+    <item>
+      <title>《重构》学习笔记-重构原则</title>
+      <link>https://dev.qiwei.dev/posts/coding/refactioring/refactioring-read-1/</link>
+      <pubDate>Sun, 28 Jul 2013 22:01:00 +0800</pubDate>
+      
+      <guid>https://dev.qiwei.dev/posts/coding/refactioring/refactioring-read-1/</guid>
+      <description>学习《重构 改善既有代码的设计》的笔记，了解如何重构以及重构的时机。</description>
+    </item>
+    
+    <item>
+      <title>保护眼睛，设置eclipse文本编辑背景色为自然绿</title>
+      <link>https://dev.qiwei.dev/posts/tool/eclipse-green-color-theme/</link>
+      <pubDate>Fri, 26 Jul 2013 12:02:00 +0800</pubDate>
+      
+      <guid>https://dev.qiwei.dev/posts/tool/eclipse-green-color-theme/</guid>
+      <description>保护眼睛，设置eclipse文本编辑背景色为自然绿，“色调”的参数设置为85，把“饱和度”参数设置为123，把“亮度”参.数设置为205 红199 绿237 蓝204</description>
+    </item>
+    
+    <item>
+      <title>我的第一篇博文</title>
+      <link>https://dev.qiwei.dev/posts/other/my-first-blog/</link>
+      <pubDate>Thu, 25 Jul 2013 21:51:00 +0800</pubDate>
+      
+      <guid>https://dev.qiwei.dev/posts/other/my-first-blog/</guid>
+      <description>终于有了自己的域名，在Github上开了自己的博客。之前也坚持写过博客，可惜赶上妻子怀孕和儿子出生，忙里忙外了一年后，博客就再没更新。这次申请了自己的域名，就是希望给自己点动力，再开始自己的博客。</description>
+    </item>
+    
+    <item>
+      <title>Mybatis返回特殊Map</title>
+      <link>https://dev.qiwei.dev/posts/coding/mybatis-special-map/</link>
+      <pubDate>Sat, 04 Aug 2012 23:00:00 +0800</pubDate>
+      
+      <guid>https://dev.qiwei.dev/posts/coding/mybatis-special-map/</guid>
+      <description>想返回个特殊实体，一个Map，key是一个表的一个字段的值，value是另一个表的所有记录。参考了下网上的“攻略”，不过和攻略里面讲的有点不同，那里面key的值value的实体实在同一个表内，如果不同表，会报缺少set方法的异常。解决方法很简单，就是在实体里面加个字段对应的属性。但是并不愿意为了一个查询语句就要去改变实体。
+无聊看了下session的select，提供了通过 ResultHandler 来处理返回的结果集。所以尝试着解决这个问题。
+mapper.xml里面的配置如下：
+&amp;lt;resultMap type=&amp;#34;HashMap&amp;#34; id=&amp;#34;testMap&amp;#34;&amp;gt; &amp;lt;result column=&amp;#34;UA_INFO&amp;#34; property=&amp;#34;key&amp;#34; /&amp;gt; &amp;lt;association property=&amp;#34;value&amp;#34; resultMap=&amp;#34;com.xxx.xxx.BaseResultMap&amp;#34;&amp;gt; &amp;lt;/association&amp;gt; &amp;lt;/resultMap&amp;gt; &amp;lt;select id=&amp;#34;getUaMapByTimestamp&amp;#34; parameterType=&amp;#34;Map&amp;#34; resultMap=&amp;#34;testMap&amp;#34;&amp;gt; SQL语句 &amp;lt;/select&amp;gt; com.xxx.xxx.BaseResultMap是另一个实体的mapper的resultMap。这个查询，返回的每一条记录都是 {key=..., value=...}
+这个结果集并不符合要求。不过通过ResultHandler来处理每一条记录就可以达到要求了。
+看下Mybatis源码里面有关继承 ResultHandler 的 DefaultMapResultHandler类。
+public class DefaultMapResultHandler&amp;lt;K, V&amp;gt; implements ResultHandler { private final Map&amp;lt;K, V&amp;gt; mappedResults; private final String mapKey; @SuppressWarnings(&amp;#34;unchecked&amp;#34;) public DefaultMapResultHandler(String mapKey, ObjectFactory objectFactory) { this.mappedResults = objectFactory.create(Map.class); this.mapKey = mapKey; } public void handleResult(ResultContext context) { // TODO is that assignment always true?</description>
+    </item>
+    
+    <item>
+      <title>Java可变参数方法及它的重载</title>
+      <link>https://dev.qiwei.dev/posts/coding/java-varargs-method-overload/</link>
+      <pubDate>Sat, 28 Apr 2012 12:00:00 +0800</pubDate>
+      
+      <guid>https://dev.qiwei.dev/posts/coding/java-varargs-method-overload/</guid>
+      <description>Java可变参数方法及它的重载</description>
+    </item>
+    
+    <item>
+      <title>Hibernate获取返回值报XXX connot be cast to [Ljava.lang.Object</title>
+      <link>https://dev.qiwei.dev/posts/coding/hibernate-cannot-cast/</link>
+      <pubDate>Thu, 03 Nov 2011 21:41:00 +0800</pubDate>
+      
+      <guid>https://dev.qiwei.dev/posts/coding/hibernate-cannot-cast/</guid>
+      <description>今天在测试时候发现在获取Hibernate返回数据时候报 java.math.BigDecimal cannot be cast to \[Ljava.lang.Object 异常，但是查看了代码，很简单也很平常，createNativeQuery执行，getResultList获取结果集，每行都用Object[]类型。调试时候发现返回结果集为[2]，也就是就一行且一个。也就是说，每行的类型不再是 Object[]。
+按以往， getResultList 的返回是一个 List(Object\[\])，当如果返回只有一个，比如1或2是，类型就变成了该数据库字段所对应的类型，在我这里就是BigDecimal。
+真是不明白，多个就是Object[]，一个就变成不是数组了。 Hibernate莫名其妙啊。发下牢骚。。。</description>
+    </item>
+    
     <item>
       <title>itext中文本的绝对位置放置</title>
-      <link>https://dev.qiwei.dev/posts/java/itext-absolute-position/</link>
+      <link>https://dev.qiwei.dev/posts/coding/itext-absolute-position/</link>
       <pubDate>Thu, 12 May 2011 12:02:00 +0800</pubDate>
       
-      <guid>https://dev.qiwei.dev/posts/java/itext-absolute-position/</guid>
+      <guid>https://dev.qiwei.dev/posts/coding/itext-absolute-position/</guid>
       <description>itext中文本的绝对位置放置</description>
     </item>
     
     <item>
       <title>用apache的ant解压zip文件（中文文件或文件夹解决方法）</title>
-      <link>https://dev.qiwei.dev/posts/java/apache-ant-unzip-chinese/</link>
+      <link>https://dev.qiwei.dev/posts/coding/apache-ant-unzip-chinese/</link>
       <pubDate>Fri, 04 Mar 2011 12:01:00 +0800</pubDate>
       
-      <guid>https://dev.qiwei.dev/posts/java/apache-ant-unzip-chinese/</guid>
+      <guid>https://dev.qiwei.dev/posts/coding/apache-ant-unzip-chinese/</guid>
       <description>用apache的ant解压zip文件（中文文件或文件夹解决方法）</description>
     </item>
     
     <item>
       <title>ClientAbortException: java.net.SocketException:”异常的问题</title>
-      <link>https://dev.qiwei.dev/posts/java/web-pic-stream/</link>
+      <link>https://dev.qiwei.dev/posts/coding/web-pic-stream/</link>
       <pubDate>Wed, 08 Dec 2010 22:35:00 +0800</pubDate>
       
-      <guid>https://dev.qiwei.dev/posts/java/web-pic-stream/</guid>
+      <guid>https://dev.qiwei.dev/posts/coding/web-pic-stream/</guid>
       <description>前几天，在做图片以stream形式输出到页面上展现的时候，后台一直报异常，且页面上图片无法正常现实。异常内容为：
 ClientAbortException: java.net.SocketException: Software caused connection abort: socket write error at org.apache.catalina.connector.OutputBuffer.realWriteBytes(OutputBuffer.java:358) at org.apache.tomcat.util.buf.ByteChunk.flushBuffer(ByteChunk.java:434) at org.apache.catalina.connector.OutputBuffer.doFlush(OutputBuffer.java:309) at org.apache.catalina.connector.OutputBuffer.flush(OutputBuffer.java:288) at org.apache.catalina.connector.CoyoteOutputStream.flush(CoyoteOutputStream.java:98) at javax.imageio.stream.FileCacheImageOutputStream.close(FileCacheImageOutputStream.java:213) ...... 在网上找了好久，发现是个普遍问题，但原因各异，有人总结为：
 1：服务器的并发连接数超过了其承载量，服务器会将其中一些连接Down掉；
