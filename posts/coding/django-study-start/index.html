@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Django基础入门 | 我的博客</title>
+<meta name="keywords" content="Django, Python">
+<meta name="description" content="Django基础">
+<meta name="author" content="">
+<link rel="canonical" href="https://blog.qiwei.dev/posts/coding/django-study-start/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.3613efbd0b1772781e8f49935e973cae632a7f61471c05b17be155505ccf87b5.css" integrity="sha256-NhPvvQsXcngej0mTXpc8rmMqf2FHHAWxe&#43;FVUFzPh7U=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://blog.qiwei.dev/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://blog.qiwei.dev/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://blog.qiwei.dev/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://blog.qiwei.dev/apple-touch-icon.png">
+<link rel="mask-icon" href="https://blog.qiwei.dev/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="Django基础入门" />
+<meta property="og:description" content="Django基础" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://blog.qiwei.dev/posts/coding/django-study-start/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2013-08-29T17:01:00+08:00" />
+<meta property="article:modified_time" content="2013-08-29T17:01:00+08:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Django基础入门"/>
+<meta name="twitter:description" content="Django基础"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://blog.qiwei.dev/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Django基础入门",
+      "item": "https://blog.qiwei.dev/posts/coding/django-study-start/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Django基础入门",
+  "name": "Django基础入门",
+  "description": "Django基础",
+  "keywords": [
+    "Django", "Python"
+  ],
+  "articleBody": "安装： 下载后运行python setup.py install或pip安装\n创建项目： 进入准备创建项目的目录下，运行命令：\ndjango-admin.py startproject xxx django-admin.py在windows（其他系统也可能因为安装不同而不在环境变量里）下不能直接调用，可以将其放入环境变量中或是去python的安装目录下的Lib\\site-packages\\django\\bin下运行。windows下没有关联文件类型的话，上面的命令前需要加上ptyhon，即\npython django-admin.py startproject xxx 创建的项目结构如下：\nprojectname/ |- manage.py |- projectname/ |- __init__.py |- settings.py |- urls.py |- wsgi.py 运行项目： python manage.py runserver 默认端口号是8000，可以指定端口号运行\npython manage.py runserver 8080 访问http://127.0.0.1:8000/可以显示django的默认页面 这种运行方式并非部署，只是运行Development Server，只能可靠的处理一次单个请求。在此模式下代码或配置的变动都会立即生效。\n创建APP： python manage.py startapp xxx APP结构如下：\nAPPname/ |- __init__.py |- models.py |- tests.py |- views.py 进入项目的settings.py下，把新建的APP加入到INSTALLED\\_APPS 中，例如：\nINSTALLED_APPS = ( 'django.contrib.auth', 'django.contrib.contenttypes', 'django.contrib.sessions', 'django.contrib.sites', 'django.contrib.messages', 'django.contrib.staticfiles', # Uncomment the next line to enable the admin: # 'django.contrib.admin', # Uncomment the next line to enable admin documentation: # 'django.contrib.admindocs', 'APPname', ) 第一个视图： 在此假定APP的文件夹名是polls\n1、打开views.py文件，在polls的目录下，键入示例代码：\nfrom django.http import HttpResponse def index(request): return HttpResponse(\"Hello world\") 2、在polls下创建urls.py文件，并编辑加入一下代码：\nfrom django.conf.urls import patterns, url from polls import views urlpatterns = patterns('', url(r'^$', views.index, name='index')) 3、编辑项目工程的urls.py，即projectname/projectname/urls.py，如下：\nfrom django.conf.urls import patterns, include, url urlpatterns = patterns('', url(r'^polls/', include('polls.urls')), ) 4、浏览器地址栏下键入http://127.0.0.1:8000/polls/\n模板： 1、在APP目录下新建文件夹templates，并在项目的settings.py文件下配置模版的路径，示例如下：\nimport os.path ... TEMPLATE_DIRS = ( # Put strings here, like \"/home/html/django_templates\" or \"C:/www/django/templates\". # Always use forward slashes, even on Windows. # Don't forget to use absolute paths, not relative paths. os.path.join(os.path.dirname(__file__), '../polls/templates').replace('\\\\','/'), ) 这边注释已经说的很清楚了，使用绝对路径，如果是windows下使用/代替\\。\n上面的os.path.join(os.path.dirname(__file__), '../polls/templates').replace('\\\\','/'),是来获取settings.py文件的路径然后拼接出模板文件夹的路径。注意后面添加\",\"。\n2、修改views.py文件，如下\nfrom django.shortcuts import render_to_response def index(request): return render_to_response('index.html') 静态文件： 和模板配置类似，在APP目录下新建文件夹static，并在项目的settings.py文件下配置静态文件的路径：\nSTATICFILES_DIRS = ( os.path.join(os.path.dirname(__file__), '../polls/static').replace('\\\\','/'), ) django shell： 一个提供了django的一些api，可以使用项目的上下文的shell，使用命令进入\npython manage.py shell shell下可以调用一些django的api，模型的操作之类\n模型： 1、数据库连接设置\n在settings.py下，设置DATABASES，示例如下：\nDATABASES = { 'default': { 'ENGINE': 'django.db.backends.mysql', 'NAME': 'mysql', 'USER': 'user', 'PASSWORD': 'password', 'HOST': '127.0.0.1', 'PORT': '3306', } } ENGINE的不同数据库的设置如下：\npostgres：‘django.db.backends.postgresql_psycopg2’ mysql：‘django.db.backends.mysql’ sqlite：‘django.db.backends.sqlite3’ oracle：‘django.db.backends.oracle’ 这里python的不同数据库驱动都是要自己安装的，django并不包含这些驱动。\n2、模型文件，在app下打开models.py文件，如下：\nclass Answer(models.Model): ans_id=models.AutoField(primary_key=True) ans_respondent_id=models.IntegerField() ans_question_num=models.IntegerField() ans_answer=models.CharField(max_length=100) 在此，模型是一个类，每个模型都是django.db.models.Model的子类，Model包含了所有必要的数据库操作。一个模型代表着数据库内的一个表，类中属性对应着表的字段。属性的类型相当于数据库的字段类型，如CahrField相当于oracle数据库的varchar2。如果不指定主键，同步的时候django会自动加入一个名为id的自增长主键。\n3、模型的同步，django可以使用定义好的模型在数据库内创建对应的表。同步的前提是已经设置好数据库连接，app已经配置到settings.py中。\n1）在终端输入命令\npython manage.py validate 该命令可以检查模型的语法和逻辑的正确性。\n2）数据库建表语句显示\npython manage.py sqlall appname 会显示创建表的SQL语句,appname是要显示模型所在的app\n3）同步\npython manage.py syncdb 该命令执行完成后数据库就会看到模型对应的表了。该语句多次执行也不会重复创建表。\n4、基本数据操作。一下操作都是在python manage.py shell后执行， 保存\n\u003e\u003e\u003e p1 = Publisher(name='Apress', address='2855 Telegraph Avenue', ... city='Berkeley', state_province='CA', country='U.S.A.', ... website='http://www.apress.com/') \u003e\u003e\u003e p1.save() 查找所有\n\u003e\u003e\u003e publisher_list = Publisher.objects.all() 条件查找（过滤）\n\u003e\u003e\u003e Publisher.objects.filter(name__contains=\"press\") 表单： 表单和模型类型，模型对应的是数据库表，而表单对应的是页面的form。app下建forms.py文件，示例代码如下：\nclass Submitter(forms.Form): username=forms.CharField(max_length=15) userphone=forms.CharField(max_length=11, min_length=11) useremail=forms.EmailField() school=forms.CharField(max_length=20) age=forms.IntegerField() sltype=forms.CharField(max_length=5) 这边每个表单都是继承django.forms。表单名没有特定要求，而其属性是对应的页面上表单中各个组件的name，属性的类型则是对应组件提交数据的类型。\n通过表单提供的方法，可以校验页面所提交的数据，如：\nsForm = Submitter(request.POST) if sForm.is_valid() and qForm.is_valid(): ur = sForm.cleaned_data print(ur['username']) 上面的cleaned_data属性， 是一个包含干净的提交数据的字典。\n表单亦可生成模版代码，即html代码，这样还可以省去编写页面表单的时间。\n",
+  "wordCount" : "303",
+  "inLanguage": "en",
+  "datePublished": "2013-08-29T17:01:00+08:00",
+  "dateModified": "2013-08-29T17:01:00+08:00",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://blog.qiwei.dev/posts/coding/django-study-start/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "我的博客",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://blog.qiwei.dev/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://blog.qiwei.dev/" accesskey="h" title="我的博客 (Alt + H)">我的博客</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://blog.qiwei.dev/posts" title="Blogs">
+                    <span>Blogs</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://blog.qiwei.dev/categories/" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://blog.qiwei.dev/tags/" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://blog.qiwei.dev/about/" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      Django基础入门
+    </h1>
+    <div class="post-description">
+      Django基础
+    </div>
+    <div class="post-meta"><span title='2013-08-29 17:01:00 +0800 CST'>August 29, 2013</span>
+
+</div>
+  </header> 
+  <div class="post-content"><h1 id="安装">安装：<a hidden class="anchor" aria-hidden="true" href="#安装">#</a></h1>
+<p>下载后运行<code>python setup.py install</code>或<code>pip</code>安装</p>
+<h1 id="创建项目">创建项目：<a hidden class="anchor" aria-hidden="true" href="#创建项目">#</a></h1>
+<p>进入准备创建项目的目录下，运行命令：</p>
+<pre><code>django-admin.py startproject xxx
+</code></pre>
+<p>django-admin.py在windows（其他系统也可能因为安装不同而不在环境变量里）下不能直接调用，可以将其放入环境变量中或是去python的安装目录下的<code>Lib\site-packages\django\bin</code>下运行。windows下没有关联文件类型的话，上面的命令前需要加上ptyhon，即</p>
+<pre><code>python django-admin.py startproject xxx
+</code></pre>
+<p>创建的项目结构如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>projectname<span style="color:#f92672">/</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">|-</span> manage<span style="color:#f92672">.</span>py
+</span></span><span style="display:flex;"><span><span style="color:#f92672">|-</span> projectname<span style="color:#f92672">/</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#f92672">|-</span> __init__<span style="color:#f92672">.</span>py
+</span></span><span style="display:flex;"><span>   <span style="color:#f92672">|-</span> settings<span style="color:#f92672">.</span>py
+</span></span><span style="display:flex;"><span>   <span style="color:#f92672">|-</span> urls<span style="color:#f92672">.</span>py
+</span></span><span style="display:flex;"><span>   <span style="color:#f92672">|-</span> wsgi<span style="color:#f92672">.</span>py
+</span></span></code></pre></div><h1 id="运行项目">运行项目：<a hidden class="anchor" aria-hidden="true" href="#运行项目">#</a></h1>
+<pre><code>python manage.py runserver
+</code></pre>
+<p>默认端口号是8000，可以指定端口号运行</p>
+<pre><code>python manage.py runserver 8080
+</code></pre>
+<p>访问http://127.0.0.1:8000/可以显示django的默认页面
+这种运行方式并非部署，只是运行<code>Development Server</code>，只能可靠的处理一次单个请求。在此模式下代码或配置的变动都会立即生效。</p>
+<h1 id="创建app">创建APP：<a hidden class="anchor" aria-hidden="true" href="#创建app">#</a></h1>
+<pre><code>python manage.py startapp xxx
+</code></pre>
+<p>APP结构如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>APPname<span style="color:#f92672">/</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">|-</span> __init__<span style="color:#f92672">.</span>py
+</span></span><span style="display:flex;"><span><span style="color:#f92672">|-</span> models<span style="color:#f92672">.</span>py
+</span></span><span style="display:flex;"><span><span style="color:#f92672">|-</span> tests<span style="color:#f92672">.</span>py
+</span></span><span style="display:flex;"><span><span style="color:#f92672">|-</span> views<span style="color:#f92672">.</span>py
+</span></span></code></pre></div><p>进入项目的<code>settings.py</code>下，把新建的APP加入到<code>INSTALLED\_APPS</code> 中，例如：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>INSTALLED_APPS <span style="color:#f92672">=</span> (
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;django.contrib.auth&#39;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;django.contrib.contenttypes&#39;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;django.contrib.sessions&#39;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;django.contrib.sites&#39;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;django.contrib.messages&#39;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;django.contrib.staticfiles&#39;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Uncomment the next line to enable the admin:</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># &#39;django.contrib.admin&#39;,</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Uncomment the next line to enable admin documentation:</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># &#39;django.contrib.admindocs&#39;,</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;APPname&#39;</span>,
+</span></span><span style="display:flex;"><span>)
+</span></span></code></pre></div><h1 id="第一个视图">第一个视图：<a hidden class="anchor" aria-hidden="true" href="#第一个视图">#</a></h1>
+<p>在此假定APP的文件夹名是polls</p>
+<p>1、打开<code>views.py</code>文件，在<code>polls</code>的目录下，键入示例代码：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> django.http <span style="color:#f92672">import</span> HttpResponse
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">index</span>(request):
+</span></span><span style="display:flex;"><span>     <span style="color:#66d9ef">return</span> HttpResponse(<span style="color:#e6db74">&#34;Hello world&#34;</span>)
+</span></span></code></pre></div><p>2、在polls下创建urls.py文件，并编辑加入一下代码：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> django.conf.urls <span style="color:#f92672">import</span> patterns, url
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> polls <span style="color:#f92672">import</span> views
+</span></span><span style="display:flex;"><span>urlpatterns <span style="color:#f92672">=</span> patterns(<span style="color:#e6db74">&#39;&#39;</span>,
+</span></span><span style="display:flex;"><span>     url(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#39;^$&#39;</span>, views<span style="color:#f92672">.</span>index, name<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;index&#39;</span>))
+</span></span></code></pre></div><p>3、编辑项目工程的<code>urls.py</code>，即<code>projectname/projectname/urls.py</code>，如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> django.conf.urls <span style="color:#f92672">import</span> patterns, include, url
+</span></span><span style="display:flex;"><span>urlpatterns <span style="color:#f92672">=</span> patterns(<span style="color:#e6db74">&#39;&#39;</span>,
+</span></span><span style="display:flex;"><span>    url(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#39;^polls/&#39;</span>, include(<span style="color:#e6db74">&#39;polls.urls&#39;</span>)),
+</span></span><span style="display:flex;"><span>)
+</span></span></code></pre></div><p>4、浏览器地址栏下键入http://127.0.0.1:8000/polls/</p>
+<h1 id="模板">模板：<a hidden class="anchor" aria-hidden="true" href="#模板">#</a></h1>
+<p>1、在APP目录下新建文件夹templates，并在项目的settings.py文件下配置模版的路径，示例如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> os.path
+</span></span><span style="display:flex;"><span><span style="color:#f92672">...</span>
+</span></span><span style="display:flex;"><span>TEMPLATE_DIRS <span style="color:#f92672">=</span> (
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Put strings here, like &#34;/home/html/django_templates&#34; or &#34;C:/www/django/templates&#34;.</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Always use forward slashes, even on Windows.</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Don&#39;t forget to use absolute paths, not relative paths.</span>
+</span></span><span style="display:flex;"><span>     os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>join(os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>dirname(__file__), <span style="color:#e6db74">&#39;../polls/templates&#39;</span>)<span style="color:#f92672">.</span>replace(<span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\\</span><span style="color:#e6db74">&#39;</span>,<span style="color:#e6db74">&#39;/&#39;</span>),
+</span></span><span style="display:flex;"><span>)
+</span></span></code></pre></div><p>这边注释已经说的很清楚了，使用绝对路径，如果是windows下使用/代替\。</p>
+<p>上面的<code>os.path.join(os.path.dirname(__file__), '../polls/templates').replace('\\','/'),</code>是来获取settings.py文件的路径然后拼接出模板文件夹的路径。注意后面添加&quot;,&quot;。</p>
+<p>2、修改views.py文件，如下</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> django.shortcuts <span style="color:#f92672">import</span> render_to_response
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">index</span>(request):
+</span></span><span style="display:flex;"><span>     <span style="color:#66d9ef">return</span> render_to_response(<span style="color:#e6db74">&#39;index.html&#39;</span>)
+</span></span></code></pre></div><h1 id="静态文件">静态文件：<a hidden class="anchor" aria-hidden="true" href="#静态文件">#</a></h1>
+<p>和模板配置类似，在APP目录下新建文件夹static，并在项目的settings.py文件下配置静态文件的路径：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>STATICFILES_DIRS <span style="color:#f92672">=</span> (
+</span></span><span style="display:flex;"><span>     os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>join(os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>dirname(__file__), <span style="color:#e6db74">&#39;../polls/static&#39;</span>)<span style="color:#f92672">.</span>replace(<span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\\</span><span style="color:#e6db74">&#39;</span>,<span style="color:#e6db74">&#39;/&#39;</span>),
+</span></span><span style="display:flex;"><span>)
+</span></span></code></pre></div><h1 id="django-shell">django shell：<a hidden class="anchor" aria-hidden="true" href="#django-shell">#</a></h1>
+<p>一个提供了django的一些api，可以使用项目的上下文的shell，使用命令进入</p>
+<pre><code>python manage.py shell
+</code></pre>
+<p>shell下可以调用一些django的api，模型的操作之类</p>
+<h1 id="模型">模型：<a hidden class="anchor" aria-hidden="true" href="#模型">#</a></h1>
+<p>1、数据库连接设置</p>
+<p>在<code>settings.py</code>下，设置<code>DATABASES</code>，示例如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>DATABASES <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;default&#39;</span>: {
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#39;ENGINE&#39;</span>: <span style="color:#e6db74">&#39;django.db.backends.mysql&#39;</span>, 
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#39;NAME&#39;</span>: <span style="color:#e6db74">&#39;mysql&#39;</span>, 
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#39;USER&#39;</span>: <span style="color:#e6db74">&#39;user&#39;</span>, 
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#39;PASSWORD&#39;</span>: <span style="color:#e6db74">&#39;password&#39;</span>, 
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#39;HOST&#39;</span>: <span style="color:#e6db74">&#39;127.0.0.1&#39;</span>, 
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#39;PORT&#39;</span>: <span style="color:#e6db74">&#39;3306&#39;</span>,
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p><code>ENGINE</code>的不同数据库的设置如下：</p>
+<ul>
+<li>postgres：&lsquo;django.db.backends.postgresql_psycopg2&rsquo;</li>
+<li>mysql：&lsquo;django.db.backends.mysql&rsquo;</li>
+<li>sqlite：&lsquo;django.db.backends.sqlite3&rsquo;</li>
+<li>oracle：&lsquo;django.db.backends.oracle&rsquo;</li>
+</ul>
+<p>这里python的不同数据库驱动都是要自己安装的，django并不包含这些驱动。</p>
+<p>2、模型文件，在app下打开<code>models.py</code>文件，如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Answer</span>(models<span style="color:#f92672">.</span>Model):
+</span></span><span style="display:flex;"><span>     ans_id<span style="color:#f92672">=</span>models<span style="color:#f92672">.</span>AutoField(primary_key<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
+</span></span><span style="display:flex;"><span>     ans_respondent_id<span style="color:#f92672">=</span>models<span style="color:#f92672">.</span>IntegerField()
+</span></span><span style="display:flex;"><span>     ans_question_num<span style="color:#f92672">=</span>models<span style="color:#f92672">.</span>IntegerField()
+</span></span><span style="display:flex;"><span>     ans_answer<span style="color:#f92672">=</span>models<span style="color:#f92672">.</span>CharField(max_length<span style="color:#f92672">=</span><span style="color:#ae81ff">100</span>)
+</span></span></code></pre></div><p>在此，模型是一个类，每个模型都是<code>django.db.models.Model</code>的子类，Model包含了所有必要的数据库操作。一个模型代表着数据库内的一个表，类中属性对应着表的字段。属性的类型相当于数据库的字段类型，如CahrField相当于oracle数据库的<code>varchar2</code>。如果不指定主键，同步的时候django会自动加入一个名为id的自增长主键。</p>
+<p>3、模型的同步，django可以使用定义好的模型在数据库内创建对应的表。同步的前提是已经设置好数据库连接，app已经配置到<code>settings.py</code>中。</p>
+<p>1）在终端输入命令</p>
+<pre><code>python manage.py validate
+</code></pre>
+<p>该命令可以检查模型的语法和逻辑的正确性。</p>
+<p>2）数据库建表语句显示</p>
+<pre><code>python manage.py sqlall appname
+</code></pre>
+<p>会显示创建表的SQL语句,appname是要显示模型所在的app</p>
+<p>3）同步</p>
+<pre><code>python manage.py syncdb
+</code></pre>
+<p>该命令执行完成后数据库就会看到模型对应的表了。该语句多次执行也不会重复创建表。</p>
+<p>4、基本数据操作。一下操作都是在<code>python manage.py shell</code>后执行，
+保存</p>
+<pre><code>&gt;&gt;&gt; p1 = Publisher(name='Apress', address='2855 Telegraph Avenue',
+...     city='Berkeley', state_province='CA', country='U.S.A.',
+...     website='http://www.apress.com/')
+&gt;&gt;&gt; p1.save()
+</code></pre>
+<p>查找所有</p>
+<pre><code>&gt;&gt;&gt; publisher_list = Publisher.objects.all()
+</code></pre>
+<p>条件查找（过滤）</p>
+<pre><code>&gt;&gt;&gt; Publisher.objects.filter(name__contains=&quot;press&quot;)
+</code></pre>
+<h1 id="表单">表单：<a hidden class="anchor" aria-hidden="true" href="#表单">#</a></h1>
+<p>表单和模型类型，模型对应的是数据库表，而表单对应的是页面的form。app下建forms.py文件，示例代码如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Submitter</span>(forms<span style="color:#f92672">.</span>Form):
+</span></span><span style="display:flex;"><span>    username<span style="color:#f92672">=</span>forms<span style="color:#f92672">.</span>CharField(max_length<span style="color:#f92672">=</span><span style="color:#ae81ff">15</span>)
+</span></span><span style="display:flex;"><span>    userphone<span style="color:#f92672">=</span>forms<span style="color:#f92672">.</span>CharField(max_length<span style="color:#f92672">=</span><span style="color:#ae81ff">11</span>, min_length<span style="color:#f92672">=</span><span style="color:#ae81ff">11</span>)
+</span></span><span style="display:flex;"><span>    useremail<span style="color:#f92672">=</span>forms<span style="color:#f92672">.</span>EmailField()
+</span></span><span style="display:flex;"><span>    school<span style="color:#f92672">=</span>forms<span style="color:#f92672">.</span>CharField(max_length<span style="color:#f92672">=</span><span style="color:#ae81ff">20</span>)
+</span></span><span style="display:flex;"><span>    age<span style="color:#f92672">=</span>forms<span style="color:#f92672">.</span>IntegerField()
+</span></span><span style="display:flex;"><span>    sltype<span style="color:#f92672">=</span>forms<span style="color:#f92672">.</span>CharField(max_length<span style="color:#f92672">=</span><span style="color:#ae81ff">5</span>)
+</span></span></code></pre></div><p>这边每个表单都是继承django.forms。表单名没有特定要求，而其属性是对应的页面上表单中各个组件的name，属性的类型则是对应组件提交数据的类型。</p>
+<p>通过表单提供的方法，可以校验页面所提交的数据，如：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>sForm <span style="color:#f92672">=</span> Submitter(request<span style="color:#f92672">.</span>POST)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> sForm<span style="color:#f92672">.</span>is_valid() <span style="color:#f92672">and</span> qForm<span style="color:#f92672">.</span>is_valid():
+</span></span><span style="display:flex;"><span>     ur <span style="color:#f92672">=</span> sForm<span style="color:#f92672">.</span>cleaned_data
+</span></span><span style="display:flex;"><span>     print(ur[<span style="color:#e6db74">&#39;username&#39;</span>])
+</span></span></code></pre></div><p>上面的<code>cleaned_data</code>属性， 是一个包含干净的提交数据的字典。</p>
+<p>表单亦可生成模版代码，即html代码，这样还可以省去编写页面表单的时间。</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://blog.qiwei.dev/tags/django/">Django</a></li>
+      <li><a href="https://blog.qiwei.dev/tags/python/">Python</a></li>
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="https://blog.qiwei.dev/">我的博客</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

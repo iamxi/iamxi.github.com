@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>编写可读代码的艺术 on 我的博客</title>
+    <link>https://blog.qiwei.dev/tags/%E7%BC%96%E5%86%99%E5%8F%AF%E8%AF%BB%E4%BB%A3%E7%A0%81%E7%9A%84%E8%89%BA%E6%9C%AF/</link>
+    <description>Recent content in 编写可读代码的艺术 on 我的博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Fri, 09 Aug 2013 17:12:00 +0800</lastBuildDate><atom:link href="https://blog.qiwei.dev/tags/%E7%BC%96%E5%86%99%E5%8F%AF%E8%AF%BB%E4%BB%A3%E7%A0%81%E7%9A%84%E8%89%BA%E6%9C%AF/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>编写可读代码的艺术-代码应当易于理解</title>
+      <link>https://blog.qiwei.dev/posts/coding/the-art-of-readable-code/</link>
+      <pubDate>Fri, 09 Aug 2013 17:12:00 +0800</pubDate>
+      
+      <guid>https://blog.qiwei.dev/posts/coding/the-art-of-readable-code/</guid>
+      <description>在日常的工作中，去理解他人代码或是他人来阅读你的代码的情景时常有。甚至自己也会忘记自己所写代码的含义，一周或一个月后再去看自己的代码，都觉得那么陌生。项目的维护时间远多余开发，当后期需要再次开发或修改BUG的时候，那些好的、易于理解的代码将大大节省时间。所以编写可读代码不经方便他人，还能提高自身的工作效率。</description>
+    </item>
+    
+  </channel>
+</rss>

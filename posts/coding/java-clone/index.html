@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Clone使用方法详解 | 我的博客</title>
+<meta name="keywords" content="Java">
+<meta name="description" content="在实际编程过程中，我们常常要遇到这种情况：有一个对象A，在某一时刻A中已经包含了一些有效值，此时可能会需要一个和A完全相同新对象B，并且此后对B 任何改动都不会影响到A中的值，也就是说，A与B是两个独立的对象，但B的初始值是由A对象确定的。在Java语言中，用简单的赋值语句是不能满足这种需 求的。要满足这种需求虽然有很多途径，但实现clone（）方法是其中最简单，也是最高效的手段。">
+<meta name="author" content="">
+<link rel="canonical" href="https://blog.qiwei.dev/posts/coding/java-clone/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.3613efbd0b1772781e8f49935e973cae632a7f61471c05b17be155505ccf87b5.css" integrity="sha256-NhPvvQsXcngej0mTXpc8rmMqf2FHHAWxe&#43;FVUFzPh7U=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://blog.qiwei.dev/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://blog.qiwei.dev/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://blog.qiwei.dev/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://blog.qiwei.dev/apple-touch-icon.png">
+<link rel="mask-icon" href="https://blog.qiwei.dev/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="Clone使用方法详解" />
+<meta property="og:description" content="在实际编程过程中，我们常常要遇到这种情况：有一个对象A，在某一时刻A中已经包含了一些有效值，此时可能会需要一个和A完全相同新对象B，并且此后对B 任何改动都不会影响到A中的值，也就是说，A与B是两个独立的对象，但B的初始值是由A对象确定的。在Java语言中，用简单的赋值语句是不能满足这种需 求的。要满足这种需求虽然有很多途径，但实现clone（）方法是其中最简单，也是最高效的手段。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://blog.qiwei.dev/posts/coding/java-clone/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2013-09-05T13:29:00+08:00" />
+<meta property="article:modified_time" content="2013-09-05T13:29:00+08:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Clone使用方法详解"/>
+<meta name="twitter:description" content="在实际编程过程中，我们常常要遇到这种情况：有一个对象A，在某一时刻A中已经包含了一些有效值，此时可能会需要一个和A完全相同新对象B，并且此后对B 任何改动都不会影响到A中的值，也就是说，A与B是两个独立的对象，但B的初始值是由A对象确定的。在Java语言中，用简单的赋值语句是不能满足这种需 求的。要满足这种需求虽然有很多途径，但实现clone（）方法是其中最简单，也是最高效的手段。"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://blog.qiwei.dev/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Clone使用方法详解",
+      "item": "https://blog.qiwei.dev/posts/coding/java-clone/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Clone使用方法详解",
+  "name": "Clone使用方法详解",
+  "description": "在实际编程过程中，我们常常要遇到这种情况：有一个对象A，在某一时刻A中已经包含了一些有效值，此时可能会需要一个和A完全相同新对象B，并且此后对B 任何改动都不会影响到A中的值，也就是说，A与B是两个独立的对象，但B的初始值是由A对象确定的。在Java语言中，用简单的赋值语句是不能满足这种需 求的。要满足这种需求虽然有很多途径，但实现clone（）方法是其中最简单，也是最高效的手段。",
+  "keywords": [
+    "Java"
+  ],
+  "articleBody": "Java语言的一个优点就是取消了指针的概念，但也导致了许多程序员在编程中常常忽略了对象与引用的区别。和C语言一样，当把Java的基本数据类型（如int，char，double等）作为 入口参数传给函数体的时候，传入的参数在函数体内部变成了局部变量，这个局部变量是输入参数的一个拷贝，所有的函数体内部的操作都是针对这个拷贝的操作， 函数执行结束后，这个局部变量也就完成了它的使命，它影响不到作为输入参数的变量。这种方式的参数传递被称为\"值传递\"。而在Java中用对象的作为入口 参数的传递则缺省为\"引用传递\"，也就是说仅仅传递了对象的一个\"引用\"，这个\"引用\"的概念同C语言中的指针引用是一样的。当函数体内部对输入变量改变 时，实质上就是在对这个对象的直接操作。\njava中的clone： 在实际编程过程中，我们常常要遇到这种情况：有一个对象A，在某一时刻A中已经包含了一些有效值，此时可能会需要一个和A完全相同新对象B，并且此后对B 任何改动都不会影响到A中的值，也就是说，A与B是两个独立的对象，但B的初始值是由A对象确定的。在Java语言中，用简单的赋值语句是不能满足这种需 求的。要满足这种需求虽然有很多途径，但实现clone（）方法是其中最简单，也是最高效的手段。\nJava的所有类都默认继承java.lang.Object类，在java.lang.Object类中有一个方法clone()。JDK API的说明文档解释这个方法将返回Object对象的一个拷贝。要说明的有两点：\n** 一是拷贝对象返回的是一个新对象，而不是一个引用。**\n** 二是拷贝对象与用 new操作符返回的新对象的区别就是这个拷贝已经包含了一些原来对象的信息，而不是对象的初始信息。**\n有三个值得注意的地方，\n一是希望能实现clone功能的CloneClass类实现了Cloneable接口，这个接口属于java.lang包， java.lang包已经被缺省的导入类中，所以不需要写成java.lang.Cloneable。\n另一个值得请注意的是重载了clone()方法。最 后在clone()方法中调用了super.clone()，这也意味着无论clone类的继承结构是什么样的，super.clone()直接或间接调 用了java.lang.Object类的clone()方法。下面再详细的解释一下这几点。\n应该说第三点是最重要的，仔细观察一下Object类的clone()一个native方法，native方法的效率一般来说都是远高于java中的非 native方法。这也解释了为什么要用Object中clone()方法而不是先new一个类，然后把原始对象中的信息赋到新对象中，虽然这也实现了 clone功能。对于第二点，也要观察Object类中的clone()还是一个protected属性的方法。这也意味着如果要应用clone()方 法，必须继承Object类，在Java中所有的类是缺省继承Object类的，也就不用关心这点了。然后重载clone()方法。还有一点要考虑的是为 了让其它类能调用这个clone类的clone()方法，重载之后要把clone()方法的属性设置为public。那么clone类为什么还要实现Cloneable接口呢？\n稍微注意一下，Cloneable接口是不包含任何方法的！其实这个接口仅仅是一个标志，而且 这个标志也仅仅是针对Object类中clone()方法的，如果clone类没有实现Cloneable接口，并调用了Object的clone()方法（也就是调用了super.Clone()方法），那么Object的clone()方法就会抛出 CloneNotSupportedException异常。\n什么是影子clone？ 调用Object类中clone()方法产生的效果是：先在内存中开辟一块和原始对象一样的空间，然后原样拷贝原始对象中的内容。对基本数据类型，这样的操作是没有问题的，但对非基本类型变量，我们知道它们保存的仅仅是对象的引用，这也导致clone后的非基本类型变量和原始对象中相应的变量指向的是同一个对象。\n怎么进行深度clone？ 需要两个改变，一是让对象内的非基本类型变量也实现Clone功能（实现Cloneable接 口，重载clone()方法）。二是在对象的Clone方法中加一句o.unCA = (UnCloneA)unCA.clone();\n要知道不是所有的类都能实现深度clone的。例如，如果把上面的CloneB类中的UnCloneA类型变量改成StringBuffer类型，看一下 JDK API中关于StringBuffer的说明，StringBuffer没有重载clone()方法，更为严重的是StringBuffer还是一个 final类，这也是说我们也不能用继承的办法间接实现StringBuffer的clone。\n还要知道的是除了基本数据类型能自动实现深度clone以外，String对象，Integer，Double等是一个例外，它clone后的表现好象也实现了深度clone，虽然这只是一个假象，但却大大方便了我们的编程。\nClone中String和StringBuffer的区别,这个区别主要原因来自String和StringBuffer的区别。\n",
+  "wordCount" : "43",
+  "inLanguage": "en",
+  "datePublished": "2013-09-05T13:29:00+08:00",
+  "dateModified": "2013-09-05T13:29:00+08:00",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://blog.qiwei.dev/posts/coding/java-clone/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "我的博客",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://blog.qiwei.dev/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://blog.qiwei.dev/" accesskey="h" title="我的博客 (Alt + H)">我的博客</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://blog.qiwei.dev/posts" title="Blogs">
+                    <span>Blogs</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://blog.qiwei.dev/categories/" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://blog.qiwei.dev/tags/" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://blog.qiwei.dev/about/" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      Clone使用方法详解
+    </h1>
+    <div class="post-description">
+      在实际编程过程中，我们常常要遇到这种情况：有一个对象A，在某一时刻A中已经包含了一些有效值，此时可能会需要一个和A完全相同新对象B，并且此后对B 任何改动都不会影响到A中的值，也就是说，A与B是两个独立的对象，但B的初始值是由A对象确定的。在Java语言中，用简单的赋值语句是不能满足这种需 求的。要满足这种需求虽然有很多途径，但实现clone（）方法是其中最简单，也是最高效的手段。
+    </div>
+    <div class="post-meta"><span title='2013-09-05 13:29:00 +0800 CST'>September 5, 2013</span>
+
+</div>
+  </header> 
+  <div class="post-content"><p>Java语言的一个优点就是取消了指针的概念，但也导致了许多程序员在编程中常常忽略了对象与引用的区别。和C语言一样，当把Java的基本数据类型（如int，char，double等）作为 入口参数传给函数体的时候，传入的参数在函数体内部变成了局部变量，这个局部变量是输入参数的一个拷贝，所有的函数体内部的操作都是针对这个拷贝的操作， 函数执行结束后，这个局部变量也就完成了它的使命，它影响不到作为输入参数的变量。这种方式的参数传递被称为&quot;值传递&quot;。而在Java中用对象的作为入口 参数的传递则缺省为&quot;引用传递&quot;，也就是说仅仅传递了对象的一个&quot;引用&quot;，这个&quot;引用&quot;的概念同C语言中的指针引用是一样的。当函数体内部对输入变量改变 时，实质上就是在对这个对象的直接操作。</p>
+<h1 id="java中的clone">java中的clone：<a hidden class="anchor" aria-hidden="true" href="#java中的clone">#</a></h1>
+<p>在实际编程过程中，我们常常要遇到这种情况：有一个对象A，在某一时刻A中已经包含了一些有效值，此时可能会需要一个和A完全相同新对象B，并且此后对B 任何改动都不会影响到A中的值，也就是说，A与B是两个独立的对象，但B的初始值是由A对象确定的。在Java语言中，用简单的赋值语句是不能满足这种需 求的。要满足这种需求虽然有很多途径，但实现clone（）方法是其中最简单，也是最高效的手段。</p>
+<p>Java的所有类都默认继承java.lang.Object类，在java.lang.Object类中有一个方法clone()。JDK API的说明文档解释这个方法将返回Object对象的一个拷贝。要说明的有两点：</p>
+<p>** 一是拷贝对象返回的是一个新对象，而不是一个引用。**</p>
+<p>** 二是拷贝对象与用 new操作符返回的新对象的区别就是这个拷贝已经包含了一些原来对象的信息，而不是对象的初始信息。**</p>
+<p>有三个值得注意的地方，</p>
+<p>一是希望能实现clone功能的CloneClass类实现了Cloneable接口，这个接口属于java.lang包， java.lang包已经被缺省的导入类中，所以不需要写成<code>java.lang.Cloneable</code>。</p>
+<p>另一个值得请注意的是重载了clone()方法。最 后在clone()方法中调用了<code>super.clone()</code>，这也意味着无论clone类的继承结构是什么样的，<code>super.clone()</code>直接或间接调 用了<code>java.lang.Object</code>类的clone()方法。下面再详细的解释一下这几点。</p>
+<p>应该说第三点是最重要的，仔细观察一下Object类的<code>clone()</code>一个native方法，native方法的效率一般来说都是远高于java中的非 native方法。这也解释了为什么要用Object中clone()方法而不是先new一个类，然后把原始对象中的信息赋到新对象中，虽然这也实现了 clone功能。对于第二点，也要观察Object类中的<code>clone()</code>还是一个protected属性的方法。这也意味着如果要应用clone()方 法，必须继承Object类，在Java中所有的类是缺省继承Object类的，也就不用关心这点了。然后重载clone()方法。还有一点要考虑的是为 了让其它类能调用这个clone类的clone()方法，重载之后要把clone()方法的属性设置为public。那么clone类为什么还要实现Cloneable接口呢？</p>
+<p>稍微注意一下，<code>Cloneable</code>接口是不包含任何方法的！其实这个接口仅仅是一个标志，而且 这个标志也仅仅是针对Object类中<code>clone()</code>方法的，如果clone类没有实现Cloneable接口，并调用了Object的clone()方法（也就是调用了super.Clone()方法），那么Object的<code>clone()</code>方法就会抛出 <code>CloneNotSupportedException</code>异常。</p>
+<h1 id="什么是影子clone">什么是影子clone？<a hidden class="anchor" aria-hidden="true" href="#什么是影子clone">#</a></h1>
+<p>调用Object类中clone()方法产生的效果是：先在内存中开辟一块和原始对象一样的空间，然后原样拷贝原始对象中的内容。对基本数据类型，这样的操作是没有问题的，但对非基本类型变量，我们知道它们保存的仅仅是对象的引用，这也导致clone后的非基本类型变量和原始对象中相应的变量指向的是同一个对象。</p>
+<h1 id="怎么进行深度clone">怎么进行深度clone？<a hidden class="anchor" aria-hidden="true" href="#怎么进行深度clone">#</a></h1>
+<p>需要两个改变，一是让对象内的非基本类型变量也实现Clone功能（实现Cloneable接 口，重载clone()方法）。二是在对象的Clone方法中加一句<code>o.unCA = (UnCloneA)unCA.clone()</code>;</p>
+<p>要知道不是所有的类都能实现深度clone的。例如，如果把上面的<code>CloneB</code>类中的<code>UnCloneA</code>类型变量改成<code>StringBuffer</code>类型，看一下 JDK API中关于StringBuffer的说明，<code>StringBuffer</code>没有重载clone()方法，更为严重的是<code>StringBuffer</code>还是一个 final类，这也是说我们也不能用继承的办法间接实现StringBuffer的clone。</p>
+<p>还要知道的是除了基本数据类型能自动实现深度clone以外，String对象，Integer，Double等是一个例外，它clone后的表现好象也实现了深度clone，虽然这只是一个假象，但却大大方便了我们的编程。</p>
+<p>Clone中<code>String</code>和<code>StringBuffer</code>的区别,这个区别主要原因来自<code>String</code>和<code>StringBuffer</code>的区别。</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://blog.qiwei.dev/tags/java/">Java</a></li>
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="https://blog.qiwei.dev/">我的博客</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

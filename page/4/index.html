@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head>
+	<meta name="generator" content="Hugo 0.112.5"><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>我的博客</title>
+
+<meta name="description" content="">
+<meta name="author" content="">
+<link rel="canonical" href="https://blog.qiwei.dev/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.3613efbd0b1772781e8f49935e973cae632a7f61471c05b17be155505ccf87b5.css" integrity="sha256-NhPvvQsXcngej0mTXpc8rmMqf2FHHAWxe&#43;FVUFzPh7U=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://blog.qiwei.dev/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://blog.qiwei.dev/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://blog.qiwei.dev/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://blog.qiwei.dev/apple-touch-icon.png">
+<link rel="mask-icon" href="https://blog.qiwei.dev/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" type="application/rss+xml" href="https://blog.qiwei.dev/index.xml">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="我的博客" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://blog.qiwei.dev/" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="我的博客"/>
+<meta name="twitter:description" content=""/>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "我的博客",
+  "url": "https://blog.qiwei.dev/",
+  "description": "",
+  "thumbnailUrl": "https://blog.qiwei.dev/favicon.ico",
+  "sameAs": [
+      
+  ]
+}
+</script>
+</head>
+
+<body class="list" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://blog.qiwei.dev/" accesskey="h" title="我的博客 (Alt + H)">我的博客</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://blog.qiwei.dev/posts" title="Blogs">
+                    <span>Blogs</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://blog.qiwei.dev/categories/" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://blog.qiwei.dev/tags/" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://blog.qiwei.dev/about/" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main"> 
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>《重构》学习笔记-构筑测试系统与大型重构
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>构筑测试系统 测试……一年前，我开发的时候还是很不在乎测试，不过那个时候也没人告诉我测试的重要性。直到意识到要提高自己，学习中看到了那么多提到测试的，所以慢慢的尝试使用（大部分是单元测试），然后深深的爱上了单元测试（其他测试呢，好吧，编程中的确比较少用到其他测试，我比较懒）。
+作者在前面反复提到测试在重构中的重要性，这章就是介绍测试的。
+自我测试代码的价值： 编码往往只占了开发中的小部分时间，很多时间不是在沟通、设计，就是在找 BUG 。。。专业点，应该叫调试（ debug ）。测试的主要作用就是帮助调试，帮助开发中发现潜在的 BUG ，这样我们就可以少话点时间在调试上了。频繁进行测试是极限编程（下一个学习的内容）的重要一环。
+确保所有测试都是自动化，让它们检查自己的测试结果。
+一整组测试就是一个强大的 BUG 侦测器，能够大大缩减查找 BUG 所需要的时间。
+JUNIT ： 看来 JUNIT 的历史很悠久啊，作者写书的时候就已经很成熟了。我想这个不需要多说了，现在有关 JUNIT 的介绍到处都是。我也喜欢用 JUNIT ，不过看书中的介绍的 JUNIT 的基本使用有点老了，完全忽略吧。
+重构前先为需要重构的功能构建好测试用列，在重构中，每次变动都需要进行测试，以确保重构没有给程序带来什么BUG。这个很重要。
+大型重构 大型重构的重要性：大型重构没有那些小动作那样立竿见影的效果，不过它可以帮助我们解决那些堆积了很久，影响范围又很大的问题。
+Tease Apart Inheritance （梳理并分解继承体系） 用于处理混乱的继承体系——这种继承体系往往以一种令人迷惑的方式组合了数个不同方面的变化（ variations ）。
+某个继承体系（ inheritance hierarchy ）同时承担两项责任。
+建立两个继承体系，并通过委托关系（ delegation ）让其中一个可以调用另一个。
+Convert Procedural Design to Object （将过程化设计转化为对象设计） 可以帮助你解决一个「古典」问题：如何处理程序性代码（ procedural code ）？
+你手上有一些代码，以传统的过程化风格（ procedural style ）写就。
+将数据记录（ data records ）变成对象，将行为分开，并将行为移入相关对象之中。
+Separate Domain from Presentation （将领域和表述 / 显示分离） 将业务逻辑（ business logic ）与用户界面（ user interface ）隔离开来。...</p>
+  </div>
+  <footer class="entry-footer"><span title='2013-07-29 13:28:00 +0800 CST'>July 29, 2013</span></footer>
+  <a class="entry-link" aria-label="post link to 《重构》学习笔记-构筑测试系统与大型重构" href="https://blog.qiwei.dev/posts/coding/refactioring/refactioring-read-3/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>《重构》学习笔记-代码的坏味道
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>代码的坏味道 … 老外没有艺术细胞，作为一名大师级人物，好歹给起个好听点的名称。向金庸老人家学习下，让我们也感染下艺术气息。
+我认为吗，坏味道就是对一段问题代码的感觉，从感性慢慢分析到理性。这种感觉需要在实践中培养。观看这里的介绍只能有个大概的理解方向，只有在反复在实际的代码中去体会，才能运用自如。
+我也是爱国人士，也很不喜欢英语，不过毕竟都是老外的东西，为了避免一些名词的混淆，我还是用英语加翻译的方式。
+一、 重复代码（ Duplicated Code ） 很直观的一个问题，就算新手也很快能看出。如果是同一个类里面有重复代码，使用 Extract Method （提炼函数）把重复的给提取出来；如果重复代码分别在一个类的两个子类中，则先提取代码，然后使用 Pull Up Method （函数上移）把提取的函数放到 superclass 中；如果在好不相干的两个类中，则考虑使用 Extract Class （提炼类）把重复代码独立成一个类，也可以把函数放在其中一个类中，另一个应用这个之，看实际情况了。
+二、 过长函数（ Long Method ） 看 50 行的 20 个函数比看一千行的一个函数强多了，所以么函数不宜过长，或者说就应该短， java 在调用函数时候的开销很小，一般不会产生性能问题。我也讨厌那些长函数，看到后面逻辑都乱了，本人见过两千行的函数，唉，一半注解一半代码。
+99% 的场合只需要使用 Extract Method （提炼函数）。如果函数内有大量的参数和临时变量，可以尝试 Extract Method （提炼函数）把那些参数和临时变量当作参数，运用 Replace Temp With Query （以查询取代临时变量）来消除暂时元素。 Introduce Parameter Object （引入参数对象）和 Preserve Whole Object （保持对象完整）则可以把过长的参数变简洁。如果做完上述发现还是有太多参数和变量，可以使用杀手锏： Replace Method With Method Object （以函数对象取代函数）。条件和循环常常是提取的信号，可以使用 Decompose Conditional （分解条件式）来处理条件式。循环则可以提炼一个独立的函数。
+三、 过长类（ Large Class ） 这种可以使用 Extract Class （提炼类）提炼出内容有相关性的。如果类里面有数个变量有着一样的前缀或后缀，用 Extract Subclass （提炼子类）会比较简单。如果是 GUI 类，可以把数据和行为移到单独的 domain 对象中去，运用 Duplicate Observed Data （复制被监视数据）同步数据。...</p>
+  </div>
+  <footer class="entry-footer"><span title='2013-07-29 13:09:00 +0800 CST'>July 29, 2013</span></footer>
+  <a class="entry-link" aria-label="post link to 《重构》学习笔记-代码的坏味道" href="https://blog.qiwei.dev/posts/coding/refactioring/refactioring-read-2/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>《重构》学习笔记-重构原则
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>码农真得很辛苦，每天除了要下地编码之外，还需要挑灯夜战，学习专业知识，唉。不抱怨了，抱怨都是那些自暴自弃的人愤世嫉俗的。最近看《重构》一书，话说是一本很多人推荐看的好书，封面上还写着“从初级程序员到编程高手的秘籍”。好吧，我承认是初级程序员。所以我看了。
+第一章 与其他书不同，第一章是一个例子。很多书，包括大学教材啊，技术教材都是以要讲的内容的定义和一些学习的重要意义之类的做第一章，而此书却给了一个系统的小部分代码来做重构的小例子。这样写的原因作者说了，不过对于我们这种应试教育下出生的人来说有点小小的不习惯。
+public String statement() { double totalAmount = 0; //总消费余额 int frequentRenterPoints = 0; //常客积点 Enumeration rentals = _rentals.elements(); String result = &#34;Rental Record for &#34; &#43; getName() &#43; &#34;\n&#34;; while(rentals.hasMoreElements()) { double thisAmount = 0; //取得一笔租借记录 Rental each = (Rental) rentals.nextElement(); //determine amounts for each line switch(each.getDaysRented() &gt; 2) { //取得影片租价格 case Movie.REGULAR: //普通片 thisAmount &#43;= 2; if (each.getDaysRented() &gt; 2) thisAmount &#43;= (each.getDaysRented() - 2)*1.5; break; case Movie....</p>
+  </div>
+  <footer class="entry-footer"><span title='2013-07-28 22:01:00 +0800 CST'>July 28, 2013</span></footer>
+  <a class="entry-link" aria-label="post link to 《重构》学习笔记-重构原则" href="https://blog.qiwei.dev/posts/coding/refactioring/refactioring-read-1/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>保护眼睛，设置eclipse文本编辑背景色为自然绿
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>“色调”的参数设置为85，把“饱和度”参数设置为123，把“亮度”参.数设置为205 红199 绿237 蓝204</p>
+  </div>
+  <footer class="entry-footer"><span title='2013-07-26 12:02:00 +0800 CST'>July 26, 2013</span></footer>
+  <a class="entry-link" aria-label="post link to 保护眼睛，设置eclipse文本编辑背景色为自然绿" href="https://blog.qiwei.dev/posts/tool/eclipse-green-color-theme/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>我的第一篇博文
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>开始 终于有了自己的域名，在Github上开了自己的博客。之前也坚持写过博客，可惜赶上妻子怀孕和儿子出生，忙里忙外了一年后，博客就再没更新。这次申请了自己的域名，就是希望给自己点动力，再开始自己的博客。
+##为什么要写博客 这个问题很严肃，我也不清除为什么要写博客，就是有一种写博客的想法。如果说分享技术心得，说句实话，我不是那种技术大牛，充其量就是一个普普通通的程序员，我有的技术，相信大部分程序员也知道。而且我的文笔极差，初高中每次语文考试作文都是不及格的份，写个文章出来我都觉得对不起读者。不过还是鼓起勇气来写博客，可能是那些黑客精神看多了，也可能是想着记录自己的生成吧。不管什么愿意，我的欲望已经迫使我去完成这件事了。
+自己介绍 一个工作了五年的程序员，2008年毕业后就从事Java开发工作，前三年都在蹉跎岁月，后来才该为自己的人生奋斗。不过努力了两年，还在迷茫中。
+本人喜欢新奇的事务，但没什么恒心，兴趣转移也快，经常是看下这个，搞搞那个，结果都是一事无成。现在只希望这个博客不要半途而废。虽然认识自己的缺点不容易，不过也不能无止境的说自己的坏话。
+关于域名 域名中姓氏放到了后面，这个并不是我崇洋媚外，也不是赶时髦，只是不知道谁注册了我姓名的域名，还拿去卖玩具，哎。
+打算 先把以前的写的文章搬过来，期间把网站美化下。剩下的就是持续写。</p>
+  </div>
+  <footer class="entry-footer"><span title='2013-07-25 21:51:00 +0800 CST'>July 25, 2013</span></footer>
+  <a class="entry-link" aria-label="post link to 我的第一篇博文" href="https://blog.qiwei.dev/posts/other/my-first-blog/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>Mybatis返回特殊Map
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>想返回个特殊实体，一个Map，key是一个表的一个字段的值，value是另一个表的所有记录。参考了下网上的“攻略”，不过和攻略里面讲的有点不同，那里面key的值value的实体实在同一个表内，如果不同表，会报缺少set方法的异常。解决方法很简单，就是在实体里面加个字段对应的属性。但是并不愿意为了一个查询语句就要去改变实体。
+无聊看了下session的select，提供了通过 ResultHandler 来处理返回的结果集。所以尝试着解决这个问题。
+mapper.xml里面的配置如下：
+&lt;resultMap type=&#34;HashMap&#34; id=&#34;testMap&#34;&gt; &lt;result column=&#34;UA_INFO&#34; property=&#34;key&#34; /&gt; &lt;association property=&#34;value&#34; resultMap=&#34;com.xxx.xxx.BaseResultMap&#34;&gt; &lt;/association&gt; &lt;/resultMap&gt; &lt;select id=&#34;getUaMapByTimestamp&#34; parameterType=&#34;Map&#34; resultMap=&#34;testMap&#34;&gt; SQL语句 &lt;/select&gt; com.xxx.xxx.BaseResultMap是另一个实体的mapper的resultMap。这个查询，返回的每一条记录都是 {key=..., value=...}
+这个结果集并不符合要求。不过通过ResultHandler来处理每一条记录就可以达到要求了。
+看下Mybatis源码里面有关继承 ResultHandler 的 DefaultMapResultHandler类。
+public class DefaultMapResultHandler&lt;K, V&gt; implements ResultHandler { private final Map&lt;K, V&gt; mappedResults; private final String mapKey; @SuppressWarnings(&#34;unchecked&#34;) public DefaultMapResultHandler(String mapKey, ObjectFactory objectFactory) { this.mappedResults = objectFactory.create(Map.class); this.mapKey = mapKey; } public void handleResult(ResultContext context) { // TODO is that assignment always true?...</p>
+  </div>
+  <footer class="entry-footer"><span title='2012-08-04 23:00:00 +0800 CST'>August 4, 2012</span></footer>
+  <a class="entry-link" aria-label="post link to Mybatis返回特殊Map" href="https://blog.qiwei.dev/posts/coding/mybatis-special-map/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>Java可变参数方法及它的重载
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>JAVA支持方法的可变参数。类似如下
+public void method1(String... arg1); 这样，调用method1时候，参数的数量是可变的，如method1(“1”,“2”,“3”)。注意可变参数只能是最后一个参数。
+JAVA内部是把这样的参数看成一个数组来处理。在获取多个参数的时候可以用数组遍历来完成。
+for (String temp : arg1) { System.out.println(&#34;one of the arguments is &#34; &#43; temp); } 可能有人会说，这样的循环遍历像List那样的集合也可以，凭什么说是数组。那好，再看下面代码：
+public void method1(String... arg1); public void method1(String[] arg1); 这样的重载，在编译时候会报错，JAVA不允许这样的重载，其实理由很简单，String… 和String[]对编译器来说是一样的。参数一样自然无法重载。
+下面是可变参数方法的重载：
+public void method1(String... arg1) { } public void method1(String a, String... arg1) { } 我在eclipse中测试，IDE并没有提示错误。但是在实例后调用就不行了，IDE报 The method method1(String[]) is ambiguous for the type ...，大致是说这个方法有混淆，无法正确的调用。话说类编译的时候没问题，到实例后调用就会提示错误。
+public void method1(String... arg1) { System.out.println(&#34;1&#34;); } public void method1(String a, String b) { System....</p>
+  </div>
+  <footer class="entry-footer"><span title='2012-04-28 12:00:00 +0800 CST'>April 28, 2012</span></footer>
+  <a class="entry-link" aria-label="post link to Java可变参数方法及它的重载" href="https://blog.qiwei.dev/posts/coding/java-varargs-method-overload/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>Hibernate获取返回值报XXX connot be cast to [Ljava.lang.Object
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>今天在测试时候发现在获取Hibernate返回数据时候报 java.math.BigDecimal cannot be cast to \[Ljava.lang.Object 异常，但是查看了代码，很简单也很平常，createNativeQuery执行，getResultList获取结果集，每行都用Object[]类型。调试时候发现返回结果集为[2]，也就是就一行且一个。也就是说，每行的类型不再是 Object[]。
+按以往， getResultList 的返回是一个 List(Object\[\])，当如果返回只有一个，比如1或2是，类型就变成了该数据库字段所对应的类型，在我这里就是BigDecimal。
+真是不明白，多个就是Object[]，一个就变成不是数组了。 Hibernate莫名其妙啊。发下牢骚。。。</p>
+  </div>
+  <footer class="entry-footer"><span title='2011-11-03 21:41:00 +0800 CST'>November 3, 2011</span></footer>
+  <a class="entry-link" aria-label="post link to Hibernate获取返回值报XXX connot be cast to [Ljava.lang.Object" href="https://blog.qiwei.dev/posts/coding/hibernate-cannot-cast/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>itext中文本的绝对位置放置
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>text中表格可以使用
+table.writeSelectedRows(0, -1, x, y, writer.getDirectContent()); 来实现绝对位置放置。那文本段落呢…
+当我们不需要itext对每个单词、句子、段落实现自动格式的时候，或是想使用特殊布局，就可以使用PdfContentByte来实现绝对位置放置。
+PdfContentByte的初始化：
+PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(&#34;test.pdf&#34;)); PdfContentByte cb = writer.DirectContent; 将文本写入ContentByte中时，必须使用方法beginText()和endText()，同时也必须设置字体和尺寸。有两种方法来写入和放置文本。
+方法一：
+BaseFont bf = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.NOT_EMBEDDED); cb.beginText(); cb.setFontAndSize(bf, 12); cb.showTextAligned(PdfContentByte.ALIGN_CENTER, text &#43; &#34;This text is centered&#34;, 250, 700, 0); cb.endText(); 方法二：
+BaseFont bf = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.NOT_EMBEDDED); cb.beginText(); cb.setFontAndSize(bf, 12); cb.setTextMatrix(100, 400); cb.showText(&#34;Text at position 100,400.&#34;); cb.endText(); </p>
+  </div>
+  <footer class="entry-footer"><span title='2011-05-12 12:02:00 +0800 CST'>May 12, 2011</span></footer>
+  <a class="entry-link" aria-label="post link to itext中文本的绝对位置放置" href="https://blog.qiwei.dev/posts/coding/itext-absolute-position/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>用apache的ant解压zip文件（中文文件或文件夹解决方法）
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>昨天在研究用apache的ant包来解压zip文件，把经验写下来与大家分享。 写贴上代码
+package upzip; import java.io.File; import java.io.FileOutputStream; import java.io.InputStream; import org.apache.tools.zip.*; import java.util.Enumeration; /** * 压缩解压ZIP文件 * @author Administrator * */ public class AntZip { private ZipFile zipFile; private static int bufSize; //size of bytes private byte[] buf; private int readedBytes; /** * * @param bufSize 缓存大小 */ public AntZip(int bufSize){ this.bufSize = bufSize; this.buf = new byte[this.bufSize]; } public AntZip(){ this(1024); } /** * 生存目录 * @param directory 解压文件存放目录 * @param subDirectory 子目录（没有时可传入空字符串） */ private void createDirectory(String directory, String subDirectory) { String dir[]; File fl = new File(directory); try { if(subDirectory == &#34;&#34; &amp;&amp; fl....</p>
+  </div>
+  <footer class="entry-footer"><span title='2011-03-04 12:01:00 +0800 CST'>March 4, 2011</span></footer>
+  <a class="entry-link" aria-label="post link to 用apache的ant解压zip文件（中文文件或文件夹解决方法）" href="https://blog.qiwei.dev/posts/coding/apache-ant-unzip-chinese/"></a>
+</article>
+<footer class="page-footer">
+  <nav class="pagination">
+    <a class="prev" href="https://blog.qiwei.dev/page/3/">
+      «&nbsp;Prev&nbsp;
+    </a>
+    <a class="next" href="https://blog.qiwei.dev/page/5/">Next&nbsp;&nbsp;»
+    </a>
+  </nav>
+</footer>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="https://blog.qiwei.dev/">我的博客</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

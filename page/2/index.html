@@ -147,172 +147,216 @@
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>《重构》学习笔记-构筑测试系统与大型重构
+    <h2>Win8.1下安装OpenVPN
     </h2>
   </header>
   <div class="entry-content">
-    <p>构筑测试系统 测试……一年前，我开发的时候还是很不在乎测试，不过那个时候也没人告诉我测试的重要性。直到意识到要提高自己，学习中看到了那么多提到测试的，所以慢慢的尝试使用（大部分是单元测试），然后深深的爱上了单元测试（其他测试呢，好吧，编程中的确比较少用到其他测试，我比较懒）。
-作者在前面反复提到测试在重构中的重要性，这章就是介绍测试的。
-自我测试代码的价值： 编码往往只占了开发中的小部分时间，很多时间不是在沟通、设计，就是在找 BUG 。。。专业点，应该叫调试（ debug ）。测试的主要作用就是帮助调试，帮助开发中发现潜在的 BUG ，这样我们就可以少话点时间在调试上了。频繁进行测试是极限编程（下一个学习的内容）的重要一环。
-确保所有测试都是自动化，让它们检查自己的测试结果。
-一整组测试就是一个强大的 BUG 侦测器，能够大大缩减查找 BUG 所需要的时间。
-JUNIT ： 看来 JUNIT 的历史很悠久啊，作者写书的时候就已经很成熟了。我想这个不需要多说了，现在有关 JUNIT 的介绍到处都是。我也喜欢用 JUNIT ，不过看书中的介绍的 JUNIT 的基本使用有点老了，完全忽略吧。
-重构前先为需要重构的功能构建好测试用列，在重构中，每次变动都需要进行测试，以确保重构没有给程序带来什么BUG。这个很重要。
-大型重构 大型重构的重要性：大型重构没有那些小动作那样立竿见影的效果，不过它可以帮助我们解决那些堆积了很久，影响范围又很大的问题。
-Tease Apart Inheritance （梳理并分解继承体系） 用于处理混乱的继承体系——这种继承体系往往以一种令人迷惑的方式组合了数个不同方面的变化（ variations ）。
-某个继承体系（ inheritance hierarchy ）同时承担两项责任。
-建立两个继承体系，并通过委托关系（ delegation ）让其中一个可以调用另一个。
-Convert Procedural Design to Object （将过程化设计转化为对象设计） 可以帮助你解决一个「古典」问题：如何处理程序性代码（ procedural code ）？
-你手上有一些代码，以传统的过程化风格（ procedural style ）写就。
-将数据记录（ data records ）变成对象，将行为分开，并将行为移入相关对象之中。
-Separate Domain from Presentation （将领域和表述 / 显示分离） 将业务逻辑（ business logic ）与用户界面（ user interface ）隔离开来。...</p>
+    <p>我在win8.1下安装OpenVPN遇到了两个问题，一是安装时候TAP设备驱动程序安装失败，二是因为系统临时目录带中文而无法正确连接，下面是解决方法。
+系统及软件版本
+Win8.1 64位系统 OpenVPN 2.3.2 64位 ##一、安装TAP设备驱动程序失败
+在安装OpenVPN时候，在最后报了**“An error occurred installing the TAP device driver”**这样的错误。这是说安装TAP驱动时候错误，可以不理会，这个时候OpenVPN其实已经安装完成。后面要做的事就是自己动手来安装TAP驱动了。
+不过手动安装虚拟网络设备的时候需要知道失败的原因，解决后才能在安装。在Win7下安装是正常的，而Win8/8.1就不行了，主要是因为系统开启了“驱动程序强制签名”，而在Win8.1下不认OpenVPN的TAP驱动程序签名导致的。这个不太清楚是OpenVPN版本有关还是和系统版本有关系。解决办法就是禁用驱动程序强制签名，步骤如下：
+1、按住Shift建不放，然后用鼠标点击右侧的Charm菜单中的重启按钮（注意，这里会重启系统，有文档没有保存的保存下）。 2、在出现的界面中依次选择：疑难解答-&gt;高级选项-&gt;启动设置-&gt;重新启动 3、在重启后的界面上选择“禁用驱动强制签名” 4、用Charm菜单中的搜索功能搜索“add a new TAP virtual ethernet adapter”，以管理员身份运行，看到系统提示后点“始终…”，之后就算不在禁用驱动程序强制签名的模式下也可以正确安装。 ##二、系统临时目录中文问题
+我的微软账号中的名字是中文，所以在生成的用户目录也是中文的，在用户目录下的临时文件夹自然在路径上也带了中文，而OpenVPN的GUI程序默认在使用临时文件夹。看来OpenVPN的GUI程序也不支持中文啊。失败后在日志中看到的错误信息就是“–tmp-dir”这个参数指定的目录错误。如果使用命令行的话完全可以通过“–tmp–dir”参数指定其他的，不过那样不方便。
+其实自己的client.ovpn文件也同样可以指定参数，在里面加入一行“tmp-dir “e:\temp””（注意，这个路径必须有效），然后再重新打开OpenVPN就可以正常连接。再多说一句，Win7/8/8.1下，需要以管理员身份运行OpenVPN，不然显示连接上了，但是依然无法连接远程服务器。</p>
   </div>
-  <footer class="entry-footer"><span title='2013-07-29 13:28:00 +0800 CST'>July 29, 2013</span></footer>
-  <a class="entry-link" aria-label="post link to 《重构》学习笔记-构筑测试系统与大型重构" href="https://blog.qiwei.dev/posts/coding/refactioring/refactioring-read-3/"></a>
+  <footer class="entry-footer"><span title='2014-02-11 09:26:00 +0800 CST'>February 11, 2014</span></footer>
+  <a class="entry-link" aria-label="post link to Win8.1下安装OpenVPN" href="https://blog.qiwei.dev/posts/tool/win8-install-openvpn/"></a>
 </article>
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>《重构》学习笔记-代码的坏味道
+    <h2>PuTTY下如何使用agent forwarding
     </h2>
   </header>
   <div class="entry-content">
-    <p>代码的坏味道 … 老外没有艺术细胞，作为一名大师级人物，好歹给起个好听点的名称。向金庸老人家学习下，让我们也感染下艺术气息。
-我认为吗，坏味道就是对一段问题代码的感觉，从感性慢慢分析到理性。这种感觉需要在实践中培养。观看这里的介绍只能有个大概的理解方向，只有在反复在实际的代码中去体会，才能运用自如。
-我也是爱国人士，也很不喜欢英语，不过毕竟都是老外的东西，为了避免一些名词的混淆，我还是用英语加翻译的方式。
-一、 重复代码（ Duplicated Code ） 很直观的一个问题，就算新手也很快能看出。如果是同一个类里面有重复代码，使用 Extract Method （提炼函数）把重复的给提取出来；如果重复代码分别在一个类的两个子类中，则先提取代码，然后使用 Pull Up Method （函数上移）把提取的函数放到 superclass 中；如果在好不相干的两个类中，则考虑使用 Extract Class （提炼类）把重复代码独立成一个类，也可以把函数放在其中一个类中，另一个应用这个之，看实际情况了。
-二、 过长函数（ Long Method ） 看 50 行的 20 个函数比看一千行的一个函数强多了，所以么函数不宜过长，或者说就应该短， java 在调用函数时候的开销很小，一般不会产生性能问题。我也讨厌那些长函数，看到后面逻辑都乱了，本人见过两千行的函数，唉，一半注解一半代码。
-99% 的场合只需要使用 Extract Method （提炼函数）。如果函数内有大量的参数和临时变量，可以尝试 Extract Method （提炼函数）把那些参数和临时变量当作参数，运用 Replace Temp With Query （以查询取代临时变量）来消除暂时元素。 Introduce Parameter Object （引入参数对象）和 Preserve Whole Object （保持对象完整）则可以把过长的参数变简洁。如果做完上述发现还是有太多参数和变量，可以使用杀手锏： Replace Method With Method Object （以函数对象取代函数）。条件和循环常常是提取的信号，可以使用 Decompose Conditional （分解条件式）来处理条件式。循环则可以提炼一个独立的函数。
-三、 过长类（ Large Class ） 这种可以使用 Extract Class （提炼类）提炼出内容有相关性的。如果类里面有数个变量有着一样的前缀或后缀，用 Extract Subclass （提炼子类）会比较简单。如果是 GUI 类，可以把数据和行为移到单独的 domain 对象中去，运用 Duplicate Observed Data （复制被监视数据）同步数据。...</p>
+    <p>公司大部分同事都使用SecureCRT来远程访问服务器，我比较另类，用了个PuTTY。最近公司把访问服务器改成了需要使用SSH Keys来访问，而且还需要通过跳板机才可以。这样一来就需要使用agent forwarding。可问题来了，SecureCRT只需要选择允许agent forwarding就可以了。而putty在“Connection” -&gt; “SSH” -&gt; “Auth”下勾选了“Allow agent forwarding”后，依然无法访问。
+谷歌了好久也没法找到问题所在，后来无奈，去看了下putty找了文档，找到了问题所在。原来还需要Pageant一起使用，步骤如下：
+一、开启Pageant，（可以在putty官网下载到），Windows下开始后会自动最小化在托盘，找到后双击打开即可。
+二、添加Key，在Pageant界面点击Add Key，选择密钥即可。
+三、启动PuTTY，在“Connection” -&gt; “SSH” -&gt; “Auth”下勾选了“Allow agent forwarding”。
+接下去就可以连接跳板机，然后通过跳板机访问服务器啦。
+PuTTY在这边不是一款很大众的软件，使用起来遇到问题自然比较难找到办法解决，而且他的文档还都是英文。所以把这些记下来，方便自己以后忘记了后还能再找到，也方便其他和我一样的人。</p>
   </div>
-  <footer class="entry-footer"><span title='2013-07-29 13:09:00 +0800 CST'>July 29, 2013</span></footer>
-  <a class="entry-link" aria-label="post link to 《重构》学习笔记-代码的坏味道" href="https://blog.qiwei.dev/posts/coding/refactioring/refactioring-read-2/"></a>
+  <footer class="entry-footer"><span title='2014-01-17 16:35:00 +0800 CST'>January 17, 2014</span></footer>
+  <a class="entry-link" aria-label="post link to PuTTY下如何使用agent forwarding" href="https://blog.qiwei.dev/posts/tool/putty-using-agent-forwarding/"></a>
 </article>
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>《重构》学习笔记-重构原则
+    <h2>Linux下Django部署环境的搭建
     </h2>
   </header>
   <div class="entry-content">
-    <p>码农真得很辛苦，每天除了要下地编码之外，还需要挑灯夜战，学习专业知识，唉。不抱怨了，抱怨都是那些自暴自弃的人愤世嫉俗的。最近看《重构》一书，话说是一本很多人推荐看的好书，封面上还写着“从初级程序员到编程高手的秘籍”。好吧，我承认是初级程序员。所以我看了。
-第一章 与其他书不同，第一章是一个例子。很多书，包括大学教材啊，技术教材都是以要讲的内容的定义和一些学习的重要意义之类的做第一章，而此书却给了一个系统的小部分代码来做重构的小例子。这样写的原因作者说了，不过对于我们这种应试教育下出生的人来说有点小小的不习惯。
-public String statement() { double totalAmount = 0; //总消费余额 int frequentRenterPoints = 0; //常客积点 Enumeration rentals = _rentals.elements(); String result = &#34;Rental Record for &#34; &#43; getName() &#43; &#34;\n&#34;; while(rentals.hasMoreElements()) { double thisAmount = 0; //取得一笔租借记录 Rental each = (Rental) rentals.nextElement(); //determine amounts for each line switch(each.getDaysRented() &gt; 2) { //取得影片租价格 case Movie.REGULAR: //普通片 thisAmount &#43;= 2; if (each.getDaysRented() &gt; 2) thisAmount &#43;= (each.getDaysRented() - 2)*1.5; break; case Movie....</p>
+    <p>目标 搭建起apache部署Django项目的环境，操作系统CentOS 5，软件版本如下：
+python 2.7 Django 1.5 mod_wsgi 3.3 apache 2.2 Python更新 安装 系统用的是python版本是2.6&#43;，现在需要将python版本更新至2.7&#43;版本了。
+下载python2.7的源码包，然后编译安装，命令如下：
+./configure --enable-shared make all make install 这边需要注意的是，configure的参数--enable-shared，使用这个参数为python生成动态链接库。如果没有加此参数，编译安装也可以正常完成，不会影响python的使用。但是到安装mod_wsgi会出现错误，错误内容为：
+/usr/local/lib/python2.7/config/libpython2.7.a: could not read symbols: Bad value collect2ld returned 1 exit status apxs:Error: Command failed with rc=65536
+这个错误就是在安装python时候没有./configure --enable-shared
+检查版本 完成后一般的路径是 /usr/local/lib/python2.7，可以使用命令检查其版本是否正确
+/usr/loacl/bin/python2.7 -V 若是出现错误：python: error while loading shared libraries: libpython2.7.so .1.0: cannot open shared object file: No such file or directory。使用vim新建文件/etc/ld.so.conf.d/python2.7.conf，加入内容：/usr/local/lib。保存退出后运行：ldconfig，再次运行，看是否成功。
+建立软链接 用于替换shell下的默认python命令的版本
+mv /usr/bin/python /usr/bin/oldpython ln -s /usr/local/bin/python2....</p>
   </div>
-  <footer class="entry-footer"><span title='2013-07-28 22:01:00 +0800 CST'>July 28, 2013</span></footer>
-  <a class="entry-link" aria-label="post link to 《重构》学习笔记-重构原则" href="https://blog.qiwei.dev/posts/coding/refactioring/refactioring-read-1/"></a>
+  <footer class="entry-footer"><span title='2013-12-11 16:19:00 +0800 CST'>December 11, 2013</span></footer>
+  <a class="entry-link" aria-label="post link to Linux下Django部署环境的搭建" href="https://blog.qiwei.dev/posts/coding/python-mode-wsgi-apache-install/"></a>
 </article>
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>保护眼睛，设置eclipse文本编辑背景色为自然绿
+    <h2>Clone使用方法详解
     </h2>
   </header>
   <div class="entry-content">
-    <p>“色调”的参数设置为85，把“饱和度”参数设置为123，把“亮度”参.数设置为205 红199 绿237 蓝204</p>
+    <p>Java语言的一个优点就是取消了指针的概念，但也导致了许多程序员在编程中常常忽略了对象与引用的区别。和C语言一样，当把Java的基本数据类型（如int，char，double等）作为 入口参数传给函数体的时候，传入的参数在函数体内部变成了局部变量，这个局部变量是输入参数的一个拷贝，所有的函数体内部的操作都是针对这个拷贝的操作， 函数执行结束后，这个局部变量也就完成了它的使命，它影响不到作为输入参数的变量。这种方式的参数传递被称为&#34;值传递&#34;。而在Java中用对象的作为入口 参数的传递则缺省为&#34;引用传递&#34;，也就是说仅仅传递了对象的一个&#34;引用&#34;，这个&#34;引用&#34;的概念同C语言中的指针引用是一样的。当函数体内部对输入变量改变 时，实质上就是在对这个对象的直接操作。
+java中的clone： 在实际编程过程中，我们常常要遇到这种情况：有一个对象A，在某一时刻A中已经包含了一些有效值，此时可能会需要一个和A完全相同新对象B，并且此后对B 任何改动都不会影响到A中的值，也就是说，A与B是两个独立的对象，但B的初始值是由A对象确定的。在Java语言中，用简单的赋值语句是不能满足这种需 求的。要满足这种需求虽然有很多途径，但实现clone（）方法是其中最简单，也是最高效的手段。
+Java的所有类都默认继承java.lang.Object类，在java.lang.Object类中有一个方法clone()。JDK API的说明文档解释这个方法将返回Object对象的一个拷贝。要说明的有两点：
+** 一是拷贝对象返回的是一个新对象，而不是一个引用。**
+** 二是拷贝对象与用 new操作符返回的新对象的区别就是这个拷贝已经包含了一些原来对象的信息，而不是对象的初始信息。**
+有三个值得注意的地方，
+一是希望能实现clone功能的CloneClass类实现了Cloneable接口，这个接口属于java.lang包， java.lang包已经被缺省的导入类中，所以不需要写成java.lang.Cloneable。
+另一个值得请注意的是重载了clone()方法。最 后在clone()方法中调用了super.clone()，这也意味着无论clone类的继承结构是什么样的，super.clone()直接或间接调 用了java.lang.Object类的clone()方法。下面再详细的解释一下这几点。
+应该说第三点是最重要的，仔细观察一下Object类的clone()一个native方法，native方法的效率一般来说都是远高于java中的非 native方法。这也解释了为什么要用Object中clone()方法而不是先new一个类，然后把原始对象中的信息赋到新对象中，虽然这也实现了 clone功能。对于第二点，也要观察Object类中的clone()还是一个protected属性的方法。这也意味着如果要应用clone()方 法，必须继承Object类，在Java中所有的类是缺省继承Object类的，也就不用关心这点了。然后重载clone()方法。还有一点要考虑的是为 了让其它类能调用这个clone类的clone()方法，重载之后要把clone()方法的属性设置为public。那么clone类为什么还要实现Cloneable接口呢？
+稍微注意一下，Cloneable接口是不包含任何方法的！其实这个接口仅仅是一个标志，而且 这个标志也仅仅是针对Object类中clone()方法的，如果clone类没有实现Cloneable接口，并调用了Object的clone()方法（也就是调用了super.Clone()方法），那么Object的clone()方法就会抛出 CloneNotSupportedException异常。
+什么是影子clone？ 调用Object类中clone()方法产生的效果是：先在内存中开辟一块和原始对象一样的空间，然后原样拷贝原始对象中的内容。对基本数据类型，这样的操作是没有问题的，但对非基本类型变量，我们知道它们保存的仅仅是对象的引用，这也导致clone后的非基本类型变量和原始对象中相应的变量指向的是同一个对象。
+怎么进行深度clone？ 需要两个改变，一是让对象内的非基本类型变量也实现Clone功能（实现Cloneable接 口，重载clone()方法）。二是在对象的Clone方法中加一句o.unCA = (UnCloneA)unCA.clone();
+要知道不是所有的类都能实现深度clone的。例如，如果把上面的CloneB类中的UnCloneA类型变量改成StringBuffer类型，看一下 JDK API中关于StringBuffer的说明，StringBuffer没有重载clone()方法，更为严重的是StringBuffer还是一个 final类，这也是说我们也不能用继承的办法间接实现StringBuffer的clone。
+还要知道的是除了基本数据类型能自动实现深度clone以外，String对象，Integer，Double等是一个例外，它clone后的表现好象也实现了深度clone，虽然这只是一个假象，但却大大方便了我们的编程。
+Clone中String和StringBuffer的区别,这个区别主要原因来自String和StringBuffer的区别。</p>
   </div>
-  <footer class="entry-footer"><span title='2013-07-26 12:02:00 +0800 CST'>July 26, 2013</span></footer>
-  <a class="entry-link" aria-label="post link to 保护眼睛，设置eclipse文本编辑背景色为自然绿" href="https://blog.qiwei.dev/posts/tool/eclipse-green-color-theme/"></a>
+  <footer class="entry-footer"><span title='2013-09-05 13:29:00 +0800 CST'>September 5, 2013</span></footer>
+  <a class="entry-link" aria-label="post link to Clone使用方法详解" href="https://blog.qiwei.dev/posts/coding/java-clone/"></a>
 </article>
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>我的第一篇博文
+    <h2>Django&#43;apache&#43;mod_wsgi部署
     </h2>
   </header>
   <div class="entry-content">
-    <p>开始 终于有了自己的域名，在Github上开了自己的博客。之前也坚持写过博客，可惜赶上妻子怀孕和儿子出生，忙里忙外了一年后，博客就再没更新。这次申请了自己的域名，就是希望给自己点动力，再开始自己的博客。
-##为什么要写博客 这个问题很严肃，我也不清除为什么要写博客，就是有一种写博客的想法。如果说分享技术心得，说句实话，我不是那种技术大牛，充其量就是一个普普通通的程序员，我有的技术，相信大部分程序员也知道。而且我的文笔极差，初高中每次语文考试作文都是不及格的份，写个文章出来我都觉得对不起读者。不过还是鼓起勇气来写博客，可能是那些黑客精神看多了，也可能是想着记录自己的生成吧。不管什么愿意，我的欲望已经迫使我去完成这件事了。
-自己介绍 一个工作了五年的程序员，2008年毕业后就从事Java开发工作，前三年都在蹉跎岁月，后来才该为自己的人生奋斗。不过努力了两年，还在迷茫中。
-本人喜欢新奇的事务，但没什么恒心，兴趣转移也快，经常是看下这个，搞搞那个，结果都是一事无成。现在只希望这个博客不要半途而废。虽然认识自己的缺点不容易，不过也不能无止境的说自己的坏话。
-关于域名 域名中姓氏放到了后面，这个并不是我崇洋媚外，也不是赶时髦，只是不知道谁注册了我姓名的域名，还拿去卖玩具，哎。
-打算 先把以前的写的文章搬过来，期间把网站美化下。剩下的就是持续写。</p>
+    <p>一、安装： 安装Apache、Python、Django、mod_wsgi、项目所需的依赖（数据库驱动、第三方库等）
+二、项目设置： 1、把整个项目放到服务器上
+2、改变DEBUG配置，修改settings.py文件的DEBUG属性
+DEBUG=False 3、数据库连接配置，修改settings.py的数据库连接配置
+4、修改允许访问的HOST，修改settings.py的ALLOWED_HOSTS=[&#39;*&#39;]
+5、添加404和500页面，把页面文件放到template目录下
+6、静态文件配置，修改settings.py的STATIC_ROOT的值，此属性的值是部署后静态文件保存的目录。
+7、收集静态文件，运行命令：python manage.py collectstatic。django会把STATICFILES_DIRS中配置的目录下的所有文件和文件夹拷贝到STATIC_ROOT配置的目录下。
+8、修改与settings.py同目录下的wsgi.py，添加如下代码：
+import sys sys.path.append(&#34;/home/myproject&#34;) &#34;/home/myproject&#34;替换成项目的根目录，这段代码的作用是把项目的路径添加到python的环境变量下，使得os.environ.setdefault(&#34;DJANGO_SETTINGS_MODULE&#34;, &#34;myproject.settings&#34;)这句断码可以正确查找到项目的settings.py文件。
+三、Apache配置： 修改配置文件httpd.conf 1）、配置Apache加载mod_wsgi
+LoadModule wsgi_module modules/mod_wsgi.so 2）、配置静态文件映射
+Alias URL-path file-path|directory-path 如Alias /static &#34;/home/myproject/static&#34; 3）、apache虚拟主机（VirtualHost）配置
+&lt;VirtualHost *:80&gt; DocumentRoot /ytxt/surveyproject ServerName www.feiyuejihua.com WSGIScriptAlias / /ytxt/surveyproject/surveyproject/django.wsgi ErrorLog /ytxt/log/feiyuejihua.log &lt;Directory /&gt; Order deny,allow Allow from all &lt;/Directory&gt; &lt;Directory /apache&gt; Allow from all &lt;/Directory&gt; &lt;/VirtualHost&gt; DocumentRoot：为项目的根路径 ServerName：项目的域名 ErrorLog：为异常日志路径 WSGIScriptAlias：映射一个URL到一个文件系统地址并委派目标文件为WSGI Script 四、启动服务器： 启动：httpd -k start 重启：httpd -k restart 关闭：httpd -k stop 或 httpd -k shutdown </p>
   </div>
-  <footer class="entry-footer"><span title='2013-07-25 21:51:00 +0800 CST'>July 25, 2013</span></footer>
-  <a class="entry-link" aria-label="post link to 我的第一篇博文" href="https://blog.qiwei.dev/posts/other/my-first-blog/"></a>
+  <footer class="entry-footer"><span title='2013-09-02 10:20:00 +0800 CST'>September 2, 2013</span></footer>
+  <a class="entry-link" aria-label="post link to Django&#43;apache&#43;mod_wsgi部署" href="https://blog.qiwei.dev/posts/coding/django-apache-mod-wsgi-deployment/"></a>
 </article>
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>Mybatis返回特殊Map
+    <h2>Django基础入门
     </h2>
   </header>
   <div class="entry-content">
-    <p>想返回个特殊实体，一个Map，key是一个表的一个字段的值，value是另一个表的所有记录。参考了下网上的“攻略”，不过和攻略里面讲的有点不同，那里面key的值value的实体实在同一个表内，如果不同表，会报缺少set方法的异常。解决方法很简单，就是在实体里面加个字段对应的属性。但是并不愿意为了一个查询语句就要去改变实体。
-无聊看了下session的select，提供了通过 ResultHandler 来处理返回的结果集。所以尝试着解决这个问题。
-mapper.xml里面的配置如下：
-&lt;resultMap type=&#34;HashMap&#34; id=&#34;testMap&#34;&gt; &lt;result column=&#34;UA_INFO&#34; property=&#34;key&#34; /&gt; &lt;association property=&#34;value&#34; resultMap=&#34;com.xxx.xxx.BaseResultMap&#34;&gt; &lt;/association&gt; &lt;/resultMap&gt; &lt;select id=&#34;getUaMapByTimestamp&#34; parameterType=&#34;Map&#34; resultMap=&#34;testMap&#34;&gt; SQL语句 &lt;/select&gt; com.xxx.xxx.BaseResultMap是另一个实体的mapper的resultMap。这个查询，返回的每一条记录都是 {key=..., value=...}
-这个结果集并不符合要求。不过通过ResultHandler来处理每一条记录就可以达到要求了。
-看下Mybatis源码里面有关继承 ResultHandler 的 DefaultMapResultHandler类。
-public class DefaultMapResultHandler&lt;K, V&gt; implements ResultHandler { private final Map&lt;K, V&gt; mappedResults; private final String mapKey; @SuppressWarnings(&#34;unchecked&#34;) public DefaultMapResultHandler(String mapKey, ObjectFactory objectFactory) { this.mappedResults = objectFactory.create(Map.class); this.mapKey = mapKey; } public void handleResult(ResultContext context) { // TODO is that assignment always true?...</p>
+    <p>安装： 下载后运行python setup.py install或pip安装
+创建项目： 进入准备创建项目的目录下，运行命令：
+django-admin.py startproject xxx django-admin.py在windows（其他系统也可能因为安装不同而不在环境变量里）下不能直接调用，可以将其放入环境变量中或是去python的安装目录下的Lib\site-packages\django\bin下运行。windows下没有关联文件类型的话，上面的命令前需要加上ptyhon，即
+python django-admin.py startproject xxx 创建的项目结构如下：
+projectname/ |- manage.py |- projectname/ |- __init__.py |- settings.py |- urls.py |- wsgi.py 运行项目： python manage.py runserver 默认端口号是8000，可以指定端口号运行
+python manage.py runserver 8080 访问http://127.0.0.1:8000/可以显示django的默认页面 这种运行方式并非部署，只是运行Development Server，只能可靠的处理一次单个请求。在此模式下代码或配置的变动都会立即生效。
+创建APP： python manage.py startapp xxx APP结构如下：
+APPname/ |- __init__.py |- models.py |- tests.py |- views.py 进入项目的settings.py下，把新建的APP加入到INSTALLED\_APPS 中，例如：
+INSTALLED_APPS = ( &#39;django.contrib.auth&#39;, &#39;django.contrib.contenttypes&#39;, &#39;django.contrib.sessions&#39;, &#39;django.contrib.sites&#39;, &#39;django.contrib.messages&#39;, &#39;django.contrib.staticfiles&#39;, # Uncomment the next line to enable the admin: # &#39;django....</p>
   </div>
-  <footer class="entry-footer"><span title='2012-08-04 23:00:00 +0800 CST'>August 4, 2012</span></footer>
-  <a class="entry-link" aria-label="post link to Mybatis返回特殊Map" href="https://blog.qiwei.dev/posts/coding/mybatis-special-map/"></a>
+  <footer class="entry-footer"><span title='2013-08-29 17:01:00 +0800 CST'>August 29, 2013</span></footer>
+  <a class="entry-link" aria-label="post link to Django基础入门" href="https://blog.qiwei.dev/posts/coding/django-study-start/"></a>
 </article>
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>Java可变参数方法及它的重载
+    <h2>Java静态代码块（static{}）
     </h2>
   </header>
   <div class="entry-content">
-    <p>JAVA支持方法的可变参数。类似如下
-public void method1(String... arg1); 这样，调用method1时候，参数的数量是可变的，如method1(“1”,“2”,“3”)。注意可变参数只能是最后一个参数。
-JAVA内部是把这样的参数看成一个数组来处理。在获取多个参数的时候可以用数组遍历来完成。
-for (String temp : arg1) { System.out.println(&#34;one of the arguments is &#34; &#43; temp); } 可能有人会说，这样的循环遍历像List那样的集合也可以，凭什么说是数组。那好，再看下面代码：
-public void method1(String... arg1); public void method1(String[] arg1); 这样的重载，在编译时候会报错，JAVA不允许这样的重载，其实理由很简单，String… 和String[]对编译器来说是一样的。参数一样自然无法重载。
-下面是可变参数方法的重载：
-public void method1(String... arg1) { } public void method1(String a, String... arg1) { } 我在eclipse中测试，IDE并没有提示错误。但是在实例后调用就不行了，IDE报 The method method1(String[]) is ambiguous for the type ...，大致是说这个方法有混淆，无法正确的调用。话说类编译的时候没问题，到实例后调用就会提示错误。
-public void method1(String... arg1) { System.out.println(&#34;1&#34;); } public void method1(String a, String b) { System....</p>
+    <p>静态代码块：即在类中的标有static修饰符的代码块，如：
+static { } 与一般代码块的异同： 相同点：都是在JVM加载类时且在构造方法执行之前执行，在类中都可以定义多个，一般在代码块中对一些static变量进行赋值。
+不同点：静态代码块在非静态代码块之前执行。静态代码块只在第一次new执行一次，之后不再执行，而非静态代码块在每new一次就执行一次。非静态代码块可在普通方法中定义；而静态代码块不行。
+与静态方法的区别： 静态代码块在第一次初始化的时候被执行，静态方法在类加载的时候被加载，且必须需要主动调用才会执行。
+执行顺序相关： 1、单个类的初始化顺序如下：为静态属性分配内存并赋值-&gt;执行静态代码块-&gt;为非静态属性分配内存并赋值-&gt;执行非静态代码块-&gt;构造函数。
+2、有继承关系的类的初始化顺序如下：父静属-&gt;父静块-&gt;子静属-&gt;子静块-&gt;父非静属-&gt;父非静块-&gt;父构造-&gt;子非静属-&gt;子非静块-&gt;子构造。
+static的一些使用注意事项： 1、静态方法只能调用同类中的其他静态成员（静态方法或是静态变量）。
+2、静态方法不能使用this和super。因为静态方法不属于任何实例。
+3、静态变量属于整个类，在类的方法中不能定义静态方法。</p>
   </div>
-  <footer class="entry-footer"><span title='2012-04-28 12:00:00 +0800 CST'>April 28, 2012</span></footer>
-  <a class="entry-link" aria-label="post link to Java可变参数方法及它的重载" href="https://blog.qiwei.dev/posts/coding/java-varargs-method-overload/"></a>
+  <footer class="entry-footer"><span title='2013-08-21 10:43:00 +0800 CST'>August 21, 2013</span></footer>
+  <a class="entry-link" aria-label="post link to Java静态代码块（static{}）" href="https://blog.qiwei.dev/posts/coding/java-static-code-block/"></a>
 </article>
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>Hibernate获取返回值报XXX connot be cast to [Ljava.lang.Object
+    <h2>Java源码解读——ArrayList
     </h2>
   </header>
   <div class="entry-content">
-    <p>今天在测试时候发现在获取Hibernate返回数据时候报 java.math.BigDecimal cannot be cast to \[Ljava.lang.Object 异常，但是查看了代码，很简单也很平常，createNativeQuery执行，getResultList获取结果集，每行都用Object[]类型。调试时候发现返回结果集为[2]，也就是就一行且一个。也就是说，每行的类型不再是 Object[]。
-按以往， getResultList 的返回是一个 List(Object\[\])，当如果返回只有一个，比如1或2是，类型就变成了该数据库字段所对应的类型，在我这里就是BigDecimal。
-真是不明白，多个就是Object[]，一个就变成不是数组了。 Hibernate莫名其妙啊。发下牢骚。。。</p>
+    <p>为了提高自己的Java开发能力，我也向高手、牛人学习，去解读源码。自己底子差了点，不过看个源码还是没问题的。第一站ArrayList。
+源码为Java 1.7的源码
+ArrayList是一个实现可变长数组，继承AbstractList类，实现所有的List接口，还实现了RandomAccess、Cloneable、Serializable接口。ArrayList不进行同步，除此之外基本和Vector等同。
+1、成员变量 private transient Object[] elementData; elementData用于保存数据的数组。
+private int size; size为ArrayList内的数据数量，但并不是elementData的长度。
+2、构造方法 public ArrayList(int initialCapacity) { super(); if (initialCapacity &lt; 0) throw new IllegalArgumentException(&#34;Illegal Capacity: &#34;&#43; initialCapacity); this.elementData = new Object[initialCapacity]; } public ArrayList() { this(10); } public ArrayList(Collection&lt;? extends E&gt; c) { elementData = c.toArray(); size = elementData.length; if (elementData.getClass() != Object[].class) elementData = Arrays.copyOf(elementData, size, Object[].class); } 第一个是根据指定长度建立List，第二个是根据默认长度建立List，第三个根据传入Collection子类实例创建List。通过第三个实例看到Collection子类都会实现toArray()方法，可以看出至少很多Collection子类依赖于数组来实现（还没看过其他的集合实现，这只是我的妄言而已）。
+3、add方法 public boolean add(E e) { ensureCapacityInternal(size &#43; 1); elementData[size&#43;&#43;] = e; return true; } 该方法在数组最后添加一个元素。ensureCapacityInternal方法提供了ArrayList的自增长实现，以确保elementData有足够的长度来容纳新进入的元素（后面介绍自增长的实现）。...</p>
   </div>
-  <footer class="entry-footer"><span title='2011-11-03 21:41:00 +0800 CST'>November 3, 2011</span></footer>
-  <a class="entry-link" aria-label="post link to Hibernate获取返回值报XXX connot be cast to [Ljava.lang.Object" href="https://blog.qiwei.dev/posts/coding/hibernate-cannot-cast/"></a>
+  <footer class="entry-footer"><span title='2013-08-14 15:11:00 +0800 CST'>August 14, 2013</span></footer>
+  <a class="entry-link" aria-label="post link to Java源码解读——ArrayList" href="https://blog.qiwei.dev/posts/coding/java-source-arraylist/"></a>
 </article>
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>itext中文本的绝对位置放置
+    <h2>编写可读代码的艺术-代码应当易于理解
     </h2>
   </header>
   <div class="entry-content">
-    <p>text中表格可以使用
-table.writeSelectedRows(0, -1, x, y, writer.getDirectContent()); 来实现绝对位置放置。那文本段落呢…
-当我们不需要itext对每个单词、句子、段落实现自动格式的时候，或是想使用特殊布局，就可以使用PdfContentByte来实现绝对位置放置。
-PdfContentByte的初始化：
-PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(&#34;test.pdf&#34;)); PdfContentByte cb = writer.DirectContent; 将文本写入ContentByte中时，必须使用方法beginText()和endText()，同时也必须设置字体和尺寸。有两种方法来写入和放置文本。
-方法一：
-BaseFont bf = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.NOT_EMBEDDED); cb.beginText(); cb.setFontAndSize(bf, 12); cb.showTextAligned(PdfContentByte.ALIGN_CENTER, text &#43; &#34;This text is centered&#34;, 250, 700, 0); cb.endText(); 方法二：
-BaseFont bf = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.NOT_EMBEDDED); cb.beginText(); cb.setFontAndSize(bf, 12); cb.setTextMatrix(100, 400); cb.showText(&#34;Text at position 100,400.&#34;); cb.endText(); </p>
+    <p>虽说我编程也有五年了，不过很多细节的东西还是不够注意。关于别人是否能读懂自己所写的代码，这个问题的确很少在平常的开发中想过，即使有过这个念头，最多的也就是考虑下代码的结构清晰，这有助于减少BUG，方便阅读。至于其他相关的就比较少解除了，或是完全没有概念。之前学习过变量和函数的命名，不过实际中很少考虑，命名很是随意。读这书是希望提高下自己的代码质量，当然个人认为代码的可读、整洁、优美是代码质量的一部分。
+可读性基本定理 定理：代码的写法应当是别人理解它所需的时间最小化
+找一个同事，测试下他读自己代码并理解它所需要的时间，这个“理解代码时间”就是最小化的理论度量。并且这个“理解”有很高的标准，真的完全理解所看的代码的话，就能改动它、找出缺陷并明白它是如何与代码的其他部分交互的。
+总是越小越好吗 从代码数量上来看，越少的代码，阅读和理解的速度就应该越快，但这不是必然，少的代码并不总是更好，如：
+assert((!(bucket = FindBucket(key))) || !bucket-&gt;IsOccupied()); 相比
+bucket = FindBucket(key); if (bucket != NULL) assert(!bucket-&gt;IsOccupied()); 前者理解起来比后者两行代码所花的时间更多。
+有时候一条适合的注释可以让阅读着更快地理解代码，尽管增加了长度。
+理解代码所需的时间是否与其他目标有冲突 这里说的其他目标包括优化、架构、测试等。不过答案是否定的，这些根本不会相互影响。更多的介绍会在后面章节提到。
+最难的部分 是的，最难的部分是让养成一个在编码时考虑如何让他人更容易理解你的代码的习惯。这不光需要时间去适应，而且需要一定的毅力。开发过程中各种情况都会让你放弃这种想法，比如进度、他人代码的质量等。
+如果你是个新手，说真的，这书值得去看。在日常的工作中，去理解他人代码或是他人来阅读你的代码的情景时常有。甚至自己也会忘记自己所写代码的含义，一周或一个月后再去看自己的代码，都觉得那么陌生。项目的维护时间远多余开发，当后期需要再次开发或修改BUG的时候，那些好的、易于理解的代码将大大节省时间。所以编写可读代码不经方便他人，还能提高自身的工作效率。</p>
   </div>
-  <footer class="entry-footer"><span title='2011-05-12 12:02:00 +0800 CST'>May 12, 2011</span></footer>
-  <a class="entry-link" aria-label="post link to itext中文本的绝对位置放置" href="https://blog.qiwei.dev/posts/coding/itext-absolute-position/"></a>
+  <footer class="entry-footer"><span title='2013-08-09 17:12:00 +0800 CST'>August 9, 2013</span></footer>
+  <a class="entry-link" aria-label="post link to 编写可读代码的艺术-代码应当易于理解" href="https://blog.qiwei.dev/posts/coding/the-art-of-readable-code/"></a>
 </article>
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>用apache的ant解压zip文件（中文文件或文件夹解决方法）
+    <h2>霸王别姬-人生一场戏
     </h2>
   </header>
   <div class="entry-content">
-    <p>昨天在研究用apache的ant包来解压zip文件，把经验写下来与大家分享。 写贴上代码
-package upzip; import java.io.File; import java.io.FileOutputStream; import java.io.InputStream; import org.apache.tools.zip.*; import java.util.Enumeration; /** * 压缩解压ZIP文件 * @author Administrator * */ public class AntZip { private ZipFile zipFile; private static int bufSize; //size of bytes private byte[] buf; private int readedBytes; /** * * @param bufSize 缓存大小 */ public AntZip(int bufSize){ this.bufSize = bufSize; this.buf = new byte[this.bufSize]; } public AntZip(){ this(1024); } /** * 生存目录 * @param directory 解压文件存放目录 * @param subDirectory 子目录（没有时可传入空字符串） */ private void createDirectory(String directory, String subDirectory) { String dir[]; File fl = new File(directory); try { if(subDirectory == &#34;&#34; &amp;&amp; fl....</p>
+    <p>中午闲着没事看了下陈凯歌导言的《霸王别姬》，先不说其他的，吐槽下英文名——《Farewell My Concubine》，意思是“告别我的情妇”，让我怎么和“霸王别姬”这四个字联系起来。怪不得中国的文学作品老拿不到国际的什么奖。
+程蝶衣 幼年的他是不是找女娃来演的啊，那个秀气啊。幼年的他一脸漠然像，感觉他对自己人生没有任何的想法，听天由命。当他逃出戏班子，在剧院看了那出霸王别姬后，似乎他才确认了他人生的目标。
+他的人生就是一段戏，入戏的时候实在他说出“我本是女娇娥，又不是男儿郎”，出戏是在电影最后，说出了“我本是男儿郎，又不是女娇娥”。期间他就一直沉浸在他自己的戏里面。按段小楼的说法是他简直是入魔了。幼年的蝶衣柔弱、胆小，而后来的他却显得坚毅、勇敢，特别是找日本人救小楼。再加上对小楼的那份情，这不正是霸王别姬中虞姬应有的吗。应了袁四爷那句话“虞姬是真虞姬”。
+蝶衣最后选择了自杀，在他说出了“我本是男儿郎，又不是女娇娥”后。相信在他说出这句话后他已经出戏了，而这场戏，一演就是大半辈子。回首往事，再看已经不存在了的霸王，以及将来要承受的现实，像虞姬那样自刎是他唯一的选择了，他的自刎也为他如戏的一生画上了圆满的句号。
+电影中蝶衣对他母亲的感情描述的地方很少，我记得只有三处：烧掉他母亲给的衣服；写信给母亲然后烧掉；在戒毒的时候喊着娘。他心里对他母亲是又爱又恨，烧掉他母亲给他的衣服，这是因为他母亲风尘女子的身份，是他无法抬头面对他人。而烧掉给他母亲的信，他完全就当母亲已经不在人世了，电影没有介绍他去寻找他母亲，或是根本就没打算寻找，也许是还恨着母亲抛弃他吧。而写信说明还是思念母亲。在他最艰难时刻含着“娘”，那些对话是在他小时候对他母亲说的，他还依然保留这小时候和母亲在一起的记忆。这里也说明了蝶衣记忆力为什么这么好了，他怕失去，所以一直记着。在开始的时候蝶衣能清楚的说出不唱戏的时间和两人没见面的时间。
+段小楼 电影开始那个说话没底气的人很难与后面那个脾气差、耿直、冲动的段小楼对着上，直到看完电影，看着他的一点的一点的改变，才能理解。
+不管他是真霸王还是假霸王，按他幼年和出名那会的性格，他的英雄救美，他对日本人的无视，还真与楚霸王几分相似。也许这也是蝶衣一直把他当心中的楚霸王的原因之一吧。
+他的人生从菊仙的出现才发生了改变。一个女人能成就一方霸主，也能毁掉一个英雄啊！小楼没有发现蝶衣对他的爱，因为他不知道蝶衣一直在戏里，或是他一直就没入戏，也真实袁四爷那句“虞姬是真虞姬，霸王是假霸王”，不是他演的不够好，而是他本来就没有入戏。所以说菊仙并不是什么第三者，也不能去怪蝶衣的恋情的畸形。身为虞姬的蝶衣自然爱着那个英雄楚霸王，而作为男人的小楼和菊仙在一起也是情理所在。
+他的改变也那一代人的改变，从年轻气盛的小伙子，直到成为一个世俗的老人，经历了抗日战争、解放、文革的人，能不改变吗。菊仙对多只算催化剂，不管如何，最后他还是变成那样子的。
+菊仙 一个风尘女子，有勇有谋，善于判断形势，也是她加速了小楼的改变。也是他为蝶衣和小楼间带来了冲突。不过她只是一个代表，即使没有菊仙，也会有其他人替补上她的位置，小楼是个男人，终究会结婚生子，他和蝶衣之间的问题总是会出现的。有了菊仙这样的女子，让故事变的更不一般。
+菊仙一直担心小楼和蝶衣在一起会出事，反对小楼和蝶衣一起唱戏，她内心的不安出自当初她对誓言的背弃。当她求蝶衣救小楼的时候承诺今后离开小楼，结果她食言了。再加上她为自己赎身时候老鸨说的那番话，也许就能明白她最后自杀的原因了。当小楼说出和她划清界限后，小楼是无奈的，但是在菊仙心里，她会觉得小楼还是介意了她以前的身份。
+只是不明白菊仙最后为什么救那把剑。这把剑本来是类似小楼和蝶衣间的定情信物，对于她来说，没有多少价值。
+最后 这里面没有三角恋，一个在戏里，一个在戏外；一个在古代，一个在现实。蝶衣对小楼也只是虞姬对霸王的感情，而小楼和菊仙是一对平凡夫妻的感情。
+这里面也有因果报应，菊仙、张公公、袁四爷、小四，他们都得到应有的报应。话说蝶衣和小楼估计都把小四当自己的孩子一样看待吧。可惜了这娃，只能说是那个时代的错。
+我喜欢戏班子师傅教导徒弟那几话：第一句，人得自各儿成全自各儿。第二句，自古人生一世，需有一技之长，我辈既务斯业，便当专心用功，以后名扬四海，根据全在年轻。是啊，我的一技之长是什么——编程。只能专心用功，以后希望名扬四海。</p>
   </div>
-  <footer class="entry-footer"><span title='2011-03-04 12:01:00 +0800 CST'>March 4, 2011</span></footer>
-  <a class="entry-link" aria-label="post link to 用apache的ant解压zip文件（中文文件或文件夹解决方法）" href="https://blog.qiwei.dev/posts/coding/apache-ant-unzip-chinese/"></a>
+  <footer class="entry-footer"><span title='2013-08-09 12:39:00 +0800 CST'>August 9, 2013</span></footer>
+  <a class="entry-link" aria-label="post link to 霸王别姬-人生一场戏" href="https://blog.qiwei.dev/posts/other/farewell-my-concubine/"></a>
 </article>
 <footer class="page-footer">
   <nav class="pagination">

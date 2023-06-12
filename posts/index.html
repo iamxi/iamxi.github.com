@@ -153,180 +153,185 @@
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>设计模式学习-组合模式（Composite）
+    <h2>Zuul网关丢失鉴权信息问题
     </h2>
   </header>
   <div class="entry-content">
-    <p>意图： 将对象组合成树形结构以表示“部分-整体”的层次结构。Composite使得用户对单个对象和组合对象的使用具有一致性。
-结构： 参与者
-Component(Graphic) 为组合中的对象声明接口。 在适当的情况下，实现所有类共有接口的缺省行为。 (可选)在递归结构中定义一个接口，用于访问一个父部件，并在合适的情况下实现它。 Leaf(Rectangle、Line、Text等) 在组合中表示叶节点对象，叶节点没有子节点。 在组合中定义图元对象的行为。 Composite(Picture) 定义有子部件的那些部件的行为。 存储子部件。 在Component接口中实现与子部件有关的操作。 Client 通过Component接口操纵组合部件的对象。 代码示例： Component
-public interface Component { public void operation(); public void add(Component item); void remove(Component item); public Component getChild(int i); } Composite
-public class Composite implements Component { private List&lt;Component&gt; children = new ArrayList&lt;Component&gt;(); @Override public void operation() { for (Component child : children) { child.operation(); } } @Override public void add(Component item) { this....</p>
+    <p>公司有个项目使用spring cloud全家桶。由zuul做入口，路由到各个业务系统。其中路由完成登陆鉴权。后来有一个业务系统需要用到这些登陆信息，所以希望路由这端将登陆的信息通过消息头的方式带到业务系统。
+想想实现很简单，定义一个feign的拦截器，把登陆信息填到header中。不过中间遇到个小问题。统一的路由中将信息保持到了一个ThreadLocal中，拦截器会从这个ThreadLocal中取出数据。问题就出在这里，取到的数据是空的。其他地方也在使用这个ThreadLocal中的数据，并未发现问题，未读这个feign拦截器却不行。最奇怪的本地测试可以，跑测试环境就不行。
+再三排查，也查了不少资料，最后看到有博客上提到差不多的问题，原因是Hystrix的策略导致的。Hystrix使用不同的线程完成工作，也就是说Hystrix的线程与Request不再同一个线程中。这样，基于ThreadLocal的一些功能都无法正常使用。后来再stackoverflow上找到了解决办法，连接。框架的开发者也知道这问题，所以提供了一套完整的解决方案。HystrixRequestContext和HystrixRequestVariableDefault就是用来解决这个跨线程时共享数据问题的。简单的说，放入HystrixRequestVariableDefault中的数据，不管是在Requst线程中，还是在Hystrix的线程中，都可以访问到。不过HystrixRequestVariableDefault必须在每一个请求开始的时候进行初始化，同时在请求结束收回收里面的数据。
+方案有了，上代码，先实现一个mvc的拦截器，将ThreadLocal中的数据转到HystrixRequestVariableDefault中：
+public class HystrixContext { public static final String LOGIN_INFO_HEADER_KEY = &#34;his-login-info&#34;; public static final String TOKEN_HEADER_KEY = &#34;token&#34;; public static final HystrixRequestVariableDefault&lt;LoginInfo&gt; LOGIN_INFO = new HystrixRequestVariableDefault&lt;&gt;(); } try { if (!HystrixRequestContext.isCurrentThreadInitialized()) { HystrixRequestContext.initializeContext(); } LoginInfo loginInfo = convertLoginInf(request.getHeader(HystrixContext.LOGIN_INFO_HEADER_KEY)); LoginInfoUtil.setInfo(loginInfo); String token = request.getHeader(HystrixContext.TOKEN_HEADER_KEY); LoginInfoUtil.setToken(token); HystrixContext.LOGIN_INFO.set(LoginInfoUtil.getLoginInfo()); } catch (Exception e) { LOG.error(&#34;从头信息中获取数据失败&#34;, e); } 然后给feign加一个拦截器：
+try { if (!HystrixRequestContext.isCurrentThreadInitialized()) { HystrixRequestContext.initializeContext(); } LoginInfo loginInfo = HystrixContext.LOGIN_INFO.get(); if (loginInfo !...</p>
   </div>
-  <footer class="entry-footer"><span title='2013-08-08 15:27:00 +0800 CST'>August 8, 2013</span></footer>
-  <a class="entry-link" aria-label="post link to 设计模式学习-组合模式（Composite）" href="https://blog.qiwei.dev/posts/coding/design-patterns/design-patterns-composite/"></a>
+  <footer class="entry-footer"><span title='2019-06-28 15:43:46 +0800 CST'>June 28, 2019</span></footer>
+  <a class="entry-link" aria-label="post link to Zuul网关丢失鉴权信息问题" href="https://blog.qiwei.dev/posts/coding/zuul-gateway-lost-auth-info/"></a>
 </article>
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>原型工厂模式
+    <h2>Django2 Template 路径配置
     </h2>
   </header>
   <div class="entry-content">
-    <p>顾名思义就是原型模式和工厂模式的结合。在GOF的书里面，抽象工厂那节中对这个有描述，不过内容很少，所以看的时候也没注意到。
-说个实际的问题：系统需要向用户发送短信，但是根据场景的不同，发送的短信格式也不同，比如重置密码和发送临时验证码的短信格式就有区别，而之前的开发人员使用了策略模式，每个内容都有一个类，现在也不方便去改动这些。但是随需求的增加，发送的场景在不断增加，策略&#43;工厂方法模式的情况下需要去增加更多的if-else，导致扩展困难，也使得调用时候不直观。
-本人自认为自己小脑瓜没有能力想出好办法，只好去翻下书籍，无意中看到了抽象工厂内介绍原型工厂的内容，想着可以借鉴。如果依靠一定规范的传入参数，通过if-else来判断需要使用的算法闲代码忒长，那么不为什么不直接传入算法呢。当然传入算法的类的话太费资源，但是传个Class或Class Name不适问题。
-参数就是用枚举，这比String参数好，原因是String可以传入任何字符串，而枚举只能是枚举内的指定值，枚举代码如下：
-public enum MessageBuilderEnum { RESET_PASSWORD_SMS(ResetPwSmsMsgSendServiceImpl.class), RESET_PASSWORD_EMAIL(ResetPwMailMsgSendServiceImpl.class), SMS_FEE(SmsFeeMsgSendServiceImpl.class), TEMP_CODE_SMS(TempCodeSmsMsgSendServiceImpl.class), UNIVERSAL_SMS(BoundMsgSendServiceImpl.class); private Class&lt;?&gt; builderClass; MessageBuilderEnum(Class&lt;?&gt; builderClass) { this.builderClass = builderClass; } public Class&lt;?&gt; getBuidlerClass() { return builderClass; } } 再看下功能实现的代码
-private static ConcurrentHashMap&lt;String, AbstractMsgSendServiceImpl&gt; messageBuilder = new ConcurrentHashMap&lt;String, AbstractMsgSendServiceImpl&gt;(); public MessageSendServiceImpl() { for (MessageBuilderEnum builderClass : MessageBuilderEnum.values()) { try { messageBuilder.put(builderClass.getBuidlerClass() .getSimpleName(), (AbstractMsgSendServiceImpl) builderClass .getBuidlerClass().newInstance()); } catch (InstantiationException e) { logger.error(e.getMessage(), e); } catch (IllegalAccessException e) { logger....</p>
+    <p>前端时间在那django些个小网站，其中需要配置下template路径，按以前经验配置了下，
+TEMPLATE_DIRS = ( os.path.join(BASE_DIR, &#39;templates&#39;).replace(&#39;\\&#39;, &#39;/&#39;), ) 弄了半天也没成功。最后无奈去看了下官方文档，找到内容有限，不过可以确定的是TEMPLATE_DIRS这个配置项已经没有了。
+然后谷歌了下，找到了新的配置方法：
+TEMPLATES = [ { &#39;BACKEND&#39;: &#39;django.template.backends.django.DjangoTemplates&#39;, # 这里，这个DIRS就是 &#39;DIRS&#39;: [os.path.join(BASE_DIR, &#39;templates&#39;).replace(&#39;\\&#39;, &#39;/&#39;),], &#39;APP_DIRS&#39;: True, &#39;OPTIONS&#39;: { &#39;context_processors&#39;: [ &#39;django.template.context_processors.debug&#39;, &#39;django.template.context_processors.request&#39;, &#39;django.contrib.auth.context_processors.auth&#39;, &#39;django.contrib.messages.context_processors.messages&#39;, ], }, }, ] 这个方法在django 1.8以上到我现在的2.0.2有效。不保证以后版本依然有效。</p>
   </div>
-  <footer class="entry-footer"><span title='2013-07-31 13:58:00 +0800 CST'>July 31, 2013</span></footer>
-  <a class="entry-link" aria-label="post link to 原型工厂模式" href="https://blog.qiwei.dev/posts/coding/design-patterns/design-patterns-prototype-factory/"></a>
+  <footer class="entry-footer"><span title='2018-03-22 15:43:46 +0800 CST'>March 22, 2018</span></footer>
+  <a class="entry-link" aria-label="post link to Django2 Template 路径配置" href="https://blog.qiwei.dev/posts/coding/django2-template-path-config/"></a>
 </article>
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>设计模式学习-桥接模式（Bridge）
+    <h2>spring cloud feign 拦截器配置
     </h2>
   </header>
   <div class="entry-content">
-    <p>意图 将抽象部分与它的实现部分分离，使它们都可以独立地变化。
-别名 Handle/Body
-结构 参与者
-Abstraction
-— 定义抽象类的接口。
-— 维护一个指向Implementor类型对象的指针。 RefinedAbstraction
-— 扩充由Abstraction定义的接口。 Implementor
-— 定义实现类的接口，该接口不一定要与Abstraction的接口完全一致；事实上这两个接口可以完全不同。一般来讲，Implementor接口仅提供基本操作，而Abstraction则定义了基于这些基本操作的较高层次的操作。 ConcreteImplementor
-— 实现Implementor接口并定义它的具体实现。 示例代码： public abstract class Abstraction { private Implementor impl; public Implementor getImpl() { return impl; } public void setImpl(Implementor impl) { this.impl = impl; } public Abstraction(Implementor impl) { this.impl = impl; } public abstract void operation(); } public class RefinedAbstraction extends Abstraction { public RefinedAbstraction(Implementor impl) { super(impl); } @Override public void operation() { getImpl()....</p>
+    <p>问题 公司大规模推全链路，要求所有应用都接入。手头一个新的项目，采用spring cloud框架。通过 feign 调用rest接口。但是支持提供的支持 HttpClient4 的方式无法对 feign 起作用。
+思路 想着 feign 也是采用 HttpClient 的。按理对 HttpClient4 起作用的也应该同样有效。然后去看了下架构组全链路配置代码，原来他们是在初始化 HttpCLient 实例时候，加入了拦截器。通过拦截器，在 header 中加入链路信息。但是这个方式似乎对 feign 没啥作用。那我就自己实现添加拦截器呗。
+查了下 feign 添加拦截器，网络上提供的方式都是通过自定义 FeignConfiguration 的方式来实现。方法如下：
+新建 FeignConfiguration类
+public class FeignConfiguration { @Bean public FeignBasicAuthRequestInterceptor basicAuthRequestInterceptor() { return new FeignBasicAuthRequestInterceptor(); } } 然后在配置客户端调用时候加入配置中
+@FeignClient(value = &#34;xxx-service&#34;, path = &#34;/xxx&#34;, configuration = FeignConfiguration.class) 只是这种方法无法做到全局。找了好久，看了文档，都没有办法配置全局。
+无奈，去翻源码吧。找到了 FeignAutoConfiguration 类。看到了初始化配置。
+protected static class HttpClientFeignConfiguration { @Autowired( required = false ) private HttpClient httpClient; protected HttpClientFeignConfiguration() { } @Bean @ConditionalOnMissingBean({Client....</p>
   </div>
-  <footer class="entry-footer"><span title='2013-07-31 13:44:00 +0800 CST'>July 31, 2013</span></footer>
-  <a class="entry-link" aria-label="post link to 设计模式学习-桥接模式（Bridge）" href="https://blog.qiwei.dev/posts/coding/design-patterns/design-patterns-bridge/"></a>
+  <footer class="entry-footer"><span title='2018-01-25 20:53:21 +0800 CST'>January 25, 2018</span></footer>
+  <a class="entry-link" aria-label="post link to spring cloud feign 拦截器配置" href="https://blog.qiwei.dev/posts/coding/spring-cloud-feign-add-interceptor/"></a>
 </article>
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>设计模式学习-适配器（Adapter）
+    <h2>javabean字段文字拼接
     </h2>
   </header>
   <div class="entry-content">
-    <p>如果你知道电源适配器的作用，就应该很容易理解这个模式。
-意图： 将一个类的接口转换成客户希望的另外一个接口。 Adapter模式使得原本由于接口不兼容而不能一起工作的那些类可以一起工作。
-别名： 包装器 Wrapper
-结构： 类适配器
-对象适配器
-适用： 以下情况使用Adapter模式
-你想使用一个已经存在的类，而它的接口不符合你的需求。 你想创建一个可以复用的类，该类可以与其他不相关的类或不可预见的类（即那些接口可能不一定兼容的类）协同工作。 （仅适用于对象Adapter）你想使用一些已经存在的子类，但是不可能对每一个都进行子类化以匹配它们的接口。对象适配器可以适配它的父类接口。 双向适配器： 一般适配器对使用target接口的透明，无法给使用adaptee接口的使用。双向适配器可以解决这个问题，使适配器更透明。
-相关模式： 模式Bridge的结构与对象适配器类似，但是Bridge模式的出发点不同：Bridge目的是将接口部分和实现部分分离，从而对它们可以较为容易也相对独立的加以改变。而Adapter则意味着改变一个已有对象的接口。
-Decorator模式增强了其他对象的功能而同时又不改变它的接口。因此Decorator对应用程序的透明性比适配器要好。结果是Decorator支持递归组合，而纯粹使用适配器是不可能实现这一点的。
-模式Proxy在不改变它的接口的条件下，为另一个对象定义了一个代理。</p>
+    <p>问题 接了一个需求，从数据库拿出患者的记录，这些记录都是一些吸烟年份、饮酒年份、是否糖尿病等，不是数字就是布尔值，需要通过代码转化为普通人能理解的文字。
+思前想后，总不能使用大量 if-else 判断来拼接字符串吧。可以采用模板，但是那样除了必要判空，代码和模板也将分离，不方便维护。而且有些字段存在依赖关系。
+解决 刚好之前看了使用注解来替代枚举的方式。想着是否可以在每个需要拼接的字段上打上注解，通过判断注解的方式拼接。注解中也可以放入模板、依赖关系等配置。
+@Target({ElementType.FIELD}) @Retention(RetentionPolicy.RUNTIME) @Documented public @interface StringAssemble { /** * 模板 */ String template(); /** * 分类 */ String type() default &#34;&#34;; /** * 上级依赖 */ String dependency() default &#34;&#34;; /** * 相互依赖的内容之间的分割符号 */ String dependencySplit() default &#34;,&#34;; } 上面注解中，templete 主要是字段值需要填入的文字模板，type 用于不同的字段组合，dependency 主要是有依赖关系的字段之间的内容组合，最后一个是有依赖关系的字段字段拼接后用于隔离的标点。
+实现代码如下：
+private static String stringAssemble(Object data, String type, String splitPunctuation) { final Map&lt;String, String&gt; infoMap = new HashMap&lt;&gt;(); final Map&lt;String, String&gt; dependencyMap = new HashMap&lt;&gt;(); try { Field[] fields = data....</p>
   </div>
-  <footer class="entry-footer"><span title='2013-07-31 12:26:00 +0800 CST'>July 31, 2013</span></footer>
-  <a class="entry-link" aria-label="post link to 设计模式学习-适配器（Adapter）" href="https://blog.qiwei.dev/posts/coding/design-patterns/design-patterns-adapter/"></a>
+  <footer class="entry-footer"><span title='2018-01-20 10:58:21 +0800 CST'>January 20, 2018</span></footer>
+  <a class="entry-link" aria-label="post link to javabean字段文字拼接" href="https://blog.qiwei.dev/posts/coding/java-bean-field-assemble/"></a>
 </article>
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>设计模式学习-创建型模式
+    <h2>Dubbo统一异常拦截
     </h2>
   </header>
   <div class="entry-content">
-    <p>用于创建对象的模式。包括单件模式（Singleton）、抽象工厂模式（Abstract Factory）、生成器模式（Builder）、工厂方法模式（Factory Method）、原型模式（Prototype）。
-用一个系统创建的那些对象的类对系统进行参数化有两种常用方法：
-一、生成创建对象的类的子类；这对应于使用 Factory Method模式。这种方法的主要缺点是，仅为了改变产品类，就可能需要创建一个新的子类。这样的改变可能是级联的。
-二、对系统进行参数化的方法更多的依赖于对象复合：定义一个对象负责明确产品对象的类，并将它作为该系统的参数。这是 Abstract Factory、Builder和Prototype模式的关键特征。所有这三个模式都涉及到创建一个新的负责创建产品对象的“工厂对象”。Abstract Factory由这个工厂对象产生多个类的对象。 Builder由这个工厂对象使用一个相对复杂的协议，逐步创建一个复杂产品。 Prototype由该工厂对象通过拷贝原型对象来创建产品对象。
-如何选择： 使用Abstract Factory、Prototype或Builder的设计甚至比使用Factory Method的那些设计更灵活，但它们也更加复杂。通常，设计以使用 Factory Method开始，并且当设计者发现需要更大的灵活性时，设计便会向其他创建型模式演化。
-当然没必要就不要用。</p>
+    <p>问题 最近换了岗位，工作内容改成跟着架构师完善公司的技术架构。第一个任务就是做一个统一的异常拦截并返回相关错误码的方案。
+公司采用dubbo做分布式框架，按dubbo的推荐，异常已经直接抛给调用方（consumer），只是公司现有的约定是使用错误码。问了几个前辈后才知道，原来dubbo在处理自定义异常的时候有些限制。
+public Result invoke(Invoker&lt;?&gt; invoker, Invocation invocation) throws RpcException { try { Result result = invoker.invoke(invocation); if (result.hasException() &amp;&amp; GenericService.class != invoker.getInterface()) { try { Throwable exception = result.getException(); // 如果是checked异常，直接抛出 if (! (exception instanceof RuntimeException) &amp;&amp; (exception instanceof Exception)) { return result; } // 在方法签名上有声明，直接抛出 try { Method method = invoker.getInterface().getMethod(invocation.getMethodName(), invocation.getParameterTypes()); Class&lt;?&gt;[] exceptionClassses = method.getExceptionTypes(); for (Class&lt;?&gt; exceptionClass : exceptionClassses) { if (exception.getClass().equals(exceptionClass)) { return result; } } } catch (NoSuchMethodException e) { return result; } // 未在方法签名上定义的异常，在服务器端打印ERROR日志 logger....</p>
   </div>
-  <footer class="entry-footer"><span title='2013-07-31 09:59:00 +0800 CST'>July 31, 2013</span></footer>
-  <a class="entry-link" aria-label="post link to 设计模式学习-创建型模式" href="https://blog.qiwei.dev/posts/coding/design-patterns/design-patterns-creational-pattern/"></a>
+  <footer class="entry-footer"><span title='2017-10-09 10:02:55 +0800 CST'>October 9, 2017</span></footer>
+  <a class="entry-link" aria-label="post link to Dubbo统一异常拦截" href="https://blog.qiwei.dev/posts/coding/dubbo-exception-filter/"></a>
 </article>
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>设计模式学习-单件（Singleton）
+    <h2>hexo3搭建博客
     </h2>
   </header>
   <div class="entry-content">
-    <p>意图： 保证一个类仅有一个实例，并提供一个访问它的全局访问点。
-结构图： 代码示例： public class Singleton { private static Singleton instance = new Singleton(); private Singleton() { } public static Singleton getInstance() { return instance; } public void test() { System.out.println(&#34;Singleton test&#34;); } public static void main(String[] args) { Singleton s = Singleton.getInstance(); s.test(); } } 效果： 因为Singleton类封装它的唯一实例，所以它可以严格的控制。
-注意： Singleton不是说只能唯一，也可以控制其实例的数量，对多个实例的创建和控制。
-Singleton类可以有子类，而且用这个扩展类的实例来配置一个应用是很容易的。你可以用你所需要的类的实例在运行时刻配置应用。
-实现： 保证一个唯一的实例是该模式的重点，不同语言对此有不同的方法。面对语言特性，还需要注意并发同步等问题。
-相关模式： Abstract Factory、Builder、Prototype都可以用Singleton实现。</p>
+    <p>前几天心血来潮，翻出了不知道那年的博客，用户hexo重新搭建了下。把这个是记录下来。
+安装 这个不多说，hexo 官方文档有介绍。
+配置 基本的一些配置上面，上面也有，还有一些我参考了这篇博客，在此先谢过这位朋友的分享。
+遇到的问题及解决 CNAME 文件 因为 Github 需要 CNAME 文件，用于指定域名。不过放在 public 文件夹中的话，只要 clean 一次就没了。网站找了下资料，应该将其放在 source 目录总，这样在生成时候就会一起带到 public 文件夹中。一些博文中需要的图片（images）和favicon.ico等不变的内容也可以一起放在 source 目录下。
+README.md文件不渲染 在站点配置文件中添加
+skip_render: README.md stiemap 的生成 需要安装插件
+npm install hexo-generator-sitemap --save 站点配置文件中添加配置
+sitemap: path: sitemap.xml 博文永久连接 默认是时间分开。但是这样路径比较长。不方便管理。网上有种方法是urlname。使用urlname来作为链接，避免使用文件名。这样文件名就可以自己定义，方便本地管理。
+具体做法是，在站点配置文件中，修改配置如下：
+permalink: post/:urlname.html 然后在每一篇 post 中都需要加一个urlname，如这篇文章的：
+title: 20171001-hexo3搭建博客 date: 2017-10-01 03:44:13 tags: hexo urlname: blog-with-hexo3 缺点是，如果那篇忘记了这个，那生成的 html 文件将会是未知
+图片保存 hexo官网有推荐的方法，文档。当时我的觉这个太依赖hexo，不符合markdown的理念。所以，还是选择土办法管理图片，放在 source/images 目录下，post中直接用相对路径应用。亲测可行。
+博客的版本控制 hexo 的部署功能，只能建 public 文件夹中的内容推送到 Github 上。而配置文件和博客源文件都无法提交。如果换了电脑或电脑换了，那就什么都要从新开始了。...</p>
   </div>
-  <footer class="entry-footer"><span title='2013-07-31 09:39:00 +0800 CST'>July 31, 2013</span></footer>
-  <a class="entry-link" aria-label="post link to 设计模式学习-单件（Singleton）" href="https://blog.qiwei.dev/posts/coding/design-patterns/design-patterns-singleton/"></a>
+  <footer class="entry-footer"><span title='2017-10-01 03:44:13 +0800 CST'>October 1, 2017</span></footer>
+  <a class="entry-link" aria-label="post link to hexo3搭建博客" href="https://blog.qiwei.dev/posts/other/blog-with-hexo3/"></a>
 </article>
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>设计模式学习-原型（Prototype）
+    <h2>SpringMVC没有拦截根路径的问题
     </h2>
   </header>
   <div class="entry-content">
-    <p>很少见到，我都没遇到过，或是遇到过也没注意。
-意图： 用原型实例指定创建对象的种类，并且通过拷贝这些原型创建新的对象。
-结构： Prototype
-——声明一个克隆自身的接口 ConcretePrototype
-——实现一个克隆自身的操作 示例代码: public abstract class Prototype implements Cloneable { public Prototype clone() { try { return (Prototype) super.clone(); } catch (CloneNotSupportedException e) { e.printStackTrace(); } return null; } public abstract String getThing(); } public class ConcretePrototype extends Prototype { @Override public String getThing() { return &#34;ConcretePrototype&#34;; } } public class Client { public static void main(String[] args) { ConcretePrototype cp = new ConcretePrototype(); ConcretePrototype newCp = (ConcretePrototype) cp....</p>
+    <p>在开发tomcat &#43; spring mvc的web工程时候，发现在controller中配置的根路劲不会被拦截到，或者说前段返回的根本就不是controller中所配置的。比如，我在controller中配置根路径的返回为一个欢迎页面：
+@RequestMapping(value = &#34;/&#34;, method = RequestMethod.GET) public ModelAndView main() { ModelAndView mv = new ModelAndView(&#34;main&#34;); return mv; } 但访问“http://localhost:8080/project_name/”，返回的却是404.
+在对该单元测试中，对根路径的访问等得到了正确的结果，这证明spring的配置是正确的。于是乎想起来web.xml中的配置可能存在为题，自然最有可能有问题的是web.xml对默认页面的设置了。及welcome-file-list。但是自己并没有配置这个。后来看了tomcat官网对tomcat目录下conf/web.xml的说明才知道，原来此处的web.xml中的配置将被当作默认配置，而部署的工程内的web.xml中的配置会覆盖默认配置，但是如果向我那样没有配置welcome-file-list，那么就会使用默认的了。为此当访问根目录的时候，tomcat试图去寻找默认的index.html等资源，而不是把请求交给spring的拦截器。
+知道了这些，解决问的就简单了，直接修改工程下的web.xml，加入如下配置：
+&lt;welcome-file-list&gt; &lt;welcome-file&gt;&lt;/welcome-file&gt; &lt;/welcome-file-list&gt; 这样就配置后，tomcat就知道不需要对根路径的访问做处理了，而将请求交给了spring的拦截器。</p>
   </div>
-  <footer class="entry-footer"><span title='2013-07-30 17:23:00 +0800 CST'>July 30, 2013</span></footer>
-  <a class="entry-link" aria-label="post link to 设计模式学习-原型（Prototype）" href="https://blog.qiwei.dev/posts/coding/design-patterns/design-patterns-prototype/"></a>
+  <footer class="entry-footer"><span title='2014-12-02 15:22:00 +0800 CST'>December 2, 2014</span></footer>
+  <a class="entry-link" aria-label="post link to SpringMVC没有拦截根路径的问题" href="https://blog.qiwei.dev/posts/coding/springmvc-cant-fiter-root-url/"></a>
 </article>
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>设计模式学习-工厂方法（Factory Method）
+    <h2>Spring4定时任务的注解配置
     </h2>
   </header>
   <div class="entry-content">
-    <p>意图： 定义一个用于创建对象的接口，让子类决定实例化哪一个类。 Factory Method使一个类的实例化延迟到其子类。
-别名： 虚构造器（Virtual Constructor）
-结构： Product
-— 定义工厂方法所创建的对象的接口。 ConcreteProduct
-— 实现Productt接口。 Creator
-— 声明工厂方法，该方法返回一个 Product类型的对象。Creator也可以定义一个工厂方法的缺省实现，它返回一个缺省的 ConcreteProduct对象。 ConcreteProduct对象 — 可以调用工厂方法以创建一个Product对象。 ConcreteCreator
-— 重定义工厂方法以返回一个ConcreteProduct实例。 代码示例： Creator类
-public abstract class Creator { protected abstract Product factoryMethod(); public void anOperation() { Product product = factoryMethod(); //do some thing } } ConcreteCreator类
-public class ConcreteCreator extends Creator { @Override protected Product factoryMethod() { return new ConcreteProduct(); } } 问题： 可能仅为了创建适当的 Product对象而迫使你创建Creator子类。
-适用性： 一个系统要独立于它的产品的创建、组合和表示时。 一个系统要由多个产品系列中的一个来配置时。 当你要强调一系列相关的产品对象的设计以便进行联合使用时。 当你提供一个产品类库，而只想显示它们的接口而不是实现时。 相关模式： Abstract Factory经常用工厂方法来实现； 工厂方法通常在Template Method中被调用； Prototype不需要创建Creator的子类。但是，它们通常要求一个针对Product类的Initialize操作。Creator使用Initialize来初始化对象。而Factory Method不需要这样的操作。 </p>
+    <p>不想写繁琐的xml文件，所以试着用Spring的注解来配置定时任务。按网上好多写的那样，使用@Scheduled注解：
+@Scheduled(fixedRate=5000) public void doSomething() { // something that should execute periodically } 但是怎么也无法让定时任务跑起来。最后无奈，只有去官网看英语了。
+原来，还需要有一个允许定时任务的注解，放在一个有@configuration注解类中。
+@Configuration @EnableAsync @EnableScheduling public class AppConfig { } 其中，@EnableAsysnc是允许异步任务。至于@Configuration的说明，见Spring的最新文档。</p>
   </div>
-  <footer class="entry-footer"><span title='2013-07-30 16:21:00 +0800 CST'>July 30, 2013</span></footer>
-  <a class="entry-link" aria-label="post link to 设计模式学习-工厂方法（Factory Method）" href="https://blog.qiwei.dev/posts/coding/design-patterns/design-patterns-factory-method/"></a>
+  <footer class="entry-footer"><span title='2014-11-03 22:57:00 +0800 CST'>November 3, 2014</span></footer>
+  <a class="entry-link" aria-label="post link to Spring4定时任务的注解配置" href="https://blog.qiwei.dev/posts/coding/spring-scheduling-annotation-support/"></a>
 </article>
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>设计模式学习-生成器（Builder）
+    <h2>webpy源码阅读之HelloWorld
     </h2>
   </header>
   <div class="entry-content">
-    <p>用来构建复杂的实例，java的StringBuilder就是一个Builder模式的例子。
-意图： 将一个复杂对象的构建与它的表示分离，使得同样的构建过程可以创建不同的表示
-结构： 代码示例： Builder类
-public abstract class Builder { protected String product; public Builder() { product = new String(&#34;&#34;); } public void buildPart(String part) { //默认空实现 } public String getResult() { return product; } } ConcreteBuilder类
-public class ConcreteBuilder extends Builder { @Override public void buildPart(String part) { product &#43;= part; } } Director类
-public class Director { private Builder builder; public Director(Builder builder) { this.builder = builder; } public void Construct() { for (int i = 0; i &lt; 10; i&#43;&#43;) { builder....</p>
+    <p>使用过Django和web.py，只是一直没有好好深入学习过，Django使用时间比较长，不过Django庞大了点，不适合我这种没耐心的人去学习，所以选择了web.py。
+Hello World! 先看下web.py官方cookbook的“Hello World!”例子
+import web urls = (&#34;/.*&#34;), &#34;hello&#34;) app = web.application(urls, globals()) class hello: def GET(self): return &#39;Hello, world!&#39; if __name__ == &#34;__main__&#34;: app.run() 在例子中可以看到app.run()是启动了服务，而app的是application的一个实例，初始化工作是web.application(urls, globals())，就拿这个做入口，来看下application类的源码吧。
+初始化 初始化的流程：
+初始化mapping 把_load和_unload变成钩子加入到processors 把Reloader和reload_mapping变成钩子加入到processors 载入main所在模块 init的参数有三个，第一个mapping，上面例子中的urls；第二个fvars，例子中的globals()，globals()是python自带的一个函数，其返回值是全局名字空间，包括了函数、类、导入模块等等，是一个字典类型；第三个autoreload，是否允许自动重新载入。
+mapping初始化 self.init_mapping(mapping) def init_mapping(self, mapping): self.mapping = list(utils.group(mapping, 2)) 最后mapping的形式会是[[‘1’,‘2’],[‘1’,‘2’]]这样，这边就可以理解urls列表的样式了。
+_load和_unload变成钩子加入到processors 关于钩子和处理器详见官网。
+self.add_processor(loadhook(self._load)) self.add_processor(unloadhook(self._unload)) loadhook函数的作用就是在执行其参数传入的函数前执行一些操作，unloadhook则是在其后执行一些操作。这两个都类似于python的decorator。而_load和_unload则是将application实例本身加入web.ctx.app_stack或从其中移除。
+如果autoreload不为True则初始化就到此为止了。在初始化的时候，如果autoreload为None，则回去参数读取web.config内的debug的值，默认为False，所以如果autoreload参数没有传入，一般都是不会自动加载，后面操作不会再去进行了。
+Reloader和reload_mapping变成钩子加入到processors 和第二步相似，reload_mapping就是用来从新载入主的app，并初始化mapping。而Reloader则是在检查磁盘上任何模块是否有变化，如果有则重新加载。
+重新import 通过main获取主app所在的模块名称和所在文件名，然后通过文件名重新import。这步还是简单的，不过代码值得一看，可以学好如sys.modules、getattr()及__import__()的用法。
+启动服务 def run(self, *middleware): return wsgi.runwsgi(self.wsgifunc(*middleware)) run函数调用wsgi模块的runwsgi函数，在hello world中就是启动一个http simple服务。具体内容等看到wsgi模块和httpserver模块再说了。</p>
   </div>
-  <footer class="entry-footer"><span title='2013-07-30 15:56:00 +0800 CST'>July 30, 2013</span></footer>
-  <a class="entry-link" aria-label="post link to 设计模式学习-生成器（Builder）" href="https://blog.qiwei.dev/posts/coding/design-patterns/design-patterns-builder/"></a>
+  <footer class="entry-footer"><span title='2014-04-03 11:21:00 +0800 CST'>April 3, 2014</span></footer>
+  <a class="entry-link" aria-label="post link to webpy源码阅读之HelloWorld" href="https://blog.qiwei.dev/posts/coding/webpy-source-helloworld/"></a>
 </article>
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>设计模式学习-抽象工厂（Abstract Factory）
+    <h2>推荐程序员阅读的书籍 -- 编程实践
     </h2>
   </header>
   <div class="entry-content">
-    <p>意图： 提供一个创建一系列相关或相互依赖对象的接口，而无需指定它们具体的类 。
-别名： Kit
-结构： 代码示例： AbstractFactory类
-public abstract class AbstractFactory { public abstract AbstractProductA createProductA(); public abstract AbstractProductB createProductB(); } ConcreteFactory类
-public class ConcreteFactory1 extends AbstractFactory { @Override public AbstractProductA createProductA() { return new ProductA1(); } @Override public AbstractProductB createProductB() { return new ProductB1(); } } public class ConcreteFactory2 extends AbstractFactory { @Override public AbstractProductA createProductA() { return new ProductA2(); } @Override public AbstractProductB createProductB() { return new ProductB2(); } } AbstractProduct类...</p>
+    <p>忘记是哪里看到的这份书单了，那时就用思维导图记录了下来，以后相继看了编程实践下的几本书，感觉作者推荐和分类的相当好。编程实践的下书我没有全部阅读过，每个阶段阅读了那么一两本书，在这里简单介绍下那些我阅读过的书。
+《编写可读代码的艺术》 这是一本适合刚开始自己的编程生涯的人阅读的书，书的中心内容就是教我们编写出可读性高、整洁、优美的代码，提高代码质量，并把编写更容易理解的代码变成一种习惯。当然，也不是说有经验的程序员就不用看这本书了。我阅读这本书的时候已经不是新手了，不过依然可以从书中学到很多。对于有经验的程序员，很容易忽视一些问题，也更容易养成一些恶习。
+《测试驱动开发》 一本很薄的书，如果没有其他干扰，集中注意力的话，一天读完不是问题。书中介绍的形式很特别，作者让我们跟随他，一步一步的去进行测试优先的开发，之后作者还为我们展示了如何使用测试优先的方法一步一步的开发一个类似JUnit的Python单元测试框架。不懂Python语言也没问题，里面的代码很简单，看完后自己的Python入门了。本书还有一个重点，就是作者的任务列表，我现在也在使用这种方法，能在任务中断后继续时帮我快速了解之前所完成的以及接下来需要做的，不至于还要花时间去思考之前做了什么。
+《代码大全》 这本书的厚度完全可以和大全两个字联想起来，内容丰富，质量也高，可问题是要看完这么厚的一本书确实难了的。不过还好，作者给出了每个章节适合的人群，根据自己的情况和需要，可以选择性阅读，如果时间多，读读这本也是个好选择。
+《程序员修炼之道》 强烈推荐的好书，主要是本人从这本书中受益匪浅。这本书的英文名意思是高效的程序员，所以全书都在讲如何提高自己的效率，从各种习惯到工具再到团队合作，方方面面提高自己的效率。如书的副标题–从小工到专家，等你看完这书，按照书中的方法去实践时，专家可能还远，但是绝对不会再是菜鸟。不管是学生还是富有经验的发开人员都可以去阅读，就算读过一遍，再去随手翻翻也能带来一些感悟。
+《计算机程序的构造和解释》 上述的书都是在讲述如何成为好程序员，如何写出好的代码，如何提高自己效率，但这本书就是教我们理解计算机语言和程序本身。这本书曾经是MIT的入门级教材，所以更偏重理论。也许我们学习了不止一门计算机语言，也许我们被那些不同语言的不同特性吸引着或是困恼着，也许我们还只是浅浅的理解了编译器、解析器之类的概念，那么这本书完全可以帮我们换个角度看到编程和语言。它会让我们学到函数式编程、虚拟机、解析器、编译器等等，如果觉得这些太高深了，那么它同样也在讲解语言的组成、基本表达式以及其组合、抽象等等。这本书很适合有一定编程经验的人阅读，可以结合自己的经验学习书中的知识。当然新手也完全可以学习，最大的好处是建立了一套知识体系，对以后学习编程语言和相关内容时候变得更简单高效。不过话说后面，这本书不好消化，看起来费时费脑力。
+未提到的书籍 这些书都是具有代表意义的，还有许多经典的书籍值得程序员去阅读。
+《编译原理》 （龙书）这类书籍太过高深了，除非向编程语言更深入的发展或是工作领域需要，否则没必要去阅读。
+《编程珠玑》 个人感觉值得一读，书中好多都在提如很灵机一动的想出一个好的算法，里面的算法很值得学习，我也在实践中使用过一些。
+《算法导论》 里面的算法的确不是一个普通程序员很好理解的，阅读这本书需要高等数据知识，我读了第一章递归求时间复杂度后就放弃了这本书。
+《编码：隐匿在计算机软硬件背后的语言》 这本书从小学生之间使用手电筒光来聊天开始，讲到了继电器，使用继电器实现数学逻辑中的各种门，然后利用这些做一个继电器实现的加减法电路，然后…这本书可以让我们明白计算机工作原理，即使没了计算机，我们也可以自己做一台可编程的机械出来。我觉得给我儿子当计算机入门教材不错。
+最后说的是自己的提升还是靠自己的努力，书籍只是起引导作用。而且并不是这么多书都要去看，找适合自己的。</p>
   </div>
-  <footer class="entry-footer"><span title='2013-07-29 16:56:00 +0800 CST'>July 29, 2013</span></footer>
-  <a class="entry-link" aria-label="post link to 设计模式学习-抽象工厂（Abstract Factory）" href="https://blog.qiwei.dev/posts/coding/design-patterns/design-patterns-abstract-factory/"></a>
+  <footer class="entry-footer"><span title='2014-02-28 16:48:00 +0800 CST'>February 28, 2014</span></footer>
+  <a class="entry-link" aria-label="post link to 推荐程序员阅读的书籍 -- 编程实践" href="https://blog.qiwei.dev/posts/other/developer-read-books-coding/"></a>
 </article>
 <footer class="page-footer">
   <nav class="pagination">

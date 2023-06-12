@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Linux下Django部署环境的搭建 | 我的博客</title>
+<meta name="keywords" content="Django">
+<meta name="description" content="Linux环境下对Python版本的升级和apache、Mod wsgi的安装">
+<meta name="author" content="">
+<link rel="canonical" href="https://blog.qiwei.dev/posts/coding/python-mode-wsgi-apache-install/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.3613efbd0b1772781e8f49935e973cae632a7f61471c05b17be155505ccf87b5.css" integrity="sha256-NhPvvQsXcngej0mTXpc8rmMqf2FHHAWxe&#43;FVUFzPh7U=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://blog.qiwei.dev/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://blog.qiwei.dev/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://blog.qiwei.dev/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://blog.qiwei.dev/apple-touch-icon.png">
+<link rel="mask-icon" href="https://blog.qiwei.dev/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="Linux下Django部署环境的搭建" />
+<meta property="og:description" content="Linux环境下对Python版本的升级和apache、Mod wsgi的安装" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://blog.qiwei.dev/posts/coding/python-mode-wsgi-apache-install/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2013-12-11T16:19:00+08:00" />
+<meta property="article:modified_time" content="2013-12-11T16:19:00+08:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Linux下Django部署环境的搭建"/>
+<meta name="twitter:description" content="Linux环境下对Python版本的升级和apache、Mod wsgi的安装"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://blog.qiwei.dev/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Linux下Django部署环境的搭建",
+      "item": "https://blog.qiwei.dev/posts/coding/python-mode-wsgi-apache-install/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Linux下Django部署环境的搭建",
+  "name": "Linux下Django部署环境的搭建",
+  "description": "Linux环境下对Python版本的升级和apache、Mod wsgi的安装",
+  "keywords": [
+    "Django"
+  ],
+  "articleBody": "目标 搭建起apache部署Django项目的环境，操作系统CentOS 5，软件版本如下：\npython 2.7 Django 1.5 mod_wsgi 3.3 apache 2.2 Python更新 安装 系统用的是python版本是2.6+，现在需要将python版本更新至2.7+版本了。\n下载python2.7的源码包，然后编译安装，命令如下：\n./configure --enable-shared make all make install 这边需要注意的是，configure的参数--enable-shared，使用这个参数为python生成动态链接库。如果没有加此参数，编译安装也可以正常完成，不会影响python的使用。但是到安装mod_wsgi会出现错误，错误内容为：\n/usr/local/lib/python2.7/config/libpython2.7.a: could not read symbols: Bad value collect2ld returned 1 exit status apxs:Error: Command failed with rc=65536\n这个错误就是在安装python时候没有./configure --enable-shared\n检查版本 完成后一般的路径是 /usr/local/lib/python2.7，可以使用命令检查其版本是否正确\n/usr/loacl/bin/python2.7 -V 若是出现错误：python: error while loading shared libraries: libpython2.7.so .1.0: cannot open shared object file: No such file or directory。使用vim新建文件/etc/ld.so.conf.d/python2.7.conf，加入内容：/usr/local/lib。保存退出后运行：ldconfig，再次运行，看是否成功。\n建立软链接 用于替换shell下的默认python命令的版本\nmv /usr/bin/python /usr/bin/oldpython ln -s /usr/local/bin/python2.7 /usr/bin/python 完成后可以输入命令python -V来检查时候成功，这里重命名旧版本python是为了让yum正常工作。centOS 5的yum使用的是python2.6版本，当更新到2.7后yum无法正常使用，通过修改/usr/bin/yum文件修正问题。在/usr/bin/yum文件的头部，把#!/usr/bin/python改为#!/usr/bin/oldpython，保存退出后正常使用yum。\n安装apache服务器 可以使用yum来安装\nyum install -y httpd httpd-devel 其中httpd-devel是apache的apxs扩展，使用mod_wsgi需要\n安装mod_wsgi 确保已经安装httpd-devel，如果已经安装了apache，但未安装httpd-devel，直接安装即可：\nyum install httpd-devel mod_wsgi同样采用源码编译安装，命令：\n./configure --with-python=/usr/local/bin/python2.7 make all make install 这边要是有缺点啥就–with-啥。编译安装需要点时间。\n安装完成后在apache的配置文件中（一般路径：/etc/httpd/conf/httpd.conf）加入\nLoadModule wsgi_module modules/mod_wsgi.so 其他 剩下的工作就是安装Django及其他的python库了。\n刚开始安装遇到最多的问题就是python安装没有生成动态链接库，其他安装在网上都有好多资料，基本不会出错。接下来要学习下nginx部署Django项目。\n",
+  "wordCount" : "104",
+  "inLanguage": "en",
+  "datePublished": "2013-12-11T16:19:00+08:00",
+  "dateModified": "2013-12-11T16:19:00+08:00",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://blog.qiwei.dev/posts/coding/python-mode-wsgi-apache-install/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "我的博客",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://blog.qiwei.dev/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://blog.qiwei.dev/" accesskey="h" title="我的博客 (Alt + H)">我的博客</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://blog.qiwei.dev/posts" title="Blogs">
+                    <span>Blogs</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://blog.qiwei.dev/categories/" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://blog.qiwei.dev/tags/" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://blog.qiwei.dev/about/" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      Linux下Django部署环境的搭建
+    </h1>
+    <div class="post-description">
+      Linux环境下对Python版本的升级和apache、Mod wsgi的安装
+    </div>
+    <div class="post-meta"><span title='2013-12-11 16:19:00 +0800 CST'>December 11, 2013</span>
+
+</div>
+  </header> 
+  <div class="post-content"><h1 id="目标">目标<a hidden class="anchor" aria-hidden="true" href="#目标">#</a></h1>
+<p>搭建起apache部署Django项目的环境，操作系统CentOS 5，软件版本如下：</p>
+<ul>
+<li>python 2.7</li>
+<li>Django 1.5</li>
+<li>mod_wsgi 3.3</li>
+<li>apache 2.2</li>
+</ul>
+<h1 id="python更新">Python更新<a hidden class="anchor" aria-hidden="true" href="#python更新">#</a></h1>
+<h2 id="安装">安装<a hidden class="anchor" aria-hidden="true" href="#安装">#</a></h2>
+<p>系统用的是python版本是2.6+，现在需要将python版本更新至2.7+版本了。</p>
+<p>下载python2.7的源码包，然后编译安装，命令如下：</p>
+<pre><code>./configure --enable-shared
+make all
+make install
+</code></pre>
+<p>这边需要注意的是，<code>configure</code>的参数<code>--enable-shared</code>，使用这个参数为python生成动态链接库。如果没有加此参数，编译安装也可以正常完成，不会影响python的使用。但是到安装mod_wsgi会出现错误，错误内容为：</p>
+<p>/usr/local/lib/python2.7/config/libpython2.7.a:  could not read symbols: Bad value  collect2ld returned 1 exit status apxs:Error: Command failed with rc=65536</p>
+<p>这个错误就是在安装python时候没有<code>./configure --enable-shared</code></p>
+<h2 id="检查版本">检查版本<a hidden class="anchor" aria-hidden="true" href="#检查版本">#</a></h2>
+<p>完成后一般的路径是 /usr/local/lib/python2.7，可以使用命令检查其版本是否正确</p>
+<pre><code>/usr/loacl/bin/python2.7 -V
+</code></pre>
+<p>若是出现错误：python: error while loading shared  libraries: libpython2.7.so    .1.0: cannot open shared object file: No such file or directory。使用vim新建文件<code>/etc/ld.so.conf.d/python2.7.conf</code>，加入内容：<code>/usr/local/lib</code>。保存退出后运行：<code>ldconfig</code>，再次运行，看是否成功。</p>
+<h2 id="建立软链接">建立软链接<a hidden class="anchor" aria-hidden="true" href="#建立软链接">#</a></h2>
+<p>用于替换shell下的默认python命令的版本</p>
+<pre><code>mv /usr/bin/python /usr/bin/oldpython
+ln -s /usr/local/bin/python2.7 /usr/bin/python
+</code></pre>
+<p>完成后可以输入命令<code>python -V</code>来检查时候成功，这里重命名旧版本python是为了让yum正常工作。centOS 5的yum使用的是python2.6版本，当更新到2.7后yum无法正常使用，通过修改/usr/bin/yum文件修正问题。在/usr/bin/yum文件的头部，把<code>#!/usr/bin/python</code>改为<code>#!/usr/bin/oldpython</code>，保存退出后正常使用yum。</p>
+<h1 id="安装apache服务器">安装apache服务器<a hidden class="anchor" aria-hidden="true" href="#安装apache服务器">#</a></h1>
+<p>可以使用yum来安装</p>
+<pre><code>yum install -y httpd httpd-devel
+</code></pre>
+<p>其中httpd-devel是apache的apxs扩展，使用mod_wsgi需要</p>
+<h1 id="安装mod_wsgi">安装mod_wsgi<a hidden class="anchor" aria-hidden="true" href="#安装mod_wsgi">#</a></h1>
+<p>确保已经安装httpd-devel，如果已经安装了apache，但未安装httpd-devel，直接安装即可：</p>
+<pre><code>yum install httpd-devel
+</code></pre>
+<p>mod_wsgi同样采用源码编译安装，命令：</p>
+<pre><code>./configure --with-python=/usr/local/bin/python2.7
+make all
+make install
+</code></pre>
+<p>这边要是有缺点啥就&ndash;with-啥。编译安装需要点时间。</p>
+<p>安装完成后在apache的配置文件中（一般路径：/etc/httpd/conf/httpd.conf）加入</p>
+<pre><code>LoadModule wsgi_module modules/mod_wsgi.so
+</code></pre>
+<h1 id="其他">其他<a hidden class="anchor" aria-hidden="true" href="#其他">#</a></h1>
+<p>剩下的工作就是安装Django及其他的python库了。</p>
+<p>刚开始安装遇到最多的问题就是python安装没有生成动态链接库，其他安装在网上都有好多资料，基本不会出错。接下来要学习下nginx部署Django项目。</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://blog.qiwei.dev/tags/django/">Django</a></li>
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="https://blog.qiwei.dev/">我的博客</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

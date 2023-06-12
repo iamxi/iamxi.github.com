@@ -5,16 +5,112 @@
     <loc>https://blog.qiwei.dev/about/</loc>
     <lastmod>2023-06-01T14:12:43+08:00</lastmod>
   </url><url>
-    <loc>https://blog.qiwei.dev/tags/design-patterns/</loc>
-    <lastmod>2013-08-08T15:27:00+08:00</lastmod>
+    <loc>https://blog.qiwei.dev/tags/feign/</loc>
+    <lastmod>2019-06-28T15:43:46+08:00</lastmod>
   </url><url>
     <loc>https://blog.qiwei.dev/posts/</loc>
-    <lastmod>2013-08-08T15:27:00+08:00</lastmod>
+    <lastmod>2019-06-28T15:43:46+08:00</lastmod>
+  </url><url>
+    <loc>https://blog.qiwei.dev/tags/spring-cloud/</loc>
+    <lastmod>2019-06-28T15:43:46+08:00</lastmod>
   </url><url>
     <loc>https://blog.qiwei.dev/tags/</loc>
-    <lastmod>2013-08-08T15:27:00+08:00</lastmod>
+    <lastmod>2019-06-28T15:43:46+08:00</lastmod>
+  </url><url>
+    <loc>https://blog.qiwei.dev/tags/zuul/</loc>
+    <lastmod>2019-06-28T15:43:46+08:00</lastmod>
+  </url><url>
+    <loc>https://blog.qiwei.dev/posts/coding/zuul-gateway-lost-auth-info/</loc>
+    <lastmod>2019-06-28T15:43:46+08:00</lastmod>
   </url><url>
     <loc>https://blog.qiwei.dev/</loc>
+    <lastmod>2019-06-28T15:43:46+08:00</lastmod>
+  </url><url>
+    <loc>https://blog.qiwei.dev/tags/django/</loc>
+    <lastmod>2018-03-22T15:43:46+08:00</lastmod>
+  </url><url>
+    <loc>https://blog.qiwei.dev/posts/coding/django2-template-path-config/</loc>
+    <lastmod>2018-03-22T15:43:46+08:00</lastmod>
+  </url><url>
+    <loc>https://blog.qiwei.dev/tags/java/</loc>
+    <lastmod>2018-01-25T20:53:21+08:00</lastmod>
+  </url><url>
+    <loc>https://blog.qiwei.dev/posts/coding/spring-cloud-feign-add-interceptor/</loc>
+    <lastmod>2018-01-25T20:53:21+08:00</lastmod>
+  </url><url>
+    <loc>https://blog.qiwei.dev/posts/coding/java-bean-field-assemble/</loc>
+    <lastmod>2018-01-20T10:58:21+08:00</lastmod>
+  </url><url>
+    <loc>https://blog.qiwei.dev/tags/dubbo/</loc>
+    <lastmod>2017-10-09T10:02:55+08:00</lastmod>
+  </url><url>
+    <loc>https://blog.qiwei.dev/posts/coding/dubbo-exception-filter/</loc>
+    <lastmod>2017-10-09T10:02:55+08:00</lastmod>
+  </url><url>
+    <loc>https://blog.qiwei.dev/posts/other/blog-with-hexo3/</loc>
+    <lastmod>2017-10-01T03:44:13+08:00</lastmod>
+  </url><url>
+    <loc>https://blog.qiwei.dev/posts/coding/springmvc-cant-fiter-root-url/</loc>
+    <lastmod>2014-12-02T15:22:00+08:00</lastmod>
+  </url><url>
+    <loc>https://blog.qiwei.dev/posts/coding/spring-scheduling-annotation-support/</loc>
+    <lastmod>2014-11-03T22:57:00+08:00</lastmod>
+  </url><url>
+    <loc>https://blog.qiwei.dev/tags/python/</loc>
+    <lastmod>2014-04-03T11:21:00+08:00</lastmod>
+  </url><url>
+    <loc>https://blog.qiwei.dev/tags/web.py/</loc>
+    <lastmod>2014-04-03T11:21:00+08:00</lastmod>
+  </url><url>
+    <loc>https://blog.qiwei.dev/posts/coding/webpy-source-helloworld/</loc>
+    <lastmod>2014-04-03T11:21:00+08:00</lastmod>
+  </url><url>
+    <loc>https://blog.qiwei.dev/categories/</loc>
+    <lastmod>2014-02-28T16:48:00+08:00</lastmod>
+  </url><url>
+    <loc>https://blog.qiwei.dev/categories/%E5%85%B6%E4%BB%96/</loc>
+    <lastmod>2014-02-28T16:48:00+08:00</lastmod>
+  </url><url>
+    <loc>https://blog.qiwei.dev/posts/other/developer-read-books-coding/</loc>
+    <lastmod>2014-02-28T16:48:00+08:00</lastmod>
+  </url><url>
+    <loc>https://blog.qiwei.dev/tags/tool/</loc>
+    <lastmod>2014-02-11T09:26:00+08:00</lastmod>
+  </url><url>
+    <loc>https://blog.qiwei.dev/posts/tool/win8-install-openvpn/</loc>
+    <lastmod>2014-02-11T09:26:00+08:00</lastmod>
+  </url><url>
+    <loc>https://blog.qiwei.dev/posts/tool/putty-using-agent-forwarding/</loc>
+    <lastmod>2014-01-17T16:35:00+08:00</lastmod>
+  </url><url>
+    <loc>https://blog.qiwei.dev/posts/coding/python-mode-wsgi-apache-install/</loc>
+    <lastmod>2013-12-11T16:19:00+08:00</lastmod>
+  </url><url>
+    <loc>https://blog.qiwei.dev/posts/coding/java-clone/</loc>
+    <lastmod>2013-09-05T13:29:00+08:00</lastmod>
+  </url><url>
+    <loc>https://blog.qiwei.dev/posts/coding/django-apache-mod-wsgi-deployment/</loc>
+    <lastmod>2013-09-02T10:20:00+08:00</lastmod>
+  </url><url>
+    <loc>https://blog.qiwei.dev/posts/coding/django-study-start/</loc>
+    <lastmod>2013-08-29T17:01:00+08:00</lastmod>
+  </url><url>
+    <loc>https://blog.qiwei.dev/posts/coding/java-static-code-block/</loc>
+    <lastmod>2013-08-21T10:43:00+08:00</lastmod>
+  </url><url>
+    <loc>https://blog.qiwei.dev/posts/coding/java-source-arraylist/</loc>
+    <lastmod>2013-08-14T15:11:00+08:00</lastmod>
+  </url><url>
+    <loc>https://blog.qiwei.dev/tags/%E7%BC%96%E5%86%99%E5%8F%AF%E8%AF%BB%E4%BB%A3%E7%A0%81%E7%9A%84%E8%89%BA%E6%9C%AF/</loc>
+    <lastmod>2013-08-09T17:12:00+08:00</lastmod>
+  </url><url>
+    <loc>https://blog.qiwei.dev/posts/coding/the-art-of-readable-code/</loc>
+    <lastmod>2013-08-09T17:12:00+08:00</lastmod>
+  </url><url>
+    <loc>https://blog.qiwei.dev/posts/other/farewell-my-concubine/</loc>
+    <lastmod>2013-08-09T12:39:00+08:00</lastmod>
+  </url><url>
+    <loc>https://blog.qiwei.dev/tags/design-patterns/</loc>
     <lastmod>2013-08-08T15:27:00+08:00</lastmod>
   </url><url>
     <loc>https://blog.qiwei.dev/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/</loc>
@@ -71,17 +167,8 @@
     <loc>https://blog.qiwei.dev/posts/tool/eclipse-green-color-theme/</loc>
     <lastmod>2013-07-26T12:02:00+08:00</lastmod>
   </url><url>
-    <loc>https://blog.qiwei.dev/categories/</loc>
-    <lastmod>2013-07-25T21:51:00+08:00</lastmod>
-  </url><url>
-    <loc>https://blog.qiwei.dev/categories/%E5%85%B6%E4%BB%96/</loc>
-    <lastmod>2013-07-25T21:51:00+08:00</lastmod>
-  </url><url>
     <loc>https://blog.qiwei.dev/posts/other/my-first-blog/</loc>
     <lastmod>2013-07-25T21:51:00+08:00</lastmod>
-  </url><url>
-    <loc>https://blog.qiwei.dev/tags/java/</loc>
-    <lastmod>2012-08-04T23:00:00+08:00</lastmod>
   </url><url>
     <loc>https://blog.qiwei.dev/posts/coding/mybatis-special-map/</loc>
     <lastmod>2012-08-04T23:00:00+08:00</lastmod>

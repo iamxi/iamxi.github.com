@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Dubbo on 我的博客</title>
+    <link>https://blog.qiwei.dev/tags/dubbo/</link>
+    <description>Recent content in Dubbo on 我的博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Mon, 09 Oct 2017 10:02:55 +0800</lastBuildDate><atom:link href="https://blog.qiwei.dev/tags/dubbo/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Dubbo统一异常拦截</title>
+      <link>https://blog.qiwei.dev/posts/coding/dubbo-exception-filter/</link>
+      <pubDate>Mon, 09 Oct 2017 10:02:55 +0800</pubDate>
+      
+      <guid>https://blog.qiwei.dev/posts/coding/dubbo-exception-filter/</guid>
+      <description>问题 最近换了岗位，工作内容改成跟着架构师完善公司的技术架构。第一个任务就是做一个统一的异常拦截并返回相关错误码的方案。
+公司采用dubbo做分布式框架，按dubbo的推荐，异常已经直接抛给调用方（consumer），只是公司现有的约定是使用错误码。问了几个前辈后才知道，原来dubbo在处理自定义异常的时候有些限制。
+public Result invoke(Invoker&amp;lt;?&amp;gt; invoker, Invocation invocation) throws RpcException { try { Result result = invoker.invoke(invocation); if (result.hasException() &amp;amp;&amp;amp; GenericService.class != invoker.getInterface()) { try { Throwable exception = result.getException(); // 如果是checked异常，直接抛出 if (! (exception instanceof RuntimeException) &amp;amp;&amp;amp; (exception instanceof Exception)) { return result; } // 在方法签名上有声明，直接抛出 try { Method method = invoker.getInterface().getMethod(invocation.getMethodName(), invocation.getParameterTypes()); Class&amp;lt;?&amp;gt;[] exceptionClassses = method.getExceptionTypes(); for (Class&amp;lt;?&amp;gt; exceptionClass : exceptionClassses) { if (exception.getClass().equals(exceptionClass)) { return result; } } } catch (NoSuchMethodException e) { return result; } // 未在方法签名上定义的异常，在服务器端打印ERROR日志 logger.</description>
+    </item>
+    
+  </channel>
+</rss>

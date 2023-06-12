@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Zuul on 我的博客</title>
+    <link>https://blog.qiwei.dev/tags/zuul/</link>
+    <description>Recent content in Zuul on 我的博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Fri, 28 Jun 2019 15:43:46 +0800</lastBuildDate><atom:link href="https://blog.qiwei.dev/tags/zuul/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Zuul网关丢失鉴权信息问题</title>
+      <link>https://blog.qiwei.dev/posts/coding/zuul-gateway-lost-auth-info/</link>
+      <pubDate>Fri, 28 Jun 2019 15:43:46 +0800</pubDate>
+      
+      <guid>https://blog.qiwei.dev/posts/coding/zuul-gateway-lost-auth-info/</guid>
+      <description>公司有个项目使用spring cloud全家桶。由zuul做入口，路由到各个业务系统。其中路由完成登陆鉴权。后来有一个业务系统需要用到这些登陆信息，所以希望路由这端将登陆的信息通过消息头的方式带到业务系统。
+想想实现很简单，定义一个feign的拦截器，把登陆信息填到header中。不过中间遇到个小问题。统一的路由中将信息保持到了一个ThreadLocal中，拦截器会从这个ThreadLocal中取出数据。问题就出在这里，取到的数据是空的。其他地方也在使用这个ThreadLocal中的数据，并未发现问题，未读这个feign拦截器却不行。最奇怪的本地测试可以，跑测试环境就不行。
+再三排查，也查了不少资料，最后看到有博客上提到差不多的问题，原因是Hystrix的策略导致的。Hystrix使用不同的线程完成工作，也就是说Hystrix的线程与Request不再同一个线程中。这样，基于ThreadLocal的一些功能都无法正常使用。后来再stackoverflow上找到了解决办法，连接。框架的开发者也知道这问题，所以提供了一套完整的解决方案。HystrixRequestContext和HystrixRequestVariableDefault就是用来解决这个跨线程时共享数据问题的。简单的说，放入HystrixRequestVariableDefault中的数据，不管是在Requst线程中，还是在Hystrix的线程中，都可以访问到。不过HystrixRequestVariableDefault必须在每一个请求开始的时候进行初始化，同时在请求结束收回收里面的数据。
+方案有了，上代码，先实现一个mvc的拦截器，将ThreadLocal中的数据转到HystrixRequestVariableDefault中：
+public class HystrixContext { public static final String LOGIN_INFO_HEADER_KEY = &amp;#34;his-login-info&amp;#34;; public static final String TOKEN_HEADER_KEY = &amp;#34;token&amp;#34;; public static final HystrixRequestVariableDefault&amp;lt;LoginInfo&amp;gt; LOGIN_INFO = new HystrixRequestVariableDefault&amp;lt;&amp;gt;(); } try { if (!HystrixRequestContext.isCurrentThreadInitialized()) { HystrixRequestContext.initializeContext(); } LoginInfo loginInfo = convertLoginInf(request.getHeader(HystrixContext.LOGIN_INFO_HEADER_KEY)); LoginInfoUtil.setInfo(loginInfo); String token = request.getHeader(HystrixContext.TOKEN_HEADER_KEY); LoginInfoUtil.setToken(token); HystrixContext.LOGIN_INFO.set(LoginInfoUtil.getLoginInfo()); } catch (Exception e) { LOG.error(&amp;#34;从头信息中获取数据失败&amp;#34;, e); } 然后给feign加一个拦截器：
+try { if (!HystrixRequestContext.isCurrentThreadInitialized()) { HystrixRequestContext.initializeContext(); } LoginInfo loginInfo = HystrixContext.LOGIN_INFO.get(); if (loginInfo !</description>
+    </item>
+    
+  </channel>
+</rss>

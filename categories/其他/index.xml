@@ -6,7 +6,25 @@
     <description>Recent content in 其他 on 我的博客</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Thu, 25 Jul 2013 21:51:00 +0800</lastBuildDate><atom:link href="https://blog.qiwei.dev/categories/%E5%85%B6%E4%BB%96/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 28 Feb 2014 16:48:00 +0800</lastBuildDate><atom:link href="https://blog.qiwei.dev/categories/%E5%85%B6%E4%BB%96/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>推荐程序员阅读的书籍 -- 编程实践</title>
+      <link>https://blog.qiwei.dev/posts/other/developer-read-books-coding/</link>
+      <pubDate>Fri, 28 Feb 2014 16:48:00 +0800</pubDate>
+      
+      <guid>https://blog.qiwei.dev/posts/other/developer-read-books-coding/</guid>
+      <description>只是对自己读过的书的一些看法而已。</description>
+    </item>
+    
+    <item>
+      <title>霸王别姬-人生一场戏</title>
+      <link>https://blog.qiwei.dev/posts/other/farewell-my-concubine/</link>
+      <pubDate>Fri, 09 Aug 2013 12:39:00 +0800</pubDate>
+      
+      <guid>https://blog.qiwei.dev/posts/other/farewell-my-concubine/</guid>
+      <description>我喜欢戏班子师傅教导徒弟那几话：第一句，人得自各儿成全自各儿。第二句，自古人生一世，需有一技之长，我辈既务斯业，便当专心用功，以后名扬四海，根据全在年轻。是啊，我的一技之长是什么——编程。只能专心用功，以后希望名扬四海。</description>
+    </item>
+    
     <item>
       <title>我的第一篇博文</title>
       <link>https://blog.qiwei.dev/posts/other/my-first-blog/</link>

@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Zuul网关丢失鉴权信息问题 | 我的博客</title>
+<meta name="keywords" content="Feign, Zuul, Spring Cloud">
+<meta name="description" content="公司有个项目使用spring cloud全家桶。由zuul做入口，路由到各个业务系统。其中路由完成登陆鉴权。后来有一个业务系统需要用到这些登陆信息，所以希望路由这端将登陆的信息通过消息头的方式带到业务系统。
+想想实现很简单，定义一个feign的拦截器，把登陆信息填到header中。不过中间遇到个小问题。统一的路由中将信息保持到了一个ThreadLocal中，拦截器会从这个ThreadLocal中取出数据。问题就出在这里，取到的数据是空的。其他地方也在使用这个ThreadLocal中的数据，并未发现问题，未读这个feign拦截器却不行。最奇怪的本地测试可以，跑测试环境就不行。
+再三排查，也查了不少资料，最后看到有博客上提到差不多的问题，原因是Hystrix的策略导致的。Hystrix使用不同的线程完成工作，也就是说Hystrix的线程与Request不再同一个线程中。这样，基于ThreadLocal的一些功能都无法正常使用。后来再stackoverflow上找到了解决办法，连接。框架的开发者也知道这问题，所以提供了一套完整的解决方案。HystrixRequestContext和HystrixRequestVariableDefault就是用来解决这个跨线程时共享数据问题的。简单的说，放入HystrixRequestVariableDefault中的数据，不管是在Requst线程中，还是在Hystrix的线程中，都可以访问到。不过HystrixRequestVariableDefault必须在每一个请求开始的时候进行初始化，同时在请求结束收回收里面的数据。
+方案有了，上代码，先实现一个mvc的拦截器，将ThreadLocal中的数据转到HystrixRequestVariableDefault中：
+public class HystrixContext { public static final String LOGIN_INFO_HEADER_KEY = &#34;his-login-info&#34;; public static final String TOKEN_HEADER_KEY = &#34;token&#34;; public static final HystrixRequestVariableDefault&lt;LoginInfo&gt; LOGIN_INFO = new HystrixRequestVariableDefault&lt;&gt;(); } try { if (!HystrixRequestContext.isCurrentThreadInitialized()) { HystrixRequestContext.initializeContext(); } LoginInfo loginInfo = convertLoginInf(request.getHeader(HystrixContext.LOGIN_INFO_HEADER_KEY)); LoginInfoUtil.setInfo(loginInfo); String token = request.getHeader(HystrixContext.TOKEN_HEADER_KEY); LoginInfoUtil.setToken(token); HystrixContext.LOGIN_INFO.set(LoginInfoUtil.getLoginInfo()); } catch (Exception e) { LOG.error(&#34;从头信息中获取数据失败&#34;, e); } 然后给feign加一个拦截器：
+try { if (!HystrixRequestContext.isCurrentThreadInitialized()) { HystrixRequestContext.initializeContext(); } LoginInfo loginInfo = HystrixContext.LOGIN_INFO.get(); if (loginInfo !">
+<meta name="author" content="">
+<link rel="canonical" href="https://blog.qiwei.dev/posts/coding/zuul-gateway-lost-auth-info/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.3613efbd0b1772781e8f49935e973cae632a7f61471c05b17be155505ccf87b5.css" integrity="sha256-NhPvvQsXcngej0mTXpc8rmMqf2FHHAWxe&#43;FVUFzPh7U=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://blog.qiwei.dev/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://blog.qiwei.dev/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://blog.qiwei.dev/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://blog.qiwei.dev/apple-touch-icon.png">
+<link rel="mask-icon" href="https://blog.qiwei.dev/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="Zuul网关丢失鉴权信息问题" />
+<meta property="og:description" content="公司有个项目使用spring cloud全家桶。由zuul做入口，路由到各个业务系统。其中路由完成登陆鉴权。后来有一个业务系统需要用到这些登陆信息，所以希望路由这端将登陆的信息通过消息头的方式带到业务系统。
+想想实现很简单，定义一个feign的拦截器，把登陆信息填到header中。不过中间遇到个小问题。统一的路由中将信息保持到了一个ThreadLocal中，拦截器会从这个ThreadLocal中取出数据。问题就出在这里，取到的数据是空的。其他地方也在使用这个ThreadLocal中的数据，并未发现问题，未读这个feign拦截器却不行。最奇怪的本地测试可以，跑测试环境就不行。
+再三排查，也查了不少资料，最后看到有博客上提到差不多的问题，原因是Hystrix的策略导致的。Hystrix使用不同的线程完成工作，也就是说Hystrix的线程与Request不再同一个线程中。这样，基于ThreadLocal的一些功能都无法正常使用。后来再stackoverflow上找到了解决办法，连接。框架的开发者也知道这问题，所以提供了一套完整的解决方案。HystrixRequestContext和HystrixRequestVariableDefault就是用来解决这个跨线程时共享数据问题的。简单的说，放入HystrixRequestVariableDefault中的数据，不管是在Requst线程中，还是在Hystrix的线程中，都可以访问到。不过HystrixRequestVariableDefault必须在每一个请求开始的时候进行初始化，同时在请求结束收回收里面的数据。
+方案有了，上代码，先实现一个mvc的拦截器，将ThreadLocal中的数据转到HystrixRequestVariableDefault中：
+public class HystrixContext { public static final String LOGIN_INFO_HEADER_KEY = &#34;his-login-info&#34;; public static final String TOKEN_HEADER_KEY = &#34;token&#34;; public static final HystrixRequestVariableDefault&lt;LoginInfo&gt; LOGIN_INFO = new HystrixRequestVariableDefault&lt;&gt;(); } try { if (!HystrixRequestContext.isCurrentThreadInitialized()) { HystrixRequestContext.initializeContext(); } LoginInfo loginInfo = convertLoginInf(request.getHeader(HystrixContext.LOGIN_INFO_HEADER_KEY)); LoginInfoUtil.setInfo(loginInfo); String token = request.getHeader(HystrixContext.TOKEN_HEADER_KEY); LoginInfoUtil.setToken(token); HystrixContext.LOGIN_INFO.set(LoginInfoUtil.getLoginInfo()); } catch (Exception e) { LOG.error(&#34;从头信息中获取数据失败&#34;, e); } 然后给feign加一个拦截器：
+try { if (!HystrixRequestContext.isCurrentThreadInitialized()) { HystrixRequestContext.initializeContext(); } LoginInfo loginInfo = HystrixContext.LOGIN_INFO.get(); if (loginInfo !" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://blog.qiwei.dev/posts/coding/zuul-gateway-lost-auth-info/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2019-06-28T15:43:46+08:00" />
+<meta property="article:modified_time" content="2019-06-28T15:43:46+08:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Zuul网关丢失鉴权信息问题"/>
+<meta name="twitter:description" content="公司有个项目使用spring cloud全家桶。由zuul做入口，路由到各个业务系统。其中路由完成登陆鉴权。后来有一个业务系统需要用到这些登陆信息，所以希望路由这端将登陆的信息通过消息头的方式带到业务系统。
+想想实现很简单，定义一个feign的拦截器，把登陆信息填到header中。不过中间遇到个小问题。统一的路由中将信息保持到了一个ThreadLocal中，拦截器会从这个ThreadLocal中取出数据。问题就出在这里，取到的数据是空的。其他地方也在使用这个ThreadLocal中的数据，并未发现问题，未读这个feign拦截器却不行。最奇怪的本地测试可以，跑测试环境就不行。
+再三排查，也查了不少资料，最后看到有博客上提到差不多的问题，原因是Hystrix的策略导致的。Hystrix使用不同的线程完成工作，也就是说Hystrix的线程与Request不再同一个线程中。这样，基于ThreadLocal的一些功能都无法正常使用。后来再stackoverflow上找到了解决办法，连接。框架的开发者也知道这问题，所以提供了一套完整的解决方案。HystrixRequestContext和HystrixRequestVariableDefault就是用来解决这个跨线程时共享数据问题的。简单的说，放入HystrixRequestVariableDefault中的数据，不管是在Requst线程中，还是在Hystrix的线程中，都可以访问到。不过HystrixRequestVariableDefault必须在每一个请求开始的时候进行初始化，同时在请求结束收回收里面的数据。
+方案有了，上代码，先实现一个mvc的拦截器，将ThreadLocal中的数据转到HystrixRequestVariableDefault中：
+public class HystrixContext { public static final String LOGIN_INFO_HEADER_KEY = &#34;his-login-info&#34;; public static final String TOKEN_HEADER_KEY = &#34;token&#34;; public static final HystrixRequestVariableDefault&lt;LoginInfo&gt; LOGIN_INFO = new HystrixRequestVariableDefault&lt;&gt;(); } try { if (!HystrixRequestContext.isCurrentThreadInitialized()) { HystrixRequestContext.initializeContext(); } LoginInfo loginInfo = convertLoginInf(request.getHeader(HystrixContext.LOGIN_INFO_HEADER_KEY)); LoginInfoUtil.setInfo(loginInfo); String token = request.getHeader(HystrixContext.TOKEN_HEADER_KEY); LoginInfoUtil.setToken(token); HystrixContext.LOGIN_INFO.set(LoginInfoUtil.getLoginInfo()); } catch (Exception e) { LOG.error(&#34;从头信息中获取数据失败&#34;, e); } 然后给feign加一个拦截器：
+try { if (!HystrixRequestContext.isCurrentThreadInitialized()) { HystrixRequestContext.initializeContext(); } LoginInfo loginInfo = HystrixContext.LOGIN_INFO.get(); if (loginInfo !"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://blog.qiwei.dev/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Zuul网关丢失鉴权信息问题",
+      "item": "https://blog.qiwei.dev/posts/coding/zuul-gateway-lost-auth-info/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Zuul网关丢失鉴权信息问题",
+  "name": "Zuul网关丢失鉴权信息问题",
+  "description": "公司有个项目使用spring cloud全家桶。由zuul做入口，路由到各个业务系统。其中路由完成登陆鉴权。后来有一个业务系统需要用到这些登陆信息，所以希望路由这端将登陆的信息通过消息头的方式带到业务系统。\n想想实现很简单，定义一个feign的拦截器，把登陆信息填到header中。不过中间遇到个小问题。统一的路由中将信息保持到了一个ThreadLocal中，拦截器会从这个ThreadLocal中取出数据。问题就出在这里，取到的数据是空的。其他地方也在使用这个ThreadLocal中的数据，并未发现问题，未读这个feign拦截器却不行。最奇怪的本地测试可以，跑测试环境就不行。\n再三排查，也查了不少资料，最后看到有博客上提到差不多的问题，原因是Hystrix的策略导致的。Hystrix使用不同的线程完成工作，也就是说Hystrix的线程与Request不再同一个线程中。这样，基于ThreadLocal的一些功能都无法正常使用。后来再stackoverflow上找到了解决办法，连接。框架的开发者也知道这问题，所以提供了一套完整的解决方案。HystrixRequestContext和HystrixRequestVariableDefault就是用来解决这个跨线程时共享数据问题的。简单的说，放入HystrixRequestVariableDefault中的数据，不管是在Requst线程中，还是在Hystrix的线程中，都可以访问到。不过HystrixRequestVariableDefault必须在每一个请求开始的时候进行初始化，同时在请求结束收回收里面的数据。\n方案有了，上代码，先实现一个mvc的拦截器，将ThreadLocal中的数据转到HystrixRequestVariableDefault中：\npublic class HystrixContext { public static final String LOGIN_INFO_HEADER_KEY = \u0026#34;his-login-info\u0026#34;; public static final String TOKEN_HEADER_KEY = \u0026#34;token\u0026#34;; public static final HystrixRequestVariableDefault\u0026lt;LoginInfo\u0026gt; LOGIN_INFO = new HystrixRequestVariableDefault\u0026lt;\u0026gt;(); } try { if (!HystrixRequestContext.isCurrentThreadInitialized()) { HystrixRequestContext.initializeContext(); } LoginInfo loginInfo = convertLoginInf(request.getHeader(HystrixContext.LOGIN_INFO_HEADER_KEY)); LoginInfoUtil.setInfo(loginInfo); String token = request.getHeader(HystrixContext.TOKEN_HEADER_KEY); LoginInfoUtil.setToken(token); HystrixContext.LOGIN_INFO.set(LoginInfoUtil.getLoginInfo()); } catch (Exception e) { LOG.error(\u0026#34;从头信息中获取数据失败\u0026#34;, e); } 然后给feign加一个拦截器：\ntry { if (!HystrixRequestContext.isCurrentThreadInitialized()) { HystrixRequestContext.initializeContext(); } LoginInfo loginInfo = HystrixContext.LOGIN_INFO.get(); if (loginInfo !",
+  "keywords": [
+    "Feign", "Zuul", "Spring Cloud"
+  ],
+  "articleBody": "公司有个项目使用spring cloud全家桶。由zuul做入口，路由到各个业务系统。其中路由完成登陆鉴权。后来有一个业务系统需要用到这些登陆信息，所以希望路由这端将登陆的信息通过消息头的方式带到业务系统。\n想想实现很简单，定义一个feign的拦截器，把登陆信息填到header中。不过中间遇到个小问题。统一的路由中将信息保持到了一个ThreadLocal中，拦截器会从这个ThreadLocal中取出数据。问题就出在这里，取到的数据是空的。其他地方也在使用这个ThreadLocal中的数据，并未发现问题，未读这个feign拦截器却不行。最奇怪的本地测试可以，跑测试环境就不行。\n再三排查，也查了不少资料，最后看到有博客上提到差不多的问题，原因是Hystrix的策略导致的。Hystrix使用不同的线程完成工作，也就是说Hystrix的线程与Request不再同一个线程中。这样，基于ThreadLocal的一些功能都无法正常使用。后来再stackoverflow上找到了解决办法，连接。框架的开发者也知道这问题，所以提供了一套完整的解决方案。HystrixRequestContext和HystrixRequestVariableDefault就是用来解决这个跨线程时共享数据问题的。简单的说，放入HystrixRequestVariableDefault中的数据，不管是在Requst线程中，还是在Hystrix的线程中，都可以访问到。不过HystrixRequestVariableDefault必须在每一个请求开始的时候进行初始化，同时在请求结束收回收里面的数据。\n方案有了，上代码，先实现一个mvc的拦截器，将ThreadLocal中的数据转到HystrixRequestVariableDefault中：\npublic class HystrixContext { public static final String LOGIN_INFO_HEADER_KEY = \"his-login-info\"; public static final String TOKEN_HEADER_KEY = \"token\"; public static final HystrixRequestVariableDefault\u003cLoginInfo\u003e LOGIN_INFO = new HystrixRequestVariableDefault\u003c\u003e(); } try { if (!HystrixRequestContext.isCurrentThreadInitialized()) { HystrixRequestContext.initializeContext(); } LoginInfo loginInfo = convertLoginInf(request.getHeader(HystrixContext.LOGIN_INFO_HEADER_KEY)); LoginInfoUtil.setInfo(loginInfo); String token = request.getHeader(HystrixContext.TOKEN_HEADER_KEY); LoginInfoUtil.setToken(token); HystrixContext.LOGIN_INFO.set(LoginInfoUtil.getLoginInfo()); } catch (Exception e) { LOG.error(\"从头信息中获取数据失败\", e); } 然后给feign加一个拦截器：\ntry { if (!HystrixRequestContext.isCurrentThreadInitialized()) { HystrixRequestContext.initializeContext(); } LoginInfo loginInfo = HystrixContext.LOGIN_INFO.get(); if (loginInfo != null) { template.header(HystrixContext.TOKEN_HEADER_KEY, loginInfo.getToken()); template.header(HystrixContext.LOGIN_INFO_HEADER_KEY, Base64.getUrlEncoder().encodeToString(JSON.toJSONString(loginInfo).getBytes())); } } catch (Exception e) { LOG.error(\"从头信息中获取数据失败\", e); } HystrixRequestVariableDefault的原理 查看了下HystrixRequestVariableDefault的源码（下面源码都使用hystrix-core 1.5.12版本），HystrixRequestVariableDefault中并没有维护任何数据，而是将维护数据的工作交给了HystrixRequestContext，自己则只是封装了get、set方法。\n看下HystrixRequestContext的实现，HystrixRequestContext维护两个属性及其方法:\nprivate static ThreadLocal\u003cHystrixRequestContext\u003e requestVariables = new ThreadLocal\u003cHystrixRequestContext\u003e(); ConcurrentHashMap\u003cHystrixRequestVariableDefault\u003c?\u003e, HystrixRequestVariableDefault.LazyInitializer\u003c?\u003e\u003e state = new ConcurrentHashMap\u003cHystrixRequestVariableDefault\u003c?\u003e, HystrixRequestVariableDefault.LazyInitializer\u003c?\u003e\u003e(); public static HystrixRequestContext initializeContext() { HystrixRequestContext state = new HystrixRequestContext(); requestVariables.set(state); return state; } public static HystrixRequestContext getContextForCurrentThread() { HystrixRequestContext context = requestVariables.get(); if (context != null \u0026\u0026 context.state != null) { return context; } else { return null; } } public static void setContextOnCurrentThread(HystrixRequestContext state) { requestVariables.set(state); } 这里的重点是初始化，初始化的过程是实例化一个HystrixRequestContext，存到当前线程数据中。这样每个线程关联一个HystrixRequestContext，每个HystrixRequestContext有个Map结构（ConcurrentHashMap\u003c\u003e state）存储数据。\n那问题来了，谁来负责在线程间拷贝这份数据呢？答案在HystrixContextRunnable和HystrixContextCallable中。\nHystrixContextRunnable在实现了Runnalbe接口：\npublic void run() { HystrixRequestContext existingState = HystrixRequestContext.getContextForCurrentThread(); try { // set the state of this thread to that of its parent HystrixRequestContext.setContextOnCurrentThread(parentThreadState); // execute actual Callable with the state of the parent try { actual.call(); } catch (Exception e) { throw new RuntimeException(e); } } finally { // restore this thread back to its original state HystrixRequestContext.setContextOnCurrentThread(existingState); } } HystrixContextRunnable的使用可以在HystrixCommand找到，关于HystrixCommand又是另一个话题 —— Hystrix的命令模式，不展开（主要是我还没研究清楚）。\nHystrixRequestVariableDefault使用需要注意的事 使用前需要用HystrixRequestContext.initializeContext()进行初始化 结束时需使用HystrixRequestContext.shutdown()进行清理 父线程调用shutdown时，子线程的HystrixRequestVariables也会被清理 ",
+  "wordCount" : "226",
+  "inLanguage": "en",
+  "datePublished": "2019-06-28T15:43:46+08:00",
+  "dateModified": "2019-06-28T15:43:46+08:00",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://blog.qiwei.dev/posts/coding/zuul-gateway-lost-auth-info/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "我的博客",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://blog.qiwei.dev/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://blog.qiwei.dev/" accesskey="h" title="我的博客 (Alt + H)">我的博客</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://blog.qiwei.dev/posts" title="Blogs">
+                    <span>Blogs</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://blog.qiwei.dev/categories/" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://blog.qiwei.dev/tags/" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://blog.qiwei.dev/about/" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      Zuul网关丢失鉴权信息问题
+    </h1>
+    <div class="post-meta"><span title='2019-06-28 15:43:46 +0800 CST'>June 28, 2019</span>
+
+</div>
+  </header> 
+  <div class="post-content"><p>公司有个项目使用spring cloud全家桶。由zuul做入口，路由到各个业务系统。其中路由完成登陆鉴权。后来有一个业务系统需要用到这些登陆信息，所以希望路由这端将登陆的信息通过消息头的方式带到业务系统。</p>
+<p>想想实现很简单，定义一个feign的拦截器，把登陆信息填到header中。不过中间遇到个小问题。统一的路由中将信息保持到了一个<code>ThreadLocal</code>中，拦截器会从这个<code>ThreadLocal</code>中取出数据。问题就出在这里，取到的数据是空的。其他地方也在使用这个<code>ThreadLocal</code>中的数据，并未发现问题，未读这个feign拦截器却不行。最奇怪的本地测试可以，跑测试环境就不行。</p>
+<p>再三排查，也查了不少资料，最后看到有博客上提到差不多的问题，原因是<code>Hystrix</code>的策略导致的。<code>Hystrix</code>使用不同的线程完成工作，也就是说<code>Hystrix</code>的线程与Request不再同一个线程中。这样，基于<code>ThreadLocal</code>的一些功能都无法正常使用。后来再stackoverflow上找到了解决办法，<a href="https://stackoverflow.com/questions/34719809/unreachable-security-context-using-feign-requestinterceptor">连接</a>。框架的开发者也知道这问题，所以提供了一套完整的解决方案。<code>HystrixRequestContext</code>和<code>HystrixRequestVariableDefault</code>就是用来解决这个跨线程时共享数据问题的。简单的说，放入<code>HystrixRequestVariableDefault</code>中的数据，不管是在Requst线程中，还是在Hystrix的线程中，都可以访问到。不过<code>HystrixRequestVariableDefault</code>必须在每一个请求开始的时候进行初始化，同时在请求结束收回收里面的数据。</p>
+<p>方案有了，上代码，先实现一个mvc的拦截器，将<code>ThreadLocal</code>中的数据转到<code>HystrixRequestVariableDefault</code>中：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">HystrixContext</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">final</span> String LOGIN_INFO_HEADER_KEY <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;his-login-info&#34;</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">final</span> String TOKEN_HEADER_KEY <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;token&#34;</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">final</span> HystrixRequestVariableDefault<span style="color:#f92672">&lt;</span>LoginInfo<span style="color:#f92672">&gt;</span> LOGIN_INFO <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> HystrixRequestVariableDefault<span style="color:#f92672">&lt;&gt;();</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(!</span>HystrixRequestContext<span style="color:#f92672">.</span><span style="color:#a6e22e">isCurrentThreadInitialized</span><span style="color:#f92672">())</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        HystrixRequestContext<span style="color:#f92672">.</span><span style="color:#a6e22e">initializeContext</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    LoginInfo loginInfo <span style="color:#f92672">=</span> convertLoginInf<span style="color:#f92672">(</span>request<span style="color:#f92672">.</span><span style="color:#a6e22e">getHeader</span><span style="color:#f92672">(</span>HystrixContext<span style="color:#f92672">.</span><span style="color:#a6e22e">LOGIN_INFO_HEADER_KEY</span><span style="color:#f92672">));</span>
+</span></span><span style="display:flex;"><span>    LoginInfoUtil<span style="color:#f92672">.</span><span style="color:#a6e22e">setInfo</span><span style="color:#f92672">(</span>loginInfo<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    String token <span style="color:#f92672">=</span> request<span style="color:#f92672">.</span><span style="color:#a6e22e">getHeader</span><span style="color:#f92672">(</span>HystrixContext<span style="color:#f92672">.</span><span style="color:#a6e22e">TOKEN_HEADER_KEY</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    LoginInfoUtil<span style="color:#f92672">.</span><span style="color:#a6e22e">setToken</span><span style="color:#f92672">(</span>token<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    HystrixContext<span style="color:#f92672">.</span><span style="color:#a6e22e">LOGIN_INFO</span><span style="color:#f92672">.</span><span style="color:#a6e22e">set</span><span style="color:#f92672">(</span>LoginInfoUtil<span style="color:#f92672">.</span><span style="color:#a6e22e">getLoginInfo</span><span style="color:#f92672">());</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>Exception e<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    LOG<span style="color:#f92672">.</span><span style="color:#a6e22e">error</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;从头信息中获取数据失败&#34;</span><span style="color:#f92672">,</span> e<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>然后给feign加一个拦截器：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(!</span>HystrixRequestContext<span style="color:#f92672">.</span><span style="color:#a6e22e">isCurrentThreadInitialized</span><span style="color:#f92672">())</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        HystrixRequestContext<span style="color:#f92672">.</span><span style="color:#a6e22e">initializeContext</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    LoginInfo loginInfo <span style="color:#f92672">=</span> HystrixContext<span style="color:#f92672">.</span><span style="color:#a6e22e">LOGIN_INFO</span><span style="color:#f92672">.</span><span style="color:#a6e22e">get</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>loginInfo <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        template<span style="color:#f92672">.</span><span style="color:#a6e22e">header</span><span style="color:#f92672">(</span>HystrixContext<span style="color:#f92672">.</span><span style="color:#a6e22e">TOKEN_HEADER_KEY</span><span style="color:#f92672">,</span> loginInfo<span style="color:#f92672">.</span><span style="color:#a6e22e">getToken</span><span style="color:#f92672">());</span>
+</span></span><span style="display:flex;"><span>        template<span style="color:#f92672">.</span><span style="color:#a6e22e">header</span><span style="color:#f92672">(</span>HystrixContext<span style="color:#f92672">.</span><span style="color:#a6e22e">LOGIN_INFO_HEADER_KEY</span><span style="color:#f92672">,</span> Base64<span style="color:#f92672">.</span><span style="color:#a6e22e">getUrlEncoder</span><span style="color:#f92672">().</span><span style="color:#a6e22e">encodeToString</span><span style="color:#f92672">(</span>JSON<span style="color:#f92672">.</span><span style="color:#a6e22e">toJSONString</span><span style="color:#f92672">(</span>loginInfo<span style="color:#f92672">).</span><span style="color:#a6e22e">getBytes</span><span style="color:#f92672">()));</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>Exception e<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    LOG<span style="color:#f92672">.</span><span style="color:#a6e22e">error</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;从头信息中获取数据失败&#34;</span><span style="color:#f92672">,</span> e<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><h2 id="hystrixrequestvariabledefault的原理">HystrixRequestVariableDefault的原理<a hidden class="anchor" aria-hidden="true" href="#hystrixrequestvariabledefault的原理">#</a></h2>
+<p>查看了下<code>HystrixRequestVariableDefault</code>的源码（下面源码都使用hystrix-core 1.5.12版本），<code>HystrixRequestVariableDefault</code>中并没有维护任何数据，而是将维护数据的工作交给了<code>HystrixRequestContext</code>，自己则只是封装了<code>get</code>、<code>set</code>方法。</p>
+<p>看下<code>HystrixRequestContext</code>的实现，<code>HystrixRequestContext</code>维护两个属性及其方法:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> ThreadLocal<span style="color:#f92672">&lt;</span>HystrixRequestContext<span style="color:#f92672">&gt;</span> requestVariables <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ThreadLocal<span style="color:#f92672">&lt;</span>HystrixRequestContext<span style="color:#f92672">&gt;();</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>ConcurrentHashMap<span style="color:#f92672">&lt;</span>HystrixRequestVariableDefault<span style="color:#f92672">&lt;?&gt;,</span> HystrixRequestVariableDefault<span style="color:#f92672">.</span><span style="color:#a6e22e">LazyInitializer</span><span style="color:#f92672">&lt;?&gt;&gt;</span> state <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ConcurrentHashMap<span style="color:#f92672">&lt;</span>HystrixRequestVariableDefault<span style="color:#f92672">&lt;?&gt;,</span> HystrixRequestVariableDefault<span style="color:#f92672">.</span><span style="color:#a6e22e">LazyInitializer</span><span style="color:#f92672">&lt;?&gt;&gt;();</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> HystrixRequestContext <span style="color:#a6e22e">initializeContext</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    HystrixRequestContext state <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> HystrixRequestContext<span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>    requestVariables<span style="color:#f92672">.</span><span style="color:#a6e22e">set</span><span style="color:#f92672">(</span>state<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> state<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> HystrixRequestContext <span style="color:#a6e22e">getContextForCurrentThread</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    HystrixRequestContext context <span style="color:#f92672">=</span> requestVariables<span style="color:#f92672">.</span><span style="color:#a6e22e">get</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>context <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span> <span style="color:#f92672">&amp;&amp;</span> context<span style="color:#f92672">.</span><span style="color:#a6e22e">state</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> context<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">setContextOnCurrentThread</span><span style="color:#f92672">(</span>HystrixRequestContext state<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    requestVariables<span style="color:#f92672">.</span><span style="color:#a6e22e">set</span><span style="color:#f92672">(</span>state<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>这里的重点是初始化，初始化的过程是实例化一个<code>HystrixRequestContext</code>，存到当前线程数据中。这样每个线程关联一个HystrixRequestContext，每个HystrixRequestContext有个Map结构（<code>ConcurrentHashMap&lt;&gt; state</code>）存储数据。</p>
+<p>那问题来了，谁来负责在线程间拷贝这份数据呢？答案在<code>HystrixContextRunnable</code>和<code>HystrixContextCallable</code>中。</p>
+<p><code>HystrixContextRunnable</code>在实现了Runnalbe接口：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">run</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    HystrixRequestContext existingState <span style="color:#f92672">=</span> HystrixRequestContext<span style="color:#f92672">.</span><span style="color:#a6e22e">getContextForCurrentThread</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// set the state of this thread to that of its parent
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        HystrixRequestContext<span style="color:#f92672">.</span><span style="color:#a6e22e">setContextOnCurrentThread</span><span style="color:#f92672">(</span>parentThreadState<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// execute actual Callable with the state of the parent
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            actual<span style="color:#f92672">.</span><span style="color:#a6e22e">call</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>Exception e<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> RuntimeException<span style="color:#f92672">(</span>e<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span> <span style="color:#66d9ef">finally</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// restore this thread back to its original state
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        HystrixRequestContext<span style="color:#f92672">.</span><span style="color:#a6e22e">setContextOnCurrentThread</span><span style="color:#f92672">(</span>existingState<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p><code>HystrixContextRunnable</code>的使用可以在<code>HystrixCommand</code>找到，关于<code>HystrixCommand</code>又是另一个话题 —— Hystrix的命令模式，不展开（主要是我还没研究清楚）。</p>
+<h2 id="hystrixrequestvariabledefault使用需要注意的事">HystrixRequestVariableDefault使用需要注意的事<a hidden class="anchor" aria-hidden="true" href="#hystrixrequestvariabledefault使用需要注意的事">#</a></h2>
+<ol>
+<li>使用前需要用<code>HystrixRequestContext.initializeContext()</code>进行初始化</li>
+<li>结束时需使用<code>HystrixRequestContext.shutdown()</code>进行清理</li>
+<li>父线程调用shutdown时，子线程的HystrixRequestVariables也会被清理</li>
+</ol>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://blog.qiwei.dev/tags/feign/">Feign</a></li>
+      <li><a href="https://blog.qiwei.dev/tags/zuul/">Zuul</a></li>
+      <li><a href="https://blog.qiwei.dev/tags/spring-cloud/">Spring Cloud</a></li>
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="https://blog.qiwei.dev/">我的博客</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

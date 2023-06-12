@@ -138,6 +138,137 @@
 
 <article class="post-entry tag-entry"> 
   <header class="entry-header">
+    <h2>spring cloud feign 拦截器配置
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>问题 公司大规模推全链路，要求所有应用都接入。手头一个新的项目，采用spring cloud框架。通过 feign 调用rest接口。但是支持提供的支持 HttpClient4 的方式无法对 feign 起作用。
+思路 想着 feign 也是采用 HttpClient 的。按理对 HttpClient4 起作用的也应该同样有效。然后去看了下架构组全链路配置代码，原来他们是在初始化 HttpCLient 实例时候，加入了拦截器。通过拦截器，在 header 中加入链路信息。但是这个方式似乎对 feign 没啥作用。那我就自己实现添加拦截器呗。
+查了下 feign 添加拦截器，网络上提供的方式都是通过自定义 FeignConfiguration 的方式来实现。方法如下：
+新建 FeignConfiguration类
+public class FeignConfiguration { @Bean public FeignBasicAuthRequestInterceptor basicAuthRequestInterceptor() { return new FeignBasicAuthRequestInterceptor(); } } 然后在配置客户端调用时候加入配置中
+@FeignClient(value = &#34;xxx-service&#34;, path = &#34;/xxx&#34;, configuration = FeignConfiguration.class) 只是这种方法无法做到全局。找了好久，看了文档，都没有办法配置全局。
+无奈，去翻源码吧。找到了 FeignAutoConfiguration 类。看到了初始化配置。
+protected static class HttpClientFeignConfiguration { @Autowired( required = false ) private HttpClient httpClient; protected HttpClientFeignConfiguration() { } @Bean @ConditionalOnMissingBean({Client....</p>
+  </div>
+  <footer class="entry-footer"><span title='2018-01-25 20:53:21 +0800 CST'>January 25, 2018</span></footer>
+  <a class="entry-link" aria-label="post link to spring cloud feign 拦截器配置" href="https://blog.qiwei.dev/posts/coding/spring-cloud-feign-add-interceptor/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>javabean字段文字拼接
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>问题 接了一个需求，从数据库拿出患者的记录，这些记录都是一些吸烟年份、饮酒年份、是否糖尿病等，不是数字就是布尔值，需要通过代码转化为普通人能理解的文字。
+思前想后，总不能使用大量 if-else 判断来拼接字符串吧。可以采用模板，但是那样除了必要判空，代码和模板也将分离，不方便维护。而且有些字段存在依赖关系。
+解决 刚好之前看了使用注解来替代枚举的方式。想着是否可以在每个需要拼接的字段上打上注解，通过判断注解的方式拼接。注解中也可以放入模板、依赖关系等配置。
+@Target({ElementType.FIELD}) @Retention(RetentionPolicy.RUNTIME) @Documented public @interface StringAssemble { /** * 模板 */ String template(); /** * 分类 */ String type() default &#34;&#34;; /** * 上级依赖 */ String dependency() default &#34;&#34;; /** * 相互依赖的内容之间的分割符号 */ String dependencySplit() default &#34;,&#34;; } 上面注解中，templete 主要是字段值需要填入的文字模板，type 用于不同的字段组合，dependency 主要是有依赖关系的字段之间的内容组合，最后一个是有依赖关系的字段字段拼接后用于隔离的标点。
+实现代码如下：
+private static String stringAssemble(Object data, String type, String splitPunctuation) { final Map&lt;String, String&gt; infoMap = new HashMap&lt;&gt;(); final Map&lt;String, String&gt; dependencyMap = new HashMap&lt;&gt;(); try { Field[] fields = data....</p>
+  </div>
+  <footer class="entry-footer"><span title='2018-01-20 10:58:21 +0800 CST'>January 20, 2018</span></footer>
+  <a class="entry-link" aria-label="post link to javabean字段文字拼接" href="https://blog.qiwei.dev/posts/coding/java-bean-field-assemble/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>SpringMVC没有拦截根路径的问题
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>在开发tomcat &#43; spring mvc的web工程时候，发现在controller中配置的根路劲不会被拦截到，或者说前段返回的根本就不是controller中所配置的。比如，我在controller中配置根路径的返回为一个欢迎页面：
+@RequestMapping(value = &#34;/&#34;, method = RequestMethod.GET) public ModelAndView main() { ModelAndView mv = new ModelAndView(&#34;main&#34;); return mv; } 但访问“http://localhost:8080/project_name/”，返回的却是404.
+在对该单元测试中，对根路径的访问等得到了正确的结果，这证明spring的配置是正确的。于是乎想起来web.xml中的配置可能存在为题，自然最有可能有问题的是web.xml对默认页面的设置了。及welcome-file-list。但是自己并没有配置这个。后来看了tomcat官网对tomcat目录下conf/web.xml的说明才知道，原来此处的web.xml中的配置将被当作默认配置，而部署的工程内的web.xml中的配置会覆盖默认配置，但是如果向我那样没有配置welcome-file-list，那么就会使用默认的了。为此当访问根目录的时候，tomcat试图去寻找默认的index.html等资源，而不是把请求交给spring的拦截器。
+知道了这些，解决问的就简单了，直接修改工程下的web.xml，加入如下配置：
+&lt;welcome-file-list&gt; &lt;welcome-file&gt;&lt;/welcome-file&gt; &lt;/welcome-file-list&gt; 这样就配置后，tomcat就知道不需要对根路径的访问做处理了，而将请求交给了spring的拦截器。</p>
+  </div>
+  <footer class="entry-footer"><span title='2014-12-02 15:22:00 +0800 CST'>December 2, 2014</span></footer>
+  <a class="entry-link" aria-label="post link to SpringMVC没有拦截根路径的问题" href="https://blog.qiwei.dev/posts/coding/springmvc-cant-fiter-root-url/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>Spring4定时任务的注解配置
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>不想写繁琐的xml文件，所以试着用Spring的注解来配置定时任务。按网上好多写的那样，使用@Scheduled注解：
+@Scheduled(fixedRate=5000) public void doSomething() { // something that should execute periodically } 但是怎么也无法让定时任务跑起来。最后无奈，只有去官网看英语了。
+原来，还需要有一个允许定时任务的注解，放在一个有@configuration注解类中。
+@Configuration @EnableAsync @EnableScheduling public class AppConfig { } 其中，@EnableAsysnc是允许异步任务。至于@Configuration的说明，见Spring的最新文档。</p>
+  </div>
+  <footer class="entry-footer"><span title='2014-11-03 22:57:00 +0800 CST'>November 3, 2014</span></footer>
+  <a class="entry-link" aria-label="post link to Spring4定时任务的注解配置" href="https://blog.qiwei.dev/posts/coding/spring-scheduling-annotation-support/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>Clone使用方法详解
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>Java语言的一个优点就是取消了指针的概念，但也导致了许多程序员在编程中常常忽略了对象与引用的区别。和C语言一样，当把Java的基本数据类型（如int，char，double等）作为 入口参数传给函数体的时候，传入的参数在函数体内部变成了局部变量，这个局部变量是输入参数的一个拷贝，所有的函数体内部的操作都是针对这个拷贝的操作， 函数执行结束后，这个局部变量也就完成了它的使命，它影响不到作为输入参数的变量。这种方式的参数传递被称为&#34;值传递&#34;。而在Java中用对象的作为入口 参数的传递则缺省为&#34;引用传递&#34;，也就是说仅仅传递了对象的一个&#34;引用&#34;，这个&#34;引用&#34;的概念同C语言中的指针引用是一样的。当函数体内部对输入变量改变 时，实质上就是在对这个对象的直接操作。
+java中的clone： 在实际编程过程中，我们常常要遇到这种情况：有一个对象A，在某一时刻A中已经包含了一些有效值，此时可能会需要一个和A完全相同新对象B，并且此后对B 任何改动都不会影响到A中的值，也就是说，A与B是两个独立的对象，但B的初始值是由A对象确定的。在Java语言中，用简单的赋值语句是不能满足这种需 求的。要满足这种需求虽然有很多途径，但实现clone（）方法是其中最简单，也是最高效的手段。
+Java的所有类都默认继承java.lang.Object类，在java.lang.Object类中有一个方法clone()。JDK API的说明文档解释这个方法将返回Object对象的一个拷贝。要说明的有两点：
+** 一是拷贝对象返回的是一个新对象，而不是一个引用。**
+** 二是拷贝对象与用 new操作符返回的新对象的区别就是这个拷贝已经包含了一些原来对象的信息，而不是对象的初始信息。**
+有三个值得注意的地方，
+一是希望能实现clone功能的CloneClass类实现了Cloneable接口，这个接口属于java.lang包， java.lang包已经被缺省的导入类中，所以不需要写成java.lang.Cloneable。
+另一个值得请注意的是重载了clone()方法。最 后在clone()方法中调用了super.clone()，这也意味着无论clone类的继承结构是什么样的，super.clone()直接或间接调 用了java.lang.Object类的clone()方法。下面再详细的解释一下这几点。
+应该说第三点是最重要的，仔细观察一下Object类的clone()一个native方法，native方法的效率一般来说都是远高于java中的非 native方法。这也解释了为什么要用Object中clone()方法而不是先new一个类，然后把原始对象中的信息赋到新对象中，虽然这也实现了 clone功能。对于第二点，也要观察Object类中的clone()还是一个protected属性的方法。这也意味着如果要应用clone()方 法，必须继承Object类，在Java中所有的类是缺省继承Object类的，也就不用关心这点了。然后重载clone()方法。还有一点要考虑的是为 了让其它类能调用这个clone类的clone()方法，重载之后要把clone()方法的属性设置为public。那么clone类为什么还要实现Cloneable接口呢？
+稍微注意一下，Cloneable接口是不包含任何方法的！其实这个接口仅仅是一个标志，而且 这个标志也仅仅是针对Object类中clone()方法的，如果clone类没有实现Cloneable接口，并调用了Object的clone()方法（也就是调用了super.Clone()方法），那么Object的clone()方法就会抛出 CloneNotSupportedException异常。
+什么是影子clone？ 调用Object类中clone()方法产生的效果是：先在内存中开辟一块和原始对象一样的空间，然后原样拷贝原始对象中的内容。对基本数据类型，这样的操作是没有问题的，但对非基本类型变量，我们知道它们保存的仅仅是对象的引用，这也导致clone后的非基本类型变量和原始对象中相应的变量指向的是同一个对象。
+怎么进行深度clone？ 需要两个改变，一是让对象内的非基本类型变量也实现Clone功能（实现Cloneable接 口，重载clone()方法）。二是在对象的Clone方法中加一句o.unCA = (UnCloneA)unCA.clone();
+要知道不是所有的类都能实现深度clone的。例如，如果把上面的CloneB类中的UnCloneA类型变量改成StringBuffer类型，看一下 JDK API中关于StringBuffer的说明，StringBuffer没有重载clone()方法，更为严重的是StringBuffer还是一个 final类，这也是说我们也不能用继承的办法间接实现StringBuffer的clone。
+还要知道的是除了基本数据类型能自动实现深度clone以外，String对象，Integer，Double等是一个例外，它clone后的表现好象也实现了深度clone，虽然这只是一个假象，但却大大方便了我们的编程。
+Clone中String和StringBuffer的区别,这个区别主要原因来自String和StringBuffer的区别。</p>
+  </div>
+  <footer class="entry-footer"><span title='2013-09-05 13:29:00 +0800 CST'>September 5, 2013</span></footer>
+  <a class="entry-link" aria-label="post link to Clone使用方法详解" href="https://blog.qiwei.dev/posts/coding/java-clone/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>Java静态代码块（static{}）
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>静态代码块：即在类中的标有static修饰符的代码块，如：
+static { } 与一般代码块的异同： 相同点：都是在JVM加载类时且在构造方法执行之前执行，在类中都可以定义多个，一般在代码块中对一些static变量进行赋值。
+不同点：静态代码块在非静态代码块之前执行。静态代码块只在第一次new执行一次，之后不再执行，而非静态代码块在每new一次就执行一次。非静态代码块可在普通方法中定义；而静态代码块不行。
+与静态方法的区别： 静态代码块在第一次初始化的时候被执行，静态方法在类加载的时候被加载，且必须需要主动调用才会执行。
+执行顺序相关： 1、单个类的初始化顺序如下：为静态属性分配内存并赋值-&gt;执行静态代码块-&gt;为非静态属性分配内存并赋值-&gt;执行非静态代码块-&gt;构造函数。
+2、有继承关系的类的初始化顺序如下：父静属-&gt;父静块-&gt;子静属-&gt;子静块-&gt;父非静属-&gt;父非静块-&gt;父构造-&gt;子非静属-&gt;子非静块-&gt;子构造。
+static的一些使用注意事项： 1、静态方法只能调用同类中的其他静态成员（静态方法或是静态变量）。
+2、静态方法不能使用this和super。因为静态方法不属于任何实例。
+3、静态变量属于整个类，在类的方法中不能定义静态方法。</p>
+  </div>
+  <footer class="entry-footer"><span title='2013-08-21 10:43:00 +0800 CST'>August 21, 2013</span></footer>
+  <a class="entry-link" aria-label="post link to Java静态代码块（static{}）" href="https://blog.qiwei.dev/posts/coding/java-static-code-block/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>Java源码解读——ArrayList
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>为了提高自己的Java开发能力，我也向高手、牛人学习，去解读源码。自己底子差了点，不过看个源码还是没问题的。第一站ArrayList。
+源码为Java 1.7的源码
+ArrayList是一个实现可变长数组，继承AbstractList类，实现所有的List接口，还实现了RandomAccess、Cloneable、Serializable接口。ArrayList不进行同步，除此之外基本和Vector等同。
+1、成员变量 private transient Object[] elementData; elementData用于保存数据的数组。
+private int size; size为ArrayList内的数据数量，但并不是elementData的长度。
+2、构造方法 public ArrayList(int initialCapacity) { super(); if (initialCapacity &lt; 0) throw new IllegalArgumentException(&#34;Illegal Capacity: &#34;&#43; initialCapacity); this.elementData = new Object[initialCapacity]; } public ArrayList() { this(10); } public ArrayList(Collection&lt;? extends E&gt; c) { elementData = c.toArray(); size = elementData.length; if (elementData.getClass() != Object[].class) elementData = Arrays.copyOf(elementData, size, Object[].class); } 第一个是根据指定长度建立List，第二个是根据默认长度建立List，第三个根据传入Collection子类实例创建List。通过第三个实例看到Collection子类都会实现toArray()方法，可以看出至少很多Collection子类依赖于数组来实现（还没看过其他的集合实现，这只是我的妄言而已）。
+3、add方法 public boolean add(E e) { ensureCapacityInternal(size &#43; 1); elementData[size&#43;&#43;] = e; return true; } 该方法在数组最后添加一个元素。ensureCapacityInternal方法提供了ArrayList的自增长实现，以确保elementData有足够的长度来容纳新进入的元素（后面介绍自增长的实现）。...</p>
+  </div>
+  <footer class="entry-footer"><span title='2013-08-14 15:11:00 +0800 CST'>August 14, 2013</span></footer>
+  <a class="entry-link" aria-label="post link to Java源码解读——ArrayList" href="https://blog.qiwei.dev/posts/coding/java-source-arraylist/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
     <h2>Mybatis返回特殊Map
     </h2>
   </header>
@@ -186,61 +317,12 @@ public void method1(String... arg1) { System.out.println(&#34;1&#34;); } public 
   <footer class="entry-footer"><span title='2011-11-03 21:41:00 +0800 CST'>November 3, 2011</span></footer>
   <a class="entry-link" aria-label="post link to Hibernate获取返回值报XXX connot be cast to [Ljava.lang.Object" href="https://blog.qiwei.dev/posts/coding/hibernate-cannot-cast/"></a>
 </article>
-
-<article class="post-entry tag-entry"> 
-  <header class="entry-header">
-    <h2>itext中文本的绝对位置放置
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>text中表格可以使用
-table.writeSelectedRows(0, -1, x, y, writer.getDirectContent()); 来实现绝对位置放置。那文本段落呢…
-当我们不需要itext对每个单词、句子、段落实现自动格式的时候，或是想使用特殊布局，就可以使用PdfContentByte来实现绝对位置放置。
-PdfContentByte的初始化：
-PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(&#34;test.pdf&#34;)); PdfContentByte cb = writer.DirectContent; 将文本写入ContentByte中时，必须使用方法beginText()和endText()，同时也必须设置字体和尺寸。有两种方法来写入和放置文本。
-方法一：
-BaseFont bf = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.NOT_EMBEDDED); cb.beginText(); cb.setFontAndSize(bf, 12); cb.showTextAligned(PdfContentByte.ALIGN_CENTER, text &#43; &#34;This text is centered&#34;, 250, 700, 0); cb.endText(); 方法二：
-BaseFont bf = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.NOT_EMBEDDED); cb.beginText(); cb.setFontAndSize(bf, 12); cb.setTextMatrix(100, 400); cb.showText(&#34;Text at position 100,400.&#34;); cb.endText(); </p>
-  </div>
-  <footer class="entry-footer"><span title='2011-05-12 12:02:00 +0800 CST'>May 12, 2011</span></footer>
-  <a class="entry-link" aria-label="post link to itext中文本的绝对位置放置" href="https://blog.qiwei.dev/posts/coding/itext-absolute-position/"></a>
-</article>
-
-<article class="post-entry tag-entry"> 
-  <header class="entry-header">
-    <h2>用apache的ant解压zip文件（中文文件或文件夹解决方法）
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>昨天在研究用apache的ant包来解压zip文件，把经验写下来与大家分享。 写贴上代码
-package upzip; import java.io.File; import java.io.FileOutputStream; import java.io.InputStream; import org.apache.tools.zip.*; import java.util.Enumeration; /** * 压缩解压ZIP文件 * @author Administrator * */ public class AntZip { private ZipFile zipFile; private static int bufSize; //size of bytes private byte[] buf; private int readedBytes; /** * * @param bufSize 缓存大小 */ public AntZip(int bufSize){ this.bufSize = bufSize; this.buf = new byte[this.bufSize]; } public AntZip(){ this(1024); } /** * 生存目录 * @param directory 解压文件存放目录 * @param subDirectory 子目录（没有时可传入空字符串） */ private void createDirectory(String directory, String subDirectory) { String dir[]; File fl = new File(directory); try { if(subDirectory == &#34;&#34; &amp;&amp; fl....</p>
-  </div>
-  <footer class="entry-footer"><span title='2011-03-04 12:01:00 +0800 CST'>March 4, 2011</span></footer>
-  <a class="entry-link" aria-label="post link to 用apache的ant解压zip文件（中文文件或文件夹解决方法）" href="https://blog.qiwei.dev/posts/coding/apache-ant-unzip-chinese/"></a>
-</article>
-
-<article class="post-entry tag-entry"> 
-  <header class="entry-header">
-    <h2>ClientAbortException: java.net.SocketException:”异常的问题
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>前几天，在做图片以stream形式输出到页面上展现的时候，后台一直报异常，且页面上图片无法正常现实。异常内容为：
-ClientAbortException: java.net.SocketException: Software caused connection abort: socket write error at org.apache.catalina.connector.OutputBuffer.realWriteBytes(OutputBuffer.java:358) at org.apache.tomcat.util.buf.ByteChunk.flushBuffer(ByteChunk.java:434) at org.apache.catalina.connector.OutputBuffer.doFlush(OutputBuffer.java:309) at org.apache.catalina.connector.OutputBuffer.flush(OutputBuffer.java:288) at org.apache.catalina.connector.CoyoteOutputStream.flush(CoyoteOutputStream.java:98) at javax.imageio.stream.FileCacheImageOutputStream.close(FileCacheImageOutputStream.java:213) ...... 在网上找了好久，发现是个普遍问题，但原因各异，有人总结为：
-1：服务器的并发连接数超过了其承载量，服务器会将其中一些连接Down掉；
-2：客户关掉了浏览器，而服务器还在给客户端发送数据；
-3：浏览器端按了Stop；
-4：服务器给客户端响应结果给防火墙拦截了。
-这些原因太过笼统，细查错误很难。
-偶然在一个英文网页上看到了条有关这个异常的，本人英语水平差，只能说个大意：
-这个已知异常出现在IE浏览器显示tif格式的图片的时候。
-亲自试验了下，的确在chrome和火狐上显示时，后台不会报次错误，不过图片显示有点异样。因为图片是存于数据库的BLOB类型的字段中，所以一直没注意图片的格式，后来才发现，原来图片是gif格式，而我使用ImageIO.write(img, “jpeg”, response.getOutputStream());输出成jpg格式的图片，以致导致IE浏览器对图片解析有问题。在此将jpeg改成gif后不再出现异常。
-忙乎了一天多，结果问题出在这里。
-其问题导致的原因可能是：IE浏览器在解析错误图片格式或不支持的图片格式时，可能向服务器发送了多次请求或是直接关闭了连接，从而导致了tomcat报次异常。</p>
-  </div>
-  <footer class="entry-footer"><span title='2010-12-08 22:35:00 +0800 CST'>December 8, 2010</span></footer>
-  <a class="entry-link" aria-label="post link to ClientAbortException: java.net.SocketException:”异常的问题" href="https://blog.qiwei.dev/posts/coding/web-pic-stream/"></a>
-</article>
+<footer class="page-footer">
+  <nav class="pagination">
+    <a class="next" href="https://blog.qiwei.dev/tags/java/page/2/">Next&nbsp;&nbsp;»
+    </a>
+  </nav>
+</footer>
     </main>
     
 <footer class="footer">

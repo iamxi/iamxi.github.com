@@ -6,7 +6,82 @@
     <description>Recent content in Java on 我的博客</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sat, 04 Aug 2012 23:00:00 +0800</lastBuildDate><atom:link href="https://blog.qiwei.dev/tags/java/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 25 Jan 2018 20:53:21 +0800</lastBuildDate><atom:link href="https://blog.qiwei.dev/tags/java/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>spring cloud feign 拦截器配置</title>
+      <link>https://blog.qiwei.dev/posts/coding/spring-cloud-feign-add-interceptor/</link>
+      <pubDate>Thu, 25 Jan 2018 20:53:21 +0800</pubDate>
+      
+      <guid>https://blog.qiwei.dev/posts/coding/spring-cloud-feign-add-interceptor/</guid>
+      <description>问题 公司大规模推全链路，要求所有应用都接入。手头一个新的项目，采用spring cloud框架。通过 feign 调用rest接口。但是支持提供的支持 HttpClient4 的方式无法对 feign 起作用。
+思路 想着 feign 也是采用 HttpClient 的。按理对 HttpClient4 起作用的也应该同样有效。然后去看了下架构组全链路配置代码，原来他们是在初始化 HttpCLient 实例时候，加入了拦截器。通过拦截器，在 header 中加入链路信息。但是这个方式似乎对 feign 没啥作用。那我就自己实现添加拦截器呗。
+查了下 feign 添加拦截器，网络上提供的方式都是通过自定义 FeignConfiguration 的方式来实现。方法如下：
+新建 FeignConfiguration类
+public class FeignConfiguration { @Bean public FeignBasicAuthRequestInterceptor basicAuthRequestInterceptor() { return new FeignBasicAuthRequestInterceptor(); } } 然后在配置客户端调用时候加入配置中
+@FeignClient(value = &amp;#34;xxx-service&amp;#34;, path = &amp;#34;/xxx&amp;#34;, configuration = FeignConfiguration.class) 只是这种方法无法做到全局。找了好久，看了文档，都没有办法配置全局。
+无奈，去翻源码吧。找到了 FeignAutoConfiguration 类。看到了初始化配置。
+protected static class HttpClientFeignConfiguration { @Autowired( required = false ) private HttpClient httpClient; protected HttpClientFeignConfiguration() { } @Bean @ConditionalOnMissingBean({Client.</description>
+    </item>
+    
+    <item>
+      <title>javabean字段文字拼接</title>
+      <link>https://blog.qiwei.dev/posts/coding/java-bean-field-assemble/</link>
+      <pubDate>Sat, 20 Jan 2018 10:58:21 +0800</pubDate>
+      
+      <guid>https://blog.qiwei.dev/posts/coding/java-bean-field-assemble/</guid>
+      <description>问题 接了一个需求，从数据库拿出患者的记录，这些记录都是一些吸烟年份、饮酒年份、是否糖尿病等，不是数字就是布尔值，需要通过代码转化为普通人能理解的文字。
+思前想后，总不能使用大量 if-else 判断来拼接字符串吧。可以采用模板，但是那样除了必要判空，代码和模板也将分离，不方便维护。而且有些字段存在依赖关系。
+解决 刚好之前看了使用注解来替代枚举的方式。想着是否可以在每个需要拼接的字段上打上注解，通过判断注解的方式拼接。注解中也可以放入模板、依赖关系等配置。
+@Target({ElementType.FIELD}) @Retention(RetentionPolicy.RUNTIME) @Documented public @interface StringAssemble { /** * 模板 */ String template(); /** * 分类 */ String type() default &amp;#34;&amp;#34;; /** * 上级依赖 */ String dependency() default &amp;#34;&amp;#34;; /** * 相互依赖的内容之间的分割符号 */ String dependencySplit() default &amp;#34;,&amp;#34;; } 上面注解中，templete 主要是字段值需要填入的文字模板，type 用于不同的字段组合，dependency 主要是有依赖关系的字段之间的内容组合，最后一个是有依赖关系的字段字段拼接后用于隔离的标点。
+实现代码如下：
+private static String stringAssemble(Object data, String type, String splitPunctuation) { final Map&amp;lt;String, String&amp;gt; infoMap = new HashMap&amp;lt;&amp;gt;(); final Map&amp;lt;String, String&amp;gt; dependencyMap = new HashMap&amp;lt;&amp;gt;(); try { Field[] fields = data.</description>
+    </item>
+    
+    <item>
+      <title>SpringMVC没有拦截根路径的问题</title>
+      <link>https://blog.qiwei.dev/posts/coding/springmvc-cant-fiter-root-url/</link>
+      <pubDate>Tue, 02 Dec 2014 15:22:00 +0800</pubDate>
+      
+      <guid>https://blog.qiwei.dev/posts/coding/springmvc-cant-fiter-root-url/</guid>
+      <description>在使用tomcat和spring mvc开发web项目时候，月到了根路径无法被拦截器拦截的问题。</description>
+    </item>
+    
+    <item>
+      <title>Spring4定时任务的注解配置</title>
+      <link>https://blog.qiwei.dev/posts/coding/spring-scheduling-annotation-support/</link>
+      <pubDate>Mon, 03 Nov 2014 22:57:00 +0800</pubDate>
+      
+      <guid>https://blog.qiwei.dev/posts/coding/spring-scheduling-annotation-support/</guid>
+      <description>Spring4框架下，不使用xml配置文件，而采用注解配置定时任务。</description>
+    </item>
+    
+    <item>
+      <title>Clone使用方法详解</title>
+      <link>https://blog.qiwei.dev/posts/coding/java-clone/</link>
+      <pubDate>Thu, 05 Sep 2013 13:29:00 +0800</pubDate>
+      
+      <guid>https://blog.qiwei.dev/posts/coding/java-clone/</guid>
+      <description>在实际编程过程中，我们常常要遇到这种情况：有一个对象A，在某一时刻A中已经包含了一些有效值，此时可能会需要一个和A完全相同新对象B，并且此后对B 任何改动都不会影响到A中的值，也就是说，A与B是两个独立的对象，但B的初始值是由A对象确定的。在Java语言中，用简单的赋值语句是不能满足这种需 求的。要满足这种需求虽然有很多途径，但实现clone（）方法是其中最简单，也是最高效的手段。</description>
+    </item>
+    
+    <item>
+      <title>Java静态代码块（static{}）</title>
+      <link>https://blog.qiwei.dev/posts/coding/java-static-code-block/</link>
+      <pubDate>Wed, 21 Aug 2013 10:43:00 +0800</pubDate>
+      
+      <guid>https://blog.qiwei.dev/posts/coding/java-static-code-block/</guid>
+      <description>与一般代码块的异同：相同点：都是在JVM加载类时且在构造方法执行之前执行，在类中都可以定义多个，一般在代码块中对一些static变量进行赋值。不同点：静态代码块在非静态代码块之前执行。静态代码块只在第一次new执行一次，之后不再执行，而非静态代码块在每new一次就执行一次。非静态代码块可在普通方法中定义；而静态代码块不行。</description>
+    </item>
+    
+    <item>
+      <title>Java源码解读——ArrayList</title>
+      <link>https://blog.qiwei.dev/posts/coding/java-source-arraylist/</link>
+      <pubDate>Wed, 14 Aug 2013 15:11:00 +0800</pubDate>
+      
+      <guid>https://blog.qiwei.dev/posts/coding/java-source-arraylist/</guid>
+      <description>ArrayList是一个实现可变长数组，继承AbstractList类，实现所有的List接口，还实现了RandomAccess、Cloneable、Serializable接口。ArrayList不进行同步，除此之外基本和Vector等同。</description>
+    </item>
+    
     <item>
       <title>Mybatis返回特殊Map</title>
       <link>https://blog.qiwei.dev/posts/coding/mybatis-special-map/</link>

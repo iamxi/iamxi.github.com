@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>spring cloud feign 拦截器配置 | 我的博客</title>
+<meta name="keywords" content="Java, Spring Cloud">
+<meta name="description" content="问题 公司大规模推全链路，要求所有应用都接入。手头一个新的项目，采用spring cloud框架。通过 feign 调用rest接口。但是支持提供的支持 HttpClient4 的方式无法对 feign 起作用。
+思路 想着 feign 也是采用 HttpClient 的。按理对 HttpClient4 起作用的也应该同样有效。然后去看了下架构组全链路配置代码，原来他们是在初始化 HttpCLient 实例时候，加入了拦截器。通过拦截器，在 header 中加入链路信息。但是这个方式似乎对 feign 没啥作用。那我就自己实现添加拦截器呗。
+查了下 feign 添加拦截器，网络上提供的方式都是通过自定义 FeignConfiguration 的方式来实现。方法如下：
+新建 FeignConfiguration类
+public class FeignConfiguration { @Bean public FeignBasicAuthRequestInterceptor basicAuthRequestInterceptor() { return new FeignBasicAuthRequestInterceptor(); } } 然后在配置客户端调用时候加入配置中
+@FeignClient(value = &#34;xxx-service&#34;, path = &#34;/xxx&#34;, configuration = FeignConfiguration.class) 只是这种方法无法做到全局。找了好久，看了文档，都没有办法配置全局。
+无奈，去翻源码吧。找到了 FeignAutoConfiguration 类。看到了初始化配置。
+protected static class HttpClientFeignConfiguration { @Autowired( required = false ) private HttpClient httpClient; protected HttpClientFeignConfiguration() { } @Bean @ConditionalOnMissingBean({Client.">
+<meta name="author" content="">
+<link rel="canonical" href="https://blog.qiwei.dev/posts/coding/spring-cloud-feign-add-interceptor/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.3613efbd0b1772781e8f49935e973cae632a7f61471c05b17be155505ccf87b5.css" integrity="sha256-NhPvvQsXcngej0mTXpc8rmMqf2FHHAWxe&#43;FVUFzPh7U=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://blog.qiwei.dev/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://blog.qiwei.dev/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://blog.qiwei.dev/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://blog.qiwei.dev/apple-touch-icon.png">
+<link rel="mask-icon" href="https://blog.qiwei.dev/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="spring cloud feign 拦截器配置" />
+<meta property="og:description" content="问题 公司大规模推全链路，要求所有应用都接入。手头一个新的项目，采用spring cloud框架。通过 feign 调用rest接口。但是支持提供的支持 HttpClient4 的方式无法对 feign 起作用。
+思路 想着 feign 也是采用 HttpClient 的。按理对 HttpClient4 起作用的也应该同样有效。然后去看了下架构组全链路配置代码，原来他们是在初始化 HttpCLient 实例时候，加入了拦截器。通过拦截器，在 header 中加入链路信息。但是这个方式似乎对 feign 没啥作用。那我就自己实现添加拦截器呗。
+查了下 feign 添加拦截器，网络上提供的方式都是通过自定义 FeignConfiguration 的方式来实现。方法如下：
+新建 FeignConfiguration类
+public class FeignConfiguration { @Bean public FeignBasicAuthRequestInterceptor basicAuthRequestInterceptor() { return new FeignBasicAuthRequestInterceptor(); } } 然后在配置客户端调用时候加入配置中
+@FeignClient(value = &#34;xxx-service&#34;, path = &#34;/xxx&#34;, configuration = FeignConfiguration.class) 只是这种方法无法做到全局。找了好久，看了文档，都没有办法配置全局。
+无奈，去翻源码吧。找到了 FeignAutoConfiguration 类。看到了初始化配置。
+protected static class HttpClientFeignConfiguration { @Autowired( required = false ) private HttpClient httpClient; protected HttpClientFeignConfiguration() { } @Bean @ConditionalOnMissingBean({Client." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://blog.qiwei.dev/posts/coding/spring-cloud-feign-add-interceptor/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2018-01-25T20:53:21+08:00" />
+<meta property="article:modified_time" content="2018-01-25T20:53:21+08:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="spring cloud feign 拦截器配置"/>
+<meta name="twitter:description" content="问题 公司大规模推全链路，要求所有应用都接入。手头一个新的项目，采用spring cloud框架。通过 feign 调用rest接口。但是支持提供的支持 HttpClient4 的方式无法对 feign 起作用。
+思路 想着 feign 也是采用 HttpClient 的。按理对 HttpClient4 起作用的也应该同样有效。然后去看了下架构组全链路配置代码，原来他们是在初始化 HttpCLient 实例时候，加入了拦截器。通过拦截器，在 header 中加入链路信息。但是这个方式似乎对 feign 没啥作用。那我就自己实现添加拦截器呗。
+查了下 feign 添加拦截器，网络上提供的方式都是通过自定义 FeignConfiguration 的方式来实现。方法如下：
+新建 FeignConfiguration类
+public class FeignConfiguration { @Bean public FeignBasicAuthRequestInterceptor basicAuthRequestInterceptor() { return new FeignBasicAuthRequestInterceptor(); } } 然后在配置客户端调用时候加入配置中
+@FeignClient(value = &#34;xxx-service&#34;, path = &#34;/xxx&#34;, configuration = FeignConfiguration.class) 只是这种方法无法做到全局。找了好久，看了文档，都没有办法配置全局。
+无奈，去翻源码吧。找到了 FeignAutoConfiguration 类。看到了初始化配置。
+protected static class HttpClientFeignConfiguration { @Autowired( required = false ) private HttpClient httpClient; protected HttpClientFeignConfiguration() { } @Bean @ConditionalOnMissingBean({Client."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://blog.qiwei.dev/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "spring cloud feign 拦截器配置",
+      "item": "https://blog.qiwei.dev/posts/coding/spring-cloud-feign-add-interceptor/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "spring cloud feign 拦截器配置",
+  "name": "spring cloud feign 拦截器配置",
+  "description": "问题 公司大规模推全链路，要求所有应用都接入。手头一个新的项目，采用spring cloud框架。通过 feign 调用rest接口。但是支持提供的支持 HttpClient4 的方式无法对 feign 起作用。\n思路 想着 feign 也是采用 HttpClient 的。按理对 HttpClient4 起作用的也应该同样有效。然后去看了下架构组全链路配置代码，原来他们是在初始化 HttpCLient 实例时候，加入了拦截器。通过拦截器，在 header 中加入链路信息。但是这个方式似乎对 feign 没啥作用。那我就自己实现添加拦截器呗。\n查了下 feign 添加拦截器，网络上提供的方式都是通过自定义 FeignConfiguration 的方式来实现。方法如下：\n新建 FeignConfiguration类\npublic class FeignConfiguration { @Bean public FeignBasicAuthRequestInterceptor basicAuthRequestInterceptor() { return new FeignBasicAuthRequestInterceptor(); } } 然后在配置客户端调用时候加入配置中\n@FeignClient(value = \u0026#34;xxx-service\u0026#34;, path = \u0026#34;/xxx\u0026#34;, configuration = FeignConfiguration.class) 只是这种方法无法做到全局。找了好久，看了文档，都没有办法配置全局。\n无奈，去翻源码吧。找到了 FeignAutoConfiguration 类。看到了初始化配置。\nprotected static class HttpClientFeignConfiguration { @Autowired( required = false ) private HttpClient httpClient; protected HttpClientFeignConfiguration() { } @Bean @ConditionalOnMissingBean({Client.",
+  "keywords": [
+    "Java", "Spring Cloud"
+  ],
+  "articleBody": "问题 公司大规模推全链路，要求所有应用都接入。手头一个新的项目，采用spring cloud框架。通过 feign 调用rest接口。但是支持提供的支持 HttpClient4 的方式无法对 feign 起作用。\n思路 想着 feign 也是采用 HttpClient 的。按理对 HttpClient4 起作用的也应该同样有效。然后去看了下架构组全链路配置代码，原来他们是在初始化 HttpCLient 实例时候，加入了拦截器。通过拦截器，在 header 中加入链路信息。但是这个方式似乎对 feign 没啥作用。那我就自己实现添加拦截器呗。\n查了下 feign 添加拦截器，网络上提供的方式都是通过自定义 FeignConfiguration 的方式来实现。方法如下：\n新建 FeignConfiguration类\npublic class FeignConfiguration { @Bean public FeignBasicAuthRequestInterceptor basicAuthRequestInterceptor() { return new FeignBasicAuthRequestInterceptor(); } } 然后在配置客户端调用时候加入配置中\n@FeignClient(value = \"xxx-service\", path = \"/xxx\", configuration = FeignConfiguration.class) 只是这种方法无法做到全局。找了好久，看了文档，都没有办法配置全局。\n无奈，去翻源码吧。找到了 FeignAutoConfiguration 类。看到了初始化配置。\nprotected static class HttpClientFeignConfiguration { @Autowired( required = false ) private HttpClient httpClient; protected HttpClientFeignConfiguration() { } @Bean @ConditionalOnMissingBean({Client.class}) public Client feignClient() { return this.httpClient != null ? new ApacheHttpClient(this.httpClient) : new ApacheHttpClient(); } } 上面代码可以看到，会先去尝试注入已有的httpClient，如果没有，这使用默认的。这么问题就简单了。\n解决 初始化一个自定义的httpClient提供feign使用。\n@Bean public HttpClient httpClient(Tracer tracer, SpanHttpclientManager spanHttpclientManager) { CloseableHttpClient httpClient = HttpClientBuilder .create() .addInterceptorLast(new TracingHttpclientRequestInterceptor(tracer, spanHttpclientManager)) .addInterceptorLast(new TracingHttpclientResponseInterceptor(tracer, spanHttpclientManager)) .build(); return httpClient; } 问题解决。不过不知道是不是最佳方法。\n",
+  "wordCount" : "120",
+  "inLanguage": "en",
+  "datePublished": "2018-01-25T20:53:21+08:00",
+  "dateModified": "2018-01-25T20:53:21+08:00",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://blog.qiwei.dev/posts/coding/spring-cloud-feign-add-interceptor/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "我的博客",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://blog.qiwei.dev/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://blog.qiwei.dev/" accesskey="h" title="我的博客 (Alt + H)">我的博客</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://blog.qiwei.dev/posts" title="Blogs">
+                    <span>Blogs</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://blog.qiwei.dev/categories/" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://blog.qiwei.dev/tags/" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://blog.qiwei.dev/about/" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      spring cloud feign 拦截器配置
+    </h1>
+    <div class="post-meta"><span title='2018-01-25 20:53:21 +0800 CST'>January 25, 2018</span>
+
+</div>
+  </header> 
+  <div class="post-content"><h1 id="问题">问题<a hidden class="anchor" aria-hidden="true" href="#问题">#</a></h1>
+<p>公司大规模推全链路，要求所有应用都接入。手头一个新的项目，采用spring cloud框架。通过 <code>feign</code> 调用rest接口。但是支持提供的支持 <code>HttpClient4</code> 的方式无法对 <code>feign</code> 起作用。</p>
+<h1 id="思路">思路<a hidden class="anchor" aria-hidden="true" href="#思路">#</a></h1>
+<p>想着 <code>feign</code> 也是采用 <code>HttpClient</code> 的。按理对 <code>HttpClient4</code> 起作用的也应该同样有效。然后去看了下架构组全链路配置代码，原来他们是在初始化 <code>HttpCLient</code> 实例时候，加入了拦截器。通过拦截器，在 <code>header</code> 中加入链路信息。但是这个方式似乎对 feign 没啥作用。那我就自己实现添加拦截器呗。</p>
+<p>查了下 feign 添加拦截器，网络上提供的方式都是通过自定义 <code>FeignConfiguration</code> 的方式来实现。方法如下：</p>
+<p>新建 <code>FeignConfiguration</code>类</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">FeignConfiguration</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Bean</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> FeignBasicAuthRequestInterceptor <span style="color:#a6e22e">basicAuthRequestInterceptor</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> FeignBasicAuthRequestInterceptor<span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>然后在配置客户端调用时候加入配置中</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@FeignClient</span><span style="color:#f92672">(</span>value <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;xxx-service&#34;</span><span style="color:#f92672">,</span> path <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;/xxx&#34;</span><span style="color:#f92672">,</span> configuration <span style="color:#f92672">=</span> FeignConfiguration<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">)</span>
+</span></span></code></pre></div><p>只是这种方法无法做到全局。找了好久，看了文档，都没有办法配置全局。</p>
+<p>无奈，去翻源码吧。找到了 <code>FeignAutoConfiguration</code> 类。看到了初始化配置。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">protected</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">HttpClientFeignConfiguration</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Autowired</span><span style="color:#f92672">(</span>
+</span></span><span style="display:flex;"><span>        required <span style="color:#f92672">=</span> <span style="color:#66d9ef">false</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> HttpClient httpClient<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">protected</span> <span style="color:#a6e22e">HttpClientFeignConfiguration</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Bean</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@ConditionalOnMissingBean</span><span style="color:#f92672">({</span>Client<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">})</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> Client <span style="color:#a6e22e">feignClient</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">httpClient</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span> <span style="color:#f92672">?</span> <span style="color:#66d9ef">new</span> ApacheHttpClient<span style="color:#f92672">(</span><span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">httpClient</span><span style="color:#f92672">)</span> <span style="color:#f92672">:</span> <span style="color:#66d9ef">new</span> ApacheHttpClient<span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>上面代码可以看到，会先去尝试注入已有的httpClient，如果没有，这使用默认的。这么问题就简单了。</p>
+<h1 id="解决">解决<a hidden class="anchor" aria-hidden="true" href="#解决">#</a></h1>
+<p>初始化一个自定义的httpClient提供feign使用。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@Bean</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> HttpClient <span style="color:#a6e22e">httpClient</span><span style="color:#f92672">(</span>Tracer tracer<span style="color:#f92672">,</span> SpanHttpclientManager spanHttpclientManager<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    CloseableHttpClient httpClient <span style="color:#f92672">=</span> HttpClientBuilder
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">.</span><span style="color:#a6e22e">create</span><span style="color:#f92672">()</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">.</span><span style="color:#a6e22e">addInterceptorLast</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> TracingHttpclientRequestInterceptor<span style="color:#f92672">(</span>tracer<span style="color:#f92672">,</span> spanHttpclientManager<span style="color:#f92672">))</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">.</span><span style="color:#a6e22e">addInterceptorLast</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> TracingHttpclientResponseInterceptor<span style="color:#f92672">(</span>tracer<span style="color:#f92672">,</span> spanHttpclientManager<span style="color:#f92672">))</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">.</span><span style="color:#a6e22e">build</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> httpClient<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>问题解决。不过不知道是不是最佳方法。</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://blog.qiwei.dev/tags/java/">Java</a></li>
+      <li><a href="https://blog.qiwei.dev/tags/spring-cloud/">Spring Cloud</a></li>
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="https://blog.qiwei.dev/">我的博客</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

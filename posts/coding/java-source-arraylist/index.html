@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Java源码解读——ArrayList | 我的博客</title>
+<meta name="keywords" content="Java">
+<meta name="description" content="ArrayList是一个实现可变长数组，继承AbstractList类，实现所有的List接口，还实现了RandomAccess、Cloneable、Serializable接口。ArrayList不进行同步，除此之外基本和Vector等同。">
+<meta name="author" content="">
+<link rel="canonical" href="https://blog.qiwei.dev/posts/coding/java-source-arraylist/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.3613efbd0b1772781e8f49935e973cae632a7f61471c05b17be155505ccf87b5.css" integrity="sha256-NhPvvQsXcngej0mTXpc8rmMqf2FHHAWxe&#43;FVUFzPh7U=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://blog.qiwei.dev/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://blog.qiwei.dev/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://blog.qiwei.dev/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://blog.qiwei.dev/apple-touch-icon.png">
+<link rel="mask-icon" href="https://blog.qiwei.dev/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="Java源码解读——ArrayList" />
+<meta property="og:description" content="ArrayList是一个实现可变长数组，继承AbstractList类，实现所有的List接口，还实现了RandomAccess、Cloneable、Serializable接口。ArrayList不进行同步，除此之外基本和Vector等同。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://blog.qiwei.dev/posts/coding/java-source-arraylist/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2013-08-14T15:11:00+08:00" />
+<meta property="article:modified_time" content="2013-08-14T15:11:00+08:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Java源码解读——ArrayList"/>
+<meta name="twitter:description" content="ArrayList是一个实现可变长数组，继承AbstractList类，实现所有的List接口，还实现了RandomAccess、Cloneable、Serializable接口。ArrayList不进行同步，除此之外基本和Vector等同。"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://blog.qiwei.dev/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Java源码解读——ArrayList",
+      "item": "https://blog.qiwei.dev/posts/coding/java-source-arraylist/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Java源码解读——ArrayList",
+  "name": "Java源码解读——ArrayList",
+  "description": "ArrayList是一个实现可变长数组，继承AbstractList类，实现所有的List接口，还实现了RandomAccess、Cloneable、Serializable接口。ArrayList不进行同步，除此之外基本和Vector等同。",
+  "keywords": [
+    "Java"
+  ],
+  "articleBody": "为了提高自己的Java开发能力，我也向高手、牛人学习，去解读源码。自己底子差了点，不过看个源码还是没问题的。第一站ArrayList。\n源码为Java 1.7的源码\nArrayList是一个实现可变长数组，继承AbstractList类，实现所有的List接口，还实现了RandomAccess、Cloneable、Serializable接口。ArrayList不进行同步，除此之外基本和Vector等同。\n1、成员变量 private transient Object[] elementData; elementData用于保存数据的数组。\nprivate int size; size为ArrayList内的数据数量，但并不是elementData的长度。\n2、构造方法 public ArrayList(int initialCapacity) { super(); if (initialCapacity \u003c 0) throw new IllegalArgumentException(\"Illegal Capacity: \"+ initialCapacity); this.elementData = new Object[initialCapacity]; } public ArrayList() { this(10); } public ArrayList(Collection\u003c? extends E\u003e c) { elementData = c.toArray(); size = elementData.length; if (elementData.getClass() != Object[].class) elementData = Arrays.copyOf(elementData, size, Object[].class); } 第一个是根据指定长度建立List，第二个是根据默认长度建立List，第三个根据传入Collection子类实例创建List。通过第三个实例看到Collection子类都会实现toArray()方法，可以看出至少很多Collection子类依赖于数组来实现（还没看过其他的集合实现，这只是我的妄言而已）。\n3、add方法 public boolean add(E e) { ensureCapacityInternal(size + 1); elementData[size++] = e; return true; } 该方法在数组最后添加一个元素。ensureCapacityInternal方法提供了ArrayList的自增长实现，以确保elementData有足够的长度来容纳新进入的元素（后面介绍自增长的实现）。\npublic void add(int index, E element) { rangeCheckForAdd(index); ensureCapacityInternal(size + 1); System.arraycopy(elementData, index, elementData, index + 1, size - index); elementData[index] = element; size++; } 该方法是在第i个位置插入一个元素。rangeCheckForAdd方法用于检查index是否越界，代码如下：\nprivate void rangeCheckForAdd(int index) { if (index \u003e size || index \u003c 0) throw new IndexOutOfBoundsException(outOfBoundsMsg(index)); } System.arraycopy方法使用native修饰符（这个修饰符第一次看到，谷歌了下，大致是说这个修饰的方法是通过底层实现的），效率自然高。arraycopy如果对同一个数组进行操作时，会首先把从源部分拷贝到一个临时数组，在把临时数组的元素拷贝到目标位置。值得注意的是，如果数组内不是基本类型，System.arraycopy的拷贝过来的也只是个引用而已。\n4、remove方法 public E remove(int index) { rangeCheck(index); modCount++; E oldValue = elementData(index); int numMoved = size - index - 1; if (numMoved \u003e 0) System.arraycopy(elementData, index+1, elementData, index, numMoved); elementData[--size] = null; return oldValue; } 删除指定位置的元素，并返回删除的元素。以前还真没注意过删除时候还返回删除的元素。rangeCheck方法用于检查越界，代码如下：\nprivate void rangeCheck(int index) { if (index \u003e= size) throw new IndexOutOfBoundsException(outOfBoundsMsg(index)); } modCount用于记录ArrayList的结构性变化的次数，add()、remove()、addall()、removerange()及clear()方法都会让modCount增长。add()及addall()方法的对modCount的操作在ensureCapacityInternal中。\nnumMoved用于检查删除的元素是否是最后ArrayList的最后一个元素（不一定是数组elementData的最后一个）。如果不是最后一个，则用arraycopy移动数组，最后将数组size-1处赋值为空。\npublic boolean remove(Object o) { if (o == null) { for (int index = 0; index \u003c size; index++) if (elementData[index] == null) { fastRemove(index); return true; } } else { for (int index = 0; index \u003c size; index++) if (o.equals(elementData[index])) { fastRemove(index); return true; } } return false; } 删除与Object o相同的第一个元素。这里fastRemove方法，从代码来看和remove(int index)类似。\nprivate void fastRemove(int index) { modCount++; int numMoved = size - index - 1; if (numMoved \u003e 0) System.arraycopy(elementData, index+1, elementData, index, numMoved); elementData[--size] = null; } 5、addAll方法 //将Collection c内的数据插入ArrayList中 public boolean addAll(Collection\u003c? extends E\u003e c) { Object[] a = c.toArray(); int numNew = a.length; ensureCapacityInternal(size + numNew); // Increments modCount System.arraycopy(a, 0, elementData, size, numNew); size += numNew; return numNew != 0; } //将Collection c中的数据插入到ArrayList的指定位置 public boolean addAll(int index, Collection\u003c? extends E\u003e c) { rangeCheckForAdd(index); Object[] a = c.toArray(); int numNew = a.length; ensureCapacityInternal(size + numNew); // Increments modCount int numMoved = size - index; if (numMoved \u003e 0) System.arraycopy(elementData, index, elementData, index + numNew, numMoved); System.arraycopy(a, 0, elementData, index, numNew); size += numNew; return numNew != 0; } 这两个方法都会调用ensureCapacityInternal方法使数组能够容纳下新的数据。后一个方法会判断是否是在数据最后插入，如果是则和第一个方法相同，如果不是，则先使用arraycopy移动数组。\n6、removeAll和retainAll 删除或保留ArrayList中包含Collection c中的的元素，这两个方法都依赖batchRemove(Collection\u003c?\u003e c, boolean complement)实现。\n7、get和set 前者是获取元素，后者是替换某个位置上的元素，然后返回被替换的元素。这两个都用rangeCheck做越界检查。set方法不进行自增长，也就说替换的元素必须是size内的。\nArrayList的自动变长机制 都知道ArrayList不像数组那样是定长的，然而ArrayList也使用了数组来保存数据，所以么，自然很关心是怎么实现变长的。\nArrayList通过ensureCapacityInternal(int minCapacity)方法实现自身容量的增加，在add()和addAll()方法里面都调用了改方法。\nprivate void ensureCapacityInternal(int minCapacity) { modCount++; if (minCapacity - elementData.length \u003e 0) grow(minCapacity); } 方法名的英文大致意思是“确保内部容量”，这里要说明，size表示的是现有的元素个数，并非ArrayList的容量，容量应该是数组elementData的长度。参数minCapacity是需要检查的最小容量，即方法的功能就是确保elementData的长度不小于minCapacity，如果不够，则调用grow增加容量。容量的增长也算结构性变动，所以modCount需要加1。\ngrow代码：\nprivate void grow(int minCapacity) { int oldCapacity = elementData.length; int newCapacity = oldCapacity + (oldCapacity \u003e\u003e 1); if (newCapacity - minCapacity \u003c 0) newCapacity = minCapacity; if (newCapacity - MAX_ARRAY_SIZE \u003e 0) newCapacity = hugeCapacity(minCapacity); elementData = Arrays.copyOf(elementData, newCapacity); } private static int hugeCapacity(int minCapacity) { if (minCapacity \u003c 0) throw new OutOfMemoryError(); return (minCapacity \u003e MAX_ARRAY_SIZE) ? Integer.MAX_VALUE : MAX_ARRAY_SIZE; } 先对容量扩大1.5倍，这里oldCapacity \u003e\u003e 1是二进制操作右移，相当于除以2，如果不知道这个面壁去吧（刚看到时候也没反应过来这个是什么操作，毕竟平时java中很少用到左移、右移这种运算，没事谢个测试用例测试下计算效果就知道是干什么的了）。接再来把新的临时容量（还没正式改变容量，应该叫预期容量）和实际需要的最小容量比较，如果还不满足，则把临时容量改成需要的最小容量值。在判断容量是否超过MAX\\_ARRAY\\_SIZE的值，MAX\\_ARRAY\\_SIZE值为Integer.MAX\\_VALUE - 8，比int的最大值小8，不知道为什设计，可能方便判断吧。如果已经超过，调用hugeCapacity方法检查容量的int值是不是已经溢出。一般很少用到int最大值的情况，那么多数据也不会用ArrayList来做容器了，估计这辈子没机会见到hugeCapacity运行一次了。最后确定了新的容量，就使用Arrays.copyOf方法来生成新的数组，copyOf也已经完成了将就的数据拷贝到新数组的工作。\n当然有增就有减，trimToSize()就是用来将elementData的长度变成size。\npublic void trimToSize() { modCount++; int oldCapacity = elementData.length; if (size \u003c oldCapacity) { elementData = Arrays.copyOf(elementData, size); } } 这样可以解决平凡新增、删除元素后elementData过大的问题。\n从上面的操作来看，ArrayList的容量增长的开始还是有的，就算那些数字的计算忽略不计，Arrays.copyOf的操作的消耗也不会小。所以在初始化ArrayList的时候尽量预算下大致的容量需求，降低平凡调整容量的开销。\n序列化 ArrayList实现了Serializable接口，所以ArrayList可以进行序列化。但是elementData的定义\nprivate transient Object[] elementData; transient修饰符让elementData无法自动序列化，这样的原因是，数组内存储的的元素其实只是一个引用，单单序列化一个引用没有任何意义，反序列化后这些引用都无法在指向原来的对象。ArrayList使用writeObject()实现手工序列化数组内的元素。\nprivate void writeObject(java.io.ObjectOutputStream s) throws java.io.IOException{ int expectedModCount = modCount; s.defaultWriteObject(); s.writeInt(elementData.length); for (int i=0; i\u003csize; i++) s.writeObject(elementData[i]); if (modCount != expectedModCount) { throw new ConcurrentModificationException(); } } 迭代器实现 一般ArrayList需要遍历时，可以调用他的iterator()方法返回一个迭代器，然后用迭代器进行遍历。\npublic Iterator\u003cE\u003e iterator() { return new Itr(); } iterator()方法放回了一个Itr类实例，这个Itr类是ArrayList的一个内部类，实现了Iterator接口。\nint cursor; // index of next element to return int lastRet = -1; // index of last element returned; -1 if no such int expectedModCount = modCount; 上面是Itr类的三个成员变量。 cursor类似一个游标，指向迭代器下一个值的位置。lastRet是迭代器最后一次取出的元素的位置。expectedModCount的值为Itr初始化时候ArrayList的modCount的值，前面将过modCount用于记录ArrayList内发生结构性改变的次数，而Itr每次进行next或remove的时候都会去检查expectedModCount值是否还和现在的modCount值一直，从而保证了迭代器和ArrayList内数据的一致性。实现代码如下：\npublic E next() { checkForComodification(); int i = cursor; if (i \u003e= size) throw new NoSuchElementException(); Object[] elementData = ArrayList.this.elementData; if (i \u003e= elementData.length) throw new ConcurrentModificationException(); cursor = i + 1; return (E) elementData[lastRet = i]; } final void checkForComodification() { if (modCount != expectedModCount) throw new ConcurrentModificationException(); } Itr作为ArrayList的内部类，可以访问所有ArrayList的成员。理解了这一点，itr类的实现就容易理解了。\n还有一个listIterator的迭代器，实现方式类似。\njava的集合在平时开发中很常用，能够了解它们的内部实现，对开发带来很大的便利，也减少了不必要的BUG。\n",
+  "wordCount" : "595",
+  "inLanguage": "en",
+  "datePublished": "2013-08-14T15:11:00+08:00",
+  "dateModified": "2013-08-14T15:11:00+08:00",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://blog.qiwei.dev/posts/coding/java-source-arraylist/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "我的博客",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://blog.qiwei.dev/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://blog.qiwei.dev/" accesskey="h" title="我的博客 (Alt + H)">我的博客</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://blog.qiwei.dev/posts" title="Blogs">
+                    <span>Blogs</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://blog.qiwei.dev/categories/" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://blog.qiwei.dev/tags/" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://blog.qiwei.dev/about/" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      Java源码解读——ArrayList
+    </h1>
+    <div class="post-description">
+      ArrayList是一个实现可变长数组，继承AbstractList类，实现所有的List接口，还实现了RandomAccess、Cloneable、Serializable接口。ArrayList不进行同步，除此之外基本和Vector等同。
+    </div>
+    <div class="post-meta"><span title='2013-08-14 15:11:00 +0800 CST'>August 14, 2013</span>
+
+</div>
+  </header> 
+  <div class="post-content"><p>为了提高自己的Java开发能力，我也向高手、牛人学习，去解读源码。自己底子差了点，不过看个源码还是没问题的。第一站<code>ArrayList</code>。</p>
+<p><strong>源码为Java 1.7的源码</strong></p>
+<p>ArrayList是一个实现可变长数组，继承<code>AbstractList</code>类，实现所有的List接口，还实现了RandomAccess、Cloneable、Serializable接口。<code>ArrayList</code>不进行同步，除此之外基本和<code>Vector</code>等同。</p>
+<h2 id="1成员变量">1、成员变量<a hidden class="anchor" aria-hidden="true" href="#1成员变量">#</a></h2>
+<pre><code>private transient Object[] elementData;
+</code></pre>
+<p><code>elementData</code>用于保存数据的数组。</p>
+<pre><code>private int size;
+</code></pre>
+<p><code>size</code>为<code>ArrayList</code>内的数据数量，但并不是<code>elementData</code>的长度。</p>
+<h2 id="2构造方法">2、构造方法<a hidden class="anchor" aria-hidden="true" href="#2构造方法">#</a></h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#a6e22e">ArrayList</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> initialCapacity<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">super</span><span style="color:#f92672">();</span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>initialCapacity <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span><span style="color:#f92672">)</span>  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> IllegalArgumentException<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Illegal Capacity: &#34;</span><span style="color:#f92672">+</span>  
+</span></span><span style="display:flex;"><span>                                           initialCapacity<span style="color:#f92672">);</span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">elementData</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Object<span style="color:#f92672">[</span>initialCapacity<span style="color:#f92672">];</span>  
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#a6e22e">ArrayList</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">this</span><span style="color:#f92672">(</span><span style="color:#ae81ff">10</span><span style="color:#f92672">);</span>  
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#a6e22e">ArrayList</span><span style="color:#f92672">(</span>Collection<span style="color:#f92672">&lt;?</span> <span style="color:#66d9ef">extends</span> E<span style="color:#f92672">&gt;</span> c<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>  
+</span></span><span style="display:flex;"><span>    elementData <span style="color:#f92672">=</span> c<span style="color:#f92672">.</span><span style="color:#a6e22e">toArray</span><span style="color:#f92672">();</span>  
+</span></span><span style="display:flex;"><span>    size <span style="color:#f92672">=</span> elementData<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span><span style="color:#f92672">;</span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>elementData<span style="color:#f92672">.</span><span style="color:#a6e22e">getClass</span><span style="color:#f92672">()</span> <span style="color:#f92672">!=</span> Object<span style="color:#f92672">[].</span><span style="color:#a6e22e">class</span><span style="color:#f92672">)</span>  
+</span></span><span style="display:flex;"><span>        elementData <span style="color:#f92672">=</span> Arrays<span style="color:#f92672">.</span><span style="color:#a6e22e">copyOf</span><span style="color:#f92672">(</span>elementData<span style="color:#f92672">,</span> size<span style="color:#f92672">,</span> Object<span style="color:#f92672">[].</span><span style="color:#a6e22e">class</span><span style="color:#f92672">);</span>  
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>第一个是根据指定长度建立<code>List</code>，第二个是根据默认长度建立<code>List</code>，第三个根据传入<code>Collection</code>子类实例创建<code>List</code>。通过第三个实例看到<code>Collection</code>子类都会实现<code>toArray()</code>方法，可以看出至少很多<code>Collection</code>子类依赖于数组来实现（还没看过其他的集合实现，这只是我的妄言而已）。</p>
+<h2 id="3add方法">3、add方法<a hidden class="anchor" aria-hidden="true" href="#3add方法">#</a></h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">boolean</span> <span style="color:#a6e22e">add</span><span style="color:#f92672">(</span>E e<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>  
+</span></span><span style="display:flex;"><span>    ensureCapacityInternal<span style="color:#f92672">(</span>size <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span><span style="color:#f92672">);</span>   
+</span></span><span style="display:flex;"><span>    elementData<span style="color:#f92672">[</span>size<span style="color:#f92672">++]</span> <span style="color:#f92672">=</span> e<span style="color:#f92672">;</span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">true</span><span style="color:#f92672">;</span>  
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>该方法在数组最后添加一个元素。<code>ensureCapacityInternal</code>方法提供了<code>ArrayList</code>的自增长实现，以确保<code>elementData</code>有足够的长度来容纳新进入的元素（后面介绍自增长的实现）。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">add</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> index<span style="color:#f92672">,</span> E element<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>  
+</span></span><span style="display:flex;"><span>    rangeCheckForAdd<span style="color:#f92672">(</span>index<span style="color:#f92672">);</span>  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>    ensureCapacityInternal<span style="color:#f92672">(</span>size <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span><span style="color:#f92672">);</span>   
+</span></span><span style="display:flex;"><span>    System<span style="color:#f92672">.</span><span style="color:#a6e22e">arraycopy</span><span style="color:#f92672">(</span>elementData<span style="color:#f92672">,</span> index<span style="color:#f92672">,</span> elementData<span style="color:#f92672">,</span> index <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span><span style="color:#f92672">,</span>  
+</span></span><span style="display:flex;"><span>                     size <span style="color:#f92672">-</span> index<span style="color:#f92672">);</span>  
+</span></span><span style="display:flex;"><span>    elementData<span style="color:#f92672">[</span>index<span style="color:#f92672">]</span> <span style="color:#f92672">=</span> element<span style="color:#f92672">;</span>  
+</span></span><span style="display:flex;"><span>    size<span style="color:#f92672">++;</span>  
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>该方法是在第i个位置插入一个元素。<code>rangeCheckForAdd</code>方法用于检查<code>index</code>是否越界，代码如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">private</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">rangeCheckForAdd</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> index<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>index <span style="color:#f92672">&gt;</span> size <span style="color:#f92672">||</span> index <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span><span style="color:#f92672">)</span>  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> IndexOutOfBoundsException<span style="color:#f92672">(</span>outOfBoundsMsg<span style="color:#f92672">(</span>index<span style="color:#f92672">));</span>  
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p><code>System.arraycopy</code>方法使用<code>native</code>修饰符（这个修饰符第一次看到，谷歌了下，大致是说这个修饰的方法是通过底层实现的），效率自然高。<code>arraycopy</code>如果对同一个数组进行操作时，会首先把从源部分拷贝到一个临时数组，在把临时数组的元素拷贝到目标位置。值得注意的是，如果数组内不是基本类型，<code>System.arraycopy</code>的拷贝过来的也只是个引用而已。</p>
+<h2 id="4remove方法">4、remove方法<a hidden class="anchor" aria-hidden="true" href="#4remove方法">#</a></h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> E <span style="color:#a6e22e">remove</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> index<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>  
+</span></span><span style="display:flex;"><span>    rangeCheck<span style="color:#f92672">(</span>index<span style="color:#f92672">);</span>  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>    modCount<span style="color:#f92672">++;</span>  
+</span></span><span style="display:flex;"><span>    E oldValue <span style="color:#f92672">=</span> elementData<span style="color:#f92672">(</span>index<span style="color:#f92672">);</span>  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> numMoved <span style="color:#f92672">=</span> size <span style="color:#f92672">-</span> index <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span><span style="color:#f92672">;</span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>numMoved <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span><span style="color:#f92672">)</span>  
+</span></span><span style="display:flex;"><span>        System<span style="color:#f92672">.</span><span style="color:#a6e22e">arraycopy</span><span style="color:#f92672">(</span>elementData<span style="color:#f92672">,</span> index<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span><span style="color:#f92672">,</span> elementData<span style="color:#f92672">,</span> index<span style="color:#f92672">,</span>  
+</span></span><span style="display:flex;"><span>                         numMoved<span style="color:#f92672">);</span>  
+</span></span><span style="display:flex;"><span>    elementData<span style="color:#f92672">[--</span>size<span style="color:#f92672">]</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">;</span>  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> oldValue<span style="color:#f92672">;</span>  
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>删除指定位置的元素，并返回删除的元素。以前还真没注意过删除时候还返回删除的元素。<code>rangeCheck</code>方法用于检查越界，代码如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">private</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">rangeCheck</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> index<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>index <span style="color:#f92672">&gt;=</span> size<span style="color:#f92672">)</span>  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> IndexOutOfBoundsException<span style="color:#f92672">(</span>outOfBoundsMsg<span style="color:#f92672">(</span>index<span style="color:#f92672">));</span>  
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p><code>modCount</code>用于记录<code>ArrayList</code>的结构性变化的次数，add()、remove()、addall()、removerange()及clear()方法都会让<code>modCount</code>增长。<code>add()</code>及<code>addall()</code>方法的对modCount的操作在<code>ensureCapacityInternal</code>中。</p>
+<p>numMoved用于检查删除的元素是否是最后ArrayList的最后一个元素（不一定是数组elementData的最后一个）。如果不是最后一个，则用arraycopy移动数组，最后将数组size-1处赋值为空。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">boolean</span> <span style="color:#a6e22e">remove</span><span style="color:#f92672">(</span>Object o<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>o <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> index <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span><span style="color:#f92672">;</span> index <span style="color:#f92672">&lt;</span> size<span style="color:#f92672">;</span> index<span style="color:#f92672">++)</span>  
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>elementData<span style="color:#f92672">[</span>index<span style="color:#f92672">]</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>  
+</span></span><span style="display:flex;"><span>                fastRemove<span style="color:#f92672">(</span>index<span style="color:#f92672">);</span>  
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">true</span><span style="color:#f92672">;</span>  
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">}</span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span>  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> index <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span><span style="color:#f92672">;</span> index <span style="color:#f92672">&lt;</span> size<span style="color:#f92672">;</span> index<span style="color:#f92672">++)</span>  
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>o<span style="color:#f92672">.</span><span style="color:#a6e22e">equals</span><span style="color:#f92672">(</span>elementData<span style="color:#f92672">[</span>index<span style="color:#f92672">]))</span> <span style="color:#f92672">{</span>  
+</span></span><span style="display:flex;"><span>                fastRemove<span style="color:#f92672">(</span>index<span style="color:#f92672">);</span>  
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">true</span><span style="color:#f92672">;</span>  
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">}</span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">false</span><span style="color:#f92672">;</span>  
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>删除与<code>Object o</code>相同的第一个元素。这里<code>fastRemove</code>方法，从代码来看和<code>remove(int index)</code>类似。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">private</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">fastRemove</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> index<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>  
+</span></span><span style="display:flex;"><span>    modCount<span style="color:#f92672">++;</span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> numMoved <span style="color:#f92672">=</span> size <span style="color:#f92672">-</span> index <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span><span style="color:#f92672">;</span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>numMoved <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span><span style="color:#f92672">)</span>  
+</span></span><span style="display:flex;"><span>        System<span style="color:#f92672">.</span><span style="color:#a6e22e">arraycopy</span><span style="color:#f92672">(</span>elementData<span style="color:#f92672">,</span> index<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span><span style="color:#f92672">,</span> elementData<span style="color:#f92672">,</span> index<span style="color:#f92672">,</span>  
+</span></span><span style="display:flex;"><span>                         numMoved<span style="color:#f92672">);</span>  
+</span></span><span style="display:flex;"><span>    elementData<span style="color:#f92672">[--</span>size<span style="color:#f92672">]</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">;</span>  
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><h2 id="5addall方法">5、addAll方法<a hidden class="anchor" aria-hidden="true" href="#5addall方法">#</a></h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#75715e">//将Collection c内的数据插入ArrayList中  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">boolean</span> <span style="color:#a6e22e">addAll</span><span style="color:#f92672">(</span>Collection<span style="color:#f92672">&lt;?</span> <span style="color:#66d9ef">extends</span> E<span style="color:#f92672">&gt;</span> c<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>  
+</span></span><span style="display:flex;"><span>     Object<span style="color:#f92672">[]</span> a <span style="color:#f92672">=</span> c<span style="color:#f92672">.</span><span style="color:#a6e22e">toArray</span><span style="color:#f92672">();</span>  
+</span></span><span style="display:flex;"><span>     <span style="color:#66d9ef">int</span> numNew <span style="color:#f92672">=</span> a<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span><span style="color:#f92672">;</span>  
+</span></span><span style="display:flex;"><span>     ensureCapacityInternal<span style="color:#f92672">(</span>size <span style="color:#f92672">+</span> numNew<span style="color:#f92672">);</span>  <span style="color:#75715e">// Increments modCount  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>     System<span style="color:#f92672">.</span><span style="color:#a6e22e">arraycopy</span><span style="color:#f92672">(</span>a<span style="color:#f92672">,</span> <span style="color:#ae81ff">0</span><span style="color:#f92672">,</span> elementData<span style="color:#f92672">,</span> size<span style="color:#f92672">,</span> numNew<span style="color:#f92672">);</span>  
+</span></span><span style="display:flex;"><span>     size <span style="color:#f92672">+=</span> numNew<span style="color:#f92672">;</span>  
+</span></span><span style="display:flex;"><span>     <span style="color:#66d9ef">return</span> numNew <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span><span style="color:#f92672">;</span>  
+</span></span><span style="display:flex;"><span> <span style="color:#f92672">}</span>  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span> <span style="color:#75715e">//将Collection c中的数据插入到ArrayList的指定位置  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span> <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">boolean</span> <span style="color:#a6e22e">addAll</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> index<span style="color:#f92672">,</span> Collection<span style="color:#f92672">&lt;?</span> <span style="color:#66d9ef">extends</span> E<span style="color:#f92672">&gt;</span> c<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>  
+</span></span><span style="display:flex;"><span>     rangeCheckForAdd<span style="color:#f92672">(</span>index<span style="color:#f92672">);</span>  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>     Object<span style="color:#f92672">[]</span> a <span style="color:#f92672">=</span> c<span style="color:#f92672">.</span><span style="color:#a6e22e">toArray</span><span style="color:#f92672">();</span>  
+</span></span><span style="display:flex;"><span>     <span style="color:#66d9ef">int</span> numNew <span style="color:#f92672">=</span> a<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span><span style="color:#f92672">;</span>  
+</span></span><span style="display:flex;"><span>     ensureCapacityInternal<span style="color:#f92672">(</span>size <span style="color:#f92672">+</span> numNew<span style="color:#f92672">);</span>  <span style="color:#75715e">// Increments modCount  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  
+</span></span><span style="display:flex;"><span>     <span style="color:#66d9ef">int</span> numMoved <span style="color:#f92672">=</span> size <span style="color:#f92672">-</span> index<span style="color:#f92672">;</span>  
+</span></span><span style="display:flex;"><span>     <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>numMoved <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span><span style="color:#f92672">)</span>  
+</span></span><span style="display:flex;"><span>         System<span style="color:#f92672">.</span><span style="color:#a6e22e">arraycopy</span><span style="color:#f92672">(</span>elementData<span style="color:#f92672">,</span> index<span style="color:#f92672">,</span> elementData<span style="color:#f92672">,</span> index <span style="color:#f92672">+</span> numNew<span style="color:#f92672">,</span>  
+</span></span><span style="display:flex;"><span>                          numMoved<span style="color:#f92672">);</span>  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>     System<span style="color:#f92672">.</span><span style="color:#a6e22e">arraycopy</span><span style="color:#f92672">(</span>a<span style="color:#f92672">,</span> <span style="color:#ae81ff">0</span><span style="color:#f92672">,</span> elementData<span style="color:#f92672">,</span> index<span style="color:#f92672">,</span> numNew<span style="color:#f92672">);</span>  
+</span></span><span style="display:flex;"><span>     size <span style="color:#f92672">+=</span> numNew<span style="color:#f92672">;</span>  
+</span></span><span style="display:flex;"><span>     <span style="color:#66d9ef">return</span> numNew <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span><span style="color:#f92672">;</span>  
+</span></span><span style="display:flex;"><span> <span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>这两个方法都会调用<code>ensureCapacityInternal</code>方法使数组能够容纳下新的数据。后一个方法会判断是否是在数据最后插入，如果是则和第一个方法相同，如果不是，则先使用<code>arraycopy</code>移动数组。</p>
+<h2 id="6removeall和retainall">6、removeAll和retainAll<a hidden class="anchor" aria-hidden="true" href="#6removeall和retainall">#</a></h2>
+<p>删除或保留<code>ArrayList</code>中包含<code>Collection c</code>中的的元素，这两个方法都依赖<code>batchRemove(Collection&lt;?&gt; c, boolean complement)</code>实现。</p>
+<h2 id="7get和set">7、get和set<a hidden class="anchor" aria-hidden="true" href="#7get和set">#</a></h2>
+<p>前者是获取元素，后者是替换某个位置上的元素，然后返回被替换的元素。这两个都用<code>rangeCheck</code>做越界检查。set方法不进行自增长，也就说替换的元素必须是<code>size</code>内的。</p>
+<h2 id="arraylist的自动变长机制">ArrayList的自动变长机制<a hidden class="anchor" aria-hidden="true" href="#arraylist的自动变长机制">#</a></h2>
+<p>都知道<code>ArrayList</code>不像数组那样是定长的，然而<code>ArrayList</code>也使用了数组来保存数据，所以么，自然很关心是怎么实现变长的。</p>
+<p><code>ArrayList</code>通过<code>ensureCapacityInternal(int minCapacity)</code>方法实现自身容量的增加，在<code>add()</code>和<code>addAll()</code>方法里面都调用了改方法。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">private</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">ensureCapacityInternal</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> minCapacity<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>  
+</span></span><span style="display:flex;"><span>    modCount<span style="color:#f92672">++;</span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>minCapacity <span style="color:#f92672">-</span> elementData<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span> <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span><span style="color:#f92672">)</span>  
+</span></span><span style="display:flex;"><span>        grow<span style="color:#f92672">(</span>minCapacity<span style="color:#f92672">);</span>  
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>方法名的英文大致意思是“确保内部容量”，这里要说明，<code>size</code>表示的是现有的元素个数，并非<code>ArrayList</code>的容量，容量应该是数组<code>elementData</code>的长度。参数<code>minCapacity</code>是需要检查的最小容量，即方法的功能就是确保<code>elementData</code>的长度不小于<code>minCapacity</code>，如果不够，则调用<code>grow</code>增加容量。容量的增长也算结构性变动，所以<code>modCount</code>需要加1。</p>
+<p>grow代码：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">private</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">grow</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> minCapacity<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> oldCapacity <span style="color:#f92672">=</span> elementData<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span><span style="color:#f92672">;</span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> newCapacity <span style="color:#f92672">=</span> oldCapacity <span style="color:#f92672">+</span> <span style="color:#f92672">(</span>oldCapacity <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">1</span><span style="color:#f92672">);</span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>newCapacity <span style="color:#f92672">-</span> minCapacity <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span><span style="color:#f92672">)</span>  
+</span></span><span style="display:flex;"><span>        newCapacity <span style="color:#f92672">=</span> minCapacity<span style="color:#f92672">;</span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>newCapacity <span style="color:#f92672">-</span> MAX_ARRAY_SIZE <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span><span style="color:#f92672">)</span>  
+</span></span><span style="display:flex;"><span>        newCapacity <span style="color:#f92672">=</span> hugeCapacity<span style="color:#f92672">(</span>minCapacity<span style="color:#f92672">);</span>  
+</span></span><span style="display:flex;"><span>    elementData <span style="color:#f92672">=</span> Arrays<span style="color:#f92672">.</span><span style="color:#a6e22e">copyOf</span><span style="color:#f92672">(</span>elementData<span style="color:#f92672">,</span> newCapacity<span style="color:#f92672">);</span>  
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">hugeCapacity</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> minCapacity<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>minCapacity <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span><span style="color:#f92672">)</span>   
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> OutOfMemoryError<span style="color:#f92672">();</span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#f92672">(</span>minCapacity <span style="color:#f92672">&gt;</span> MAX_ARRAY_SIZE<span style="color:#f92672">)</span> <span style="color:#f92672">?</span>  
+</span></span><span style="display:flex;"><span>        Integer<span style="color:#f92672">.</span><span style="color:#a6e22e">MAX_VALUE</span> <span style="color:#f92672">:</span>  
+</span></span><span style="display:flex;"><span>        MAX_ARRAY_SIZE<span style="color:#f92672">;</span>  
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>先对容量扩大1.5倍，这里<code>oldCapacity &gt;&gt; 1</code>是二进制操作右移，相当于除以2，如果不知道这个面壁去吧（刚看到时候也没反应过来这个是什么操作，毕竟平时java中很少用到左移、右移这种运算，没事谢个测试用例测试下计算效果就知道是干什么的了）。接再来把新的临时容量（还没正式改变容量，应该叫预期容量）和实际需要的最小容量比较，如果还不满足，则把临时容量改成需要的最小容量值。在判断容量是否超过<code>MAX\_ARRAY\_SIZE</code>的值，<code>MAX\_ARRAY\_SIZE</code>值为<code>Integer.MAX\_VALUE - 8</code>，比int的最大值小8，不知道为什设计，可能方便判断吧。如果已经超过，调用<code>hugeCapacity</code>方法检查容量的int值是不是已经溢出。一般很少用到int最大值的情况，那么多数据也不会用ArrayList来做容器了，估计这辈子没机会见到<code>hugeCapacity</code>运行一次了。最后确定了新的容量，就使用<code>Arrays.copyOf</code>方法来生成新的数组，<code>copyOf</code>也已经完成了将就的数据拷贝到新数组的工作。</p>
+<p>当然有增就有减，<code>trimToSize()</code>就是用来将<code>elementData</code>的长度变成<code>size</code>。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">trimToSize</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>  
+</span></span><span style="display:flex;"><span>    modCount<span style="color:#f92672">++;</span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> oldCapacity <span style="color:#f92672">=</span> elementData<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span><span style="color:#f92672">;</span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>size <span style="color:#f92672">&lt;</span> oldCapacity<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>  
+</span></span><span style="display:flex;"><span>        elementData <span style="color:#f92672">=</span> Arrays<span style="color:#f92672">.</span><span style="color:#a6e22e">copyOf</span><span style="color:#f92672">(</span>elementData<span style="color:#f92672">,</span> size<span style="color:#f92672">);</span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>  
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>这样可以解决平凡新增、删除元素后elementData过大的问题。</p>
+<p>从上面的操作来看，<code>ArrayList</code>的容量增长的开始还是有的，就算那些数字的计算忽略不计，<code>Arrays.copyOf</code>的操作的消耗也不会小。所以在初始化<code>ArrayList</code>的时候尽量预算下大致的容量需求，降低平凡调整容量的开销。</p>
+<h2 id="序列化">序列化<a hidden class="anchor" aria-hidden="true" href="#序列化">#</a></h2>
+<p>ArrayList实现了Serializable接口，所以ArrayList可以进行序列化。但是elementData的定义</p>
+<pre><code>private transient Object[] elementData;
+</code></pre>
+<p><code>transient</code>修饰符让<code>elementData</code>无法自动序列化，这样的原因是，数组内存储的的元素其实只是一个引用，单单序列化一个引用没有任何意义，反序列化后这些引用都无法在指向原来的对象。<code>ArrayList</code>使用<code>writeObject()</code>实现手工序列化数组内的元素。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">private</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">writeObject</span><span style="color:#f92672">(</span>java<span style="color:#f92672">.</span><span style="color:#a6e22e">io</span><span style="color:#f92672">.</span><span style="color:#a6e22e">ObjectOutputStream</span> s<span style="color:#f92672">)</span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">throws</span> java<span style="color:#f92672">.</span><span style="color:#a6e22e">io</span><span style="color:#f92672">.</span><span style="color:#a6e22e">IOException</span><span style="color:#f92672">{</span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> expectedModCount <span style="color:#f92672">=</span> modCount<span style="color:#f92672">;</span>  
+</span></span><span style="display:flex;"><span>    s<span style="color:#f92672">.</span><span style="color:#a6e22e">defaultWriteObject</span><span style="color:#f92672">();</span>  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>    s<span style="color:#f92672">.</span><span style="color:#a6e22e">writeInt</span><span style="color:#f92672">(</span>elementData<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span><span style="color:#f92672">);</span>  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> i<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span><span style="color:#f92672">;</span> i<span style="color:#f92672">&lt;</span>size<span style="color:#f92672">;</span> i<span style="color:#f92672">++)</span>  
+</span></span><span style="display:flex;"><span>        s<span style="color:#f92672">.</span><span style="color:#a6e22e">writeObject</span><span style="color:#f92672">(</span>elementData<span style="color:#f92672">[</span>i<span style="color:#f92672">]);</span>  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>modCount <span style="color:#f92672">!=</span> expectedModCount<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> ConcurrentModificationException<span style="color:#f92672">();</span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>  
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><h2 id="迭代器实现">迭代器实现<a hidden class="anchor" aria-hidden="true" href="#迭代器实现">#</a></h2>
+<p>一般ArrayList需要遍历时，可以调用他的iterator()方法返回一个迭代器，然后用迭代器进行遍历。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> Iterator<span style="color:#f92672">&lt;</span>E<span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">iterator</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> Itr<span style="color:#f92672">();</span>  
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>iterator()方法放回了一个Itr类实例，这个Itr类是ArrayList的一个内部类，实现了Iterator接口。</p>
+<pre><code>int cursor;       // index of next element to return  
+int lastRet = -1; // index of last element returned; -1 if no such  
+int expectedModCount = modCount;
+</code></pre>
+<p>上面是Itr类的三个成员变量。 <code>cursor</code>类似一个游标，指向迭代器下一个值的位置。lastRet是迭代器最后一次取出的元素的位置。<code>expectedModCount</code>的值为Itr初始化时候<code>ArrayList</code>的<code>modCount</code>的值，前面将过<code>modCount</code>用于记录<code>ArrayList</code>内发生结构性改变的次数，而Itr每次进行next或remove的时候都会去检查<code>expectedModCount</code>值是否还和现在的<code>modCount</code>值一直，从而保证了迭代器和ArrayList内数据的一致性。实现代码如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> E <span style="color:#a6e22e">next</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>  
+</span></span><span style="display:flex;"><span>    checkForComodification<span style="color:#f92672">();</span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> cursor<span style="color:#f92672">;</span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>i <span style="color:#f92672">&gt;=</span> size<span style="color:#f92672">)</span>  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> NoSuchElementException<span style="color:#f92672">();</span>  
+</span></span><span style="display:flex;"><span>    Object<span style="color:#f92672">[]</span> elementData <span style="color:#f92672">=</span> ArrayList<span style="color:#f92672">.</span><span style="color:#a6e22e">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">elementData</span><span style="color:#f92672">;</span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>i <span style="color:#f92672">&gt;=</span> elementData<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span><span style="color:#f92672">)</span>  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> ConcurrentModificationException<span style="color:#f92672">();</span>  
+</span></span><span style="display:flex;"><span>    cursor <span style="color:#f92672">=</span> i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span><span style="color:#f92672">;</span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#f92672">(</span>E<span style="color:#f92672">)</span> elementData<span style="color:#f92672">[</span>lastRet <span style="color:#f92672">=</span> i<span style="color:#f92672">];</span>  
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">final</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">checkForComodification</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>modCount <span style="color:#f92672">!=</span> expectedModCount<span style="color:#f92672">)</span>  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> ConcurrentModificationException<span style="color:#f92672">();</span>  
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>Itr作为<code>ArrayList</code>的内部类，可以访问所有<code>ArrayList</code>的成员。理解了这一点，itr类的实现就容易理解了。</p>
+<p>还有一个<code>listIterator</code>的迭代器，实现方式类似。</p>
+<p>java的集合在平时开发中很常用，能够了解它们的内部实现，对开发带来很大的便利，也减少了不必要的BUG。</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://blog.qiwei.dev/tags/java/">Java</a></li>
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="https://blog.qiwei.dev/">我的博客</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

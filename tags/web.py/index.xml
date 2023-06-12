@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>web.py on 我的博客</title>
+    <link>https://blog.qiwei.dev/tags/web.py/</link>
+    <description>Recent content in web.py on 我的博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Thu, 03 Apr 2014 11:21:00 +0800</lastBuildDate><atom:link href="https://blog.qiwei.dev/tags/web.py/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>webpy源码阅读之HelloWorld</title>
+      <link>https://blog.qiwei.dev/posts/coding/webpy-source-helloworld/</link>
+      <pubDate>Thu, 03 Apr 2014 11:21:00 +0800</pubDate>
+      
+      <guid>https://blog.qiwei.dev/posts/coding/webpy-source-helloworld/</guid>
+      <description>学习webpy框架</description>
+    </item>
+    
+  </channel>
+</rss>

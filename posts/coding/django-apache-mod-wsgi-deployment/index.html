@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Django&#43;apache&#43;mod_wsgi部署 | 我的博客</title>
+<meta name="keywords" content="Django, Python">
+<meta name="description" content="Django&#43;apache&#43;mod_wsgi部署">
+<meta name="author" content="">
+<link rel="canonical" href="https://blog.qiwei.dev/posts/coding/django-apache-mod-wsgi-deployment/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.3613efbd0b1772781e8f49935e973cae632a7f61471c05b17be155505ccf87b5.css" integrity="sha256-NhPvvQsXcngej0mTXpc8rmMqf2FHHAWxe&#43;FVUFzPh7U=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://blog.qiwei.dev/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://blog.qiwei.dev/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://blog.qiwei.dev/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://blog.qiwei.dev/apple-touch-icon.png">
+<link rel="mask-icon" href="https://blog.qiwei.dev/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="Django&#43;apache&#43;mod_wsgi部署" />
+<meta property="og:description" content="Django&#43;apache&#43;mod_wsgi部署" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://blog.qiwei.dev/posts/coding/django-apache-mod-wsgi-deployment/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2013-09-02T10:20:00+08:00" />
+<meta property="article:modified_time" content="2013-09-02T10:20:00+08:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Django&#43;apache&#43;mod_wsgi部署"/>
+<meta name="twitter:description" content="Django&#43;apache&#43;mod_wsgi部署"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://blog.qiwei.dev/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Django+apache+mod_wsgi部署",
+      "item": "https://blog.qiwei.dev/posts/coding/django-apache-mod-wsgi-deployment/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Django+apache+mod_wsgi部署",
+  "name": "Django\u002bapache\u002bmod_wsgi部署",
+  "description": "Django+apache+mod_wsgi部署",
+  "keywords": [
+    "Django", "Python"
+  ],
+  "articleBody": "一、安装： 安装Apache、Python、Django、mod_wsgi、项目所需的依赖（数据库驱动、第三方库等）\n二、项目设置： 1、把整个项目放到服务器上\n2、改变DEBUG配置，修改settings.py文件的DEBUG属性\nDEBUG=False 3、数据库连接配置，修改settings.py的数据库连接配置\n4、修改允许访问的HOST，修改settings.py的ALLOWED_HOSTS=['*']\n5、添加404和500页面，把页面文件放到template目录下\n6、静态文件配置，修改settings.py的STATIC_ROOT的值，此属性的值是部署后静态文件保存的目录。\n7、收集静态文件，运行命令：python manage.py collectstatic。django会把STATICFILES_DIRS中配置的目录下的所有文件和文件夹拷贝到STATIC_ROOT配置的目录下。\n8、修改与settings.py同目录下的wsgi.py，添加如下代码：\nimport sys sys.path.append(\"/home/myproject\") \"/home/myproject\"替换成项目的根目录，这段代码的作用是把项目的路径添加到python的环境变量下，使得os.environ.setdefault(\"DJANGO_SETTINGS_MODULE\", \"myproject.settings\")这句断码可以正确查找到项目的settings.py文件。\n三、Apache配置： 修改配置文件httpd.conf 1）、配置Apache加载mod_wsgi\nLoadModule wsgi_module modules/mod_wsgi.so 2）、配置静态文件映射\nAlias URL-path file-path|directory-path 如Alias /static \"/home/myproject/static\" 3）、apache虚拟主机（VirtualHost）配置\n",
+  "wordCount" : "78",
+  "inLanguage": "en",
+  "datePublished": "2013-09-02T10:20:00+08:00",
+  "dateModified": "2013-09-02T10:20:00+08:00",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://blog.qiwei.dev/posts/coding/django-apache-mod-wsgi-deployment/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "我的博客",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://blog.qiwei.dev/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://blog.qiwei.dev/" accesskey="h" title="我的博客 (Alt + H)">我的博客</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://blog.qiwei.dev/posts" title="Blogs">
+                    <span>Blogs</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://blog.qiwei.dev/categories/" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://blog.qiwei.dev/tags/" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://blog.qiwei.dev/about/" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      Django&#43;apache&#43;mod_wsgi部署
+    </h1>
+    <div class="post-description">
+      Django&#43;apache&#43;mod_wsgi部署
+    </div>
+    <div class="post-meta"><span title='2013-09-02 10:20:00 +0800 CST'>September 2, 2013</span>
+
+</div>
+  </header> 
+  <div class="post-content"><h1 id="一安装">一、安装：<a hidden class="anchor" aria-hidden="true" href="#一安装">#</a></h1>
+<p>安装Apache、Python、Django、mod_wsgi、项目所需的依赖（数据库驱动、第三方库等）</p>
+<h1 id="二项目设置">二、项目设置：<a hidden class="anchor" aria-hidden="true" href="#二项目设置">#</a></h1>
+<p>1、把整个项目放到服务器上</p>
+<p>2、改变DEBUG配置，修改<code>settings.py</code>文件的DEBUG属性</p>
+<pre><code>DEBUG=False
+</code></pre>
+<p>3、数据库连接配置，修改<code>settings.py</code>的数据库连接配置</p>
+<p>4、修改允许访问的HOST，修改<code>settings.p</code>y的<code>ALLOWED_HOSTS=['*']</code></p>
+<p>5、添加404和500页面，把页面文件放到template目录下</p>
+<p>6、静态文件配置，修改<code>settings.py</code>的<code>STATIC_ROOT</code>的值，此属性的值是部署后静态文件保存的目录。</p>
+<p>7、收集静态文件，运行命令：<code>python manage.py collectstatic</code>。django会把<code>STATICFILES_DIRS</code>中配置的目录下的所有文件和文件夹拷贝到<code>STATIC_ROOT</code>配置的目录下。</p>
+<p>8、修改与<code>settings.py</code>同目录下的<code>wsgi.py</code>，添加如下代码：</p>
+<pre><code>import sys
+sys.path.append(&quot;/home/myproject&quot;)
+</code></pre>
+<p><code>&quot;/home/myproject&quot;</code>替换成项目的根目录，这段代码的作用是把项目的路径添加到python的环境变量下，使得<code>os.environ.setdefault(&quot;DJANGO_SETTINGS_MODULE&quot;, &quot;myproject.settings&quot;)</code>这句断码可以正确查找到项目的<code>settings.py</code>文件。</p>
+<h1 id="三apache配置">三、Apache配置：<a hidden class="anchor" aria-hidden="true" href="#三apache配置">#</a></h1>
+<p>修改配置文件<code>httpd.conf</code>
+1）、配置Apache加载mod_wsgi</p>
+<pre><code>LoadModule wsgi_module modules/mod_wsgi.so
+</code></pre>
+<p>2）、配置静态文件映射</p>
+<pre><code>Alias URL-path file-path|directory-path
+如Alias /static &quot;/home/myproject/static&quot;
+</code></pre>
+<p>3）、apache虚拟主机（VirtualHost）配置</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#f92672">&lt;VirtualHost</span> <span style="color:#960050;background-color:#1e0010">*:80</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>    DocumentRoot /ytxt/surveyproject
+</span></span><span style="display:flex;"><span>    ServerName www.feiyuejihua.com
+</span></span><span style="display:flex;"><span>    WSGIScriptAlias / /ytxt/surveyproject/surveyproject/django.wsgi
+</span></span><span style="display:flex;"><span>    ErrorLog /ytxt/log/feiyuejihua.log
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;Directory</span> <span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>        Order deny,allow
+</span></span><span style="display:flex;"><span>        Allow from all
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;/Directory&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;Directory</span> <span style="color:#960050;background-color:#1e0010">/apache</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>        Allow from all
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;/Directory&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;/VirtualHost&gt;</span>
+</span></span></code></pre></div><ul>
+<li>DocumentRoot：为项目的根路径</li>
+<li>ServerName：项目的域名</li>
+<li>ErrorLog：为异常日志路径</li>
+<li>WSGIScriptAlias：映射一个URL到一个文件系统地址并委派目标文件为WSGI Script</li>
+</ul>
+<h1 id="四启动服务器">四、启动服务器：<a hidden class="anchor" aria-hidden="true" href="#四启动服务器">#</a></h1>
+<ul>
+<li>启动：httpd -k start</li>
+<li>重启：httpd -k restart</li>
+<li>关闭：httpd -k stop 或 httpd -k shutdown</li>
+</ul>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://blog.qiwei.dev/tags/django/">Django</a></li>
+      <li><a href="https://blog.qiwei.dev/tags/python/">Python</a></li>
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="https://blog.qiwei.dev/">我的博客</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

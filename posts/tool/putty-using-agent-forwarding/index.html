@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>PuTTY下如何使用agent forwarding | 我的博客</title>
+<meta name="keywords" content="Tool">
+<meta name="description" content="PuTTY下如何使用agent forwarding">
+<meta name="author" content="">
+<link rel="canonical" href="https://blog.qiwei.dev/posts/tool/putty-using-agent-forwarding/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.3613efbd0b1772781e8f49935e973cae632a7f61471c05b17be155505ccf87b5.css" integrity="sha256-NhPvvQsXcngej0mTXpc8rmMqf2FHHAWxe&#43;FVUFzPh7U=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://blog.qiwei.dev/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://blog.qiwei.dev/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://blog.qiwei.dev/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://blog.qiwei.dev/apple-touch-icon.png">
+<link rel="mask-icon" href="https://blog.qiwei.dev/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="PuTTY下如何使用agent forwarding" />
+<meta property="og:description" content="PuTTY下如何使用agent forwarding" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://blog.qiwei.dev/posts/tool/putty-using-agent-forwarding/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2014-01-17T16:35:00+08:00" />
+<meta property="article:modified_time" content="2014-01-17T16:35:00+08:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="PuTTY下如何使用agent forwarding"/>
+<meta name="twitter:description" content="PuTTY下如何使用agent forwarding"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://blog.qiwei.dev/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "PuTTY下如何使用agent forwarding",
+      "item": "https://blog.qiwei.dev/posts/tool/putty-using-agent-forwarding/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "PuTTY下如何使用agent forwarding",
+  "name": "PuTTY下如何使用agent forwarding",
+  "description": "PuTTY下如何使用agent forwarding",
+  "keywords": [
+    "Tool"
+  ],
+  "articleBody": "公司大部分同事都使用SecureCRT来远程访问服务器，我比较另类，用了个PuTTY。最近公司把访问服务器改成了需要使用SSH Keys来访问，而且还需要通过跳板机才可以。这样一来就需要使用agent forwarding。可问题来了，SecureCRT只需要选择允许agent forwarding就可以了。而putty在“Connection” -\u003e “SSH” -\u003e “Auth”下勾选了“Allow agent forwarding”后，依然无法访问。\n谷歌了好久也没法找到问题所在，后来无奈，去看了下putty找了文档，找到了问题所在。原来还需要Pageant一起使用，步骤如下：\n一、开启Pageant，（可以在putty官网下载到），Windows下开始后会自动最小化在托盘，找到后双击打开即可。\n二、添加Key，在Pageant界面点击Add Key，选择密钥即可。\n三、启动PuTTY，在“Connection” -\u003e “SSH” -\u003e “Auth”下勾选了“Allow agent forwarding”。\n接下去就可以连接跳板机，然后通过跳板机访问服务器啦。\nPuTTY在这边不是一款很大众的软件，使用起来遇到问题自然比较难找到办法解决，而且他的文档还都是英文。所以把这些记下来，方便自己以后忘记了后还能再找到，也方便其他和我一样的人。\n",
+  "wordCount" : "23",
+  "inLanguage": "en",
+  "datePublished": "2014-01-17T16:35:00+08:00",
+  "dateModified": "2014-01-17T16:35:00+08:00",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://blog.qiwei.dev/posts/tool/putty-using-agent-forwarding/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "我的博客",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://blog.qiwei.dev/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://blog.qiwei.dev/" accesskey="h" title="我的博客 (Alt + H)">我的博客</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://blog.qiwei.dev/posts" title="Blogs">
+                    <span>Blogs</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://blog.qiwei.dev/categories/" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://blog.qiwei.dev/tags/" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://blog.qiwei.dev/about/" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      PuTTY下如何使用agent forwarding
+    </h1>
+    <div class="post-description">
+      PuTTY下如何使用agent forwarding
+    </div>
+    <div class="post-meta"><span title='2014-01-17 16:35:00 +0800 CST'>January 17, 2014</span>
+
+</div>
+  </header> 
+  <div class="post-content"><p>公司大部分同事都使用SecureCRT来远程访问服务器，我比较另类，用了个PuTTY。最近公司把访问服务器改成了需要使用SSH Keys来访问，而且还需要通过跳板机才可以。这样一来就需要使用agent forwarding。可问题来了，SecureCRT只需要选择允许agent forwarding就可以了。而putty在“Connection” -&gt; “SSH” -&gt; “Auth”下勾选了“Allow agent forwarding”后，依然无法访问。</p>
+<p>谷歌了好久也没法找到问题所在，后来无奈，去看了下putty找了<a href="http://the.earth.li/~sgtatham/putty/0.63/htmldoc/Chapter9.html#pageant-forward">文档</a>，找到了问题所在。原来还需要Pageant一起使用，步骤如下：</p>
+<p>一、开启Pageant，（可以在putty官网下载到），Windows下开始后会自动最小化在托盘，找到后双击打开即可。</p>
+<p><img loading="lazy" src="putty-using-agent-1.jpg" alt="pageant"  />
+</p>
+<p>二、添加Key，在Pageant界面点击Add Key，选择密钥即可。</p>
+<p>三、启动PuTTY，在“Connection” -&gt; “SSH” -&gt; “Auth”下勾选了“Allow agent forwarding”。</p>
+<p><img loading="lazy" src="putty-using-agent-2.jpg" alt="putty"  />
+</p>
+<p>接下去就可以连接跳板机，然后通过跳板机访问服务器啦。</p>
+<p>PuTTY在这边不是一款很大众的软件，使用起来遇到问题自然比较难找到办法解决，而且他的文档还都是英文。所以把这些记下来，方便自己以后忘记了后还能再找到，也方便其他和我一样的人。</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://blog.qiwei.dev/tags/tool/">Tool</a></li>
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="https://blog.qiwei.dev/">我的博客</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Python on 我的博客</title>
+    <link>https://blog.qiwei.dev/tags/python/</link>
+    <description>Recent content in Python on 我的博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Thu, 03 Apr 2014 11:21:00 +0800</lastBuildDate><atom:link href="https://blog.qiwei.dev/tags/python/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>webpy源码阅读之HelloWorld</title>
+      <link>https://blog.qiwei.dev/posts/coding/webpy-source-helloworld/</link>
+      <pubDate>Thu, 03 Apr 2014 11:21:00 +0800</pubDate>
+      
+      <guid>https://blog.qiwei.dev/posts/coding/webpy-source-helloworld/</guid>
+      <description>学习webpy框架</description>
+    </item>
+    
+    <item>
+      <title>Django&#43;apache&#43;mod_wsgi部署</title>
+      <link>https://blog.qiwei.dev/posts/coding/django-apache-mod-wsgi-deployment/</link>
+      <pubDate>Mon, 02 Sep 2013 10:20:00 +0800</pubDate>
+      
+      <guid>https://blog.qiwei.dev/posts/coding/django-apache-mod-wsgi-deployment/</guid>
+      <description>Django&#43;apache&#43;mod_wsgi部署</description>
+    </item>
+    
+    <item>
+      <title>Django基础入门</title>
+      <link>https://blog.qiwei.dev/posts/coding/django-study-start/</link>
+      <pubDate>Thu, 29 Aug 2013 17:01:00 +0800</pubDate>
+      
+      <guid>https://blog.qiwei.dev/posts/coding/django-study-start/</guid>
+      <description>Django基础</description>
+    </item>
+    
+  </channel>
+</rss>

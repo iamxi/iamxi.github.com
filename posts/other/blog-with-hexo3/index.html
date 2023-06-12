@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>hexo3搭建博客 | 我的博客</title>
+<meta name="keywords" content="">
+<meta name="description" content="前几天心血来潮，翻出了不知道那年的博客，用户hexo重新搭建了下。把这个是记录下来。
+安装 这个不多说，hexo 官方文档有介绍。
+配置 基本的一些配置上面，上面也有，还有一些我参考了这篇博客，在此先谢过这位朋友的分享。
+遇到的问题及解决 CNAME 文件 因为 Github 需要 CNAME 文件，用于指定域名。不过放在 public 文件夹中的话，只要 clean 一次就没了。网站找了下资料，应该将其放在 source 目录总，这样在生成时候就会一起带到 public 文件夹中。一些博文中需要的图片（images）和favicon.ico等不变的内容也可以一起放在 source 目录下。
+README.md文件不渲染 在站点配置文件中添加
+skip_render: README.md stiemap 的生成 需要安装插件
+npm install hexo-generator-sitemap --save 站点配置文件中添加配置
+sitemap: path: sitemap.xml 博文永久连接 默认是时间分开。但是这样路径比较长。不方便管理。网上有种方法是urlname。使用urlname来作为链接，避免使用文件名。这样文件名就可以自己定义，方便本地管理。
+具体做法是，在站点配置文件中，修改配置如下：
+permalink: post/:urlname.html 然后在每一篇 post 中都需要加一个urlname，如这篇文章的：
+title: 20171001-hexo3搭建博客 date: 2017-10-01 03:44:13 tags: hexo urlname: blog-with-hexo3 缺点是，如果那篇忘记了这个，那生成的 html 文件将会是未知
+图片保存 hexo官网有推荐的方法，文档。当时我的觉这个太依赖hexo，不符合markdown的理念。所以，还是选择土办法管理图片，放在 source/images 目录下，post中直接用相对路径应用。亲测可行。
+博客的版本控制 hexo 的部署功能，只能建 public 文件夹中的内容推送到 Github 上。而配置文件和博客源文件都无法提交。如果换了电脑或电脑换了，那就什么都要从新开始了。">
+<meta name="author" content="">
+<link rel="canonical" href="https://blog.qiwei.dev/posts/other/blog-with-hexo3/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.3613efbd0b1772781e8f49935e973cae632a7f61471c05b17be155505ccf87b5.css" integrity="sha256-NhPvvQsXcngej0mTXpc8rmMqf2FHHAWxe&#43;FVUFzPh7U=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://blog.qiwei.dev/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://blog.qiwei.dev/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://blog.qiwei.dev/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://blog.qiwei.dev/apple-touch-icon.png">
+<link rel="mask-icon" href="https://blog.qiwei.dev/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="hexo3搭建博客" />
+<meta property="og:description" content="前几天心血来潮，翻出了不知道那年的博客，用户hexo重新搭建了下。把这个是记录下来。
+安装 这个不多说，hexo 官方文档有介绍。
+配置 基本的一些配置上面，上面也有，还有一些我参考了这篇博客，在此先谢过这位朋友的分享。
+遇到的问题及解决 CNAME 文件 因为 Github 需要 CNAME 文件，用于指定域名。不过放在 public 文件夹中的话，只要 clean 一次就没了。网站找了下资料，应该将其放在 source 目录总，这样在生成时候就会一起带到 public 文件夹中。一些博文中需要的图片（images）和favicon.ico等不变的内容也可以一起放在 source 目录下。
+README.md文件不渲染 在站点配置文件中添加
+skip_render: README.md stiemap 的生成 需要安装插件
+npm install hexo-generator-sitemap --save 站点配置文件中添加配置
+sitemap: path: sitemap.xml 博文永久连接 默认是时间分开。但是这样路径比较长。不方便管理。网上有种方法是urlname。使用urlname来作为链接，避免使用文件名。这样文件名就可以自己定义，方便本地管理。
+具体做法是，在站点配置文件中，修改配置如下：
+permalink: post/:urlname.html 然后在每一篇 post 中都需要加一个urlname，如这篇文章的：
+title: 20171001-hexo3搭建博客 date: 2017-10-01 03:44:13 tags: hexo urlname: blog-with-hexo3 缺点是，如果那篇忘记了这个，那生成的 html 文件将会是未知
+图片保存 hexo官网有推荐的方法，文档。当时我的觉这个太依赖hexo，不符合markdown的理念。所以，还是选择土办法管理图片，放在 source/images 目录下，post中直接用相对路径应用。亲测可行。
+博客的版本控制 hexo 的部署功能，只能建 public 文件夹中的内容推送到 Github 上。而配置文件和博客源文件都无法提交。如果换了电脑或电脑换了，那就什么都要从新开始了。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://blog.qiwei.dev/posts/other/blog-with-hexo3/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2017-10-01T03:44:13+08:00" />
+<meta property="article:modified_time" content="2017-10-01T03:44:13+08:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="hexo3搭建博客"/>
+<meta name="twitter:description" content="前几天心血来潮，翻出了不知道那年的博客，用户hexo重新搭建了下。把这个是记录下来。
+安装 这个不多说，hexo 官方文档有介绍。
+配置 基本的一些配置上面，上面也有，还有一些我参考了这篇博客，在此先谢过这位朋友的分享。
+遇到的问题及解决 CNAME 文件 因为 Github 需要 CNAME 文件，用于指定域名。不过放在 public 文件夹中的话，只要 clean 一次就没了。网站找了下资料，应该将其放在 source 目录总，这样在生成时候就会一起带到 public 文件夹中。一些博文中需要的图片（images）和favicon.ico等不变的内容也可以一起放在 source 目录下。
+README.md文件不渲染 在站点配置文件中添加
+skip_render: README.md stiemap 的生成 需要安装插件
+npm install hexo-generator-sitemap --save 站点配置文件中添加配置
+sitemap: path: sitemap.xml 博文永久连接 默认是时间分开。但是这样路径比较长。不方便管理。网上有种方法是urlname。使用urlname来作为链接，避免使用文件名。这样文件名就可以自己定义，方便本地管理。
+具体做法是，在站点配置文件中，修改配置如下：
+permalink: post/:urlname.html 然后在每一篇 post 中都需要加一个urlname，如这篇文章的：
+title: 20171001-hexo3搭建博客 date: 2017-10-01 03:44:13 tags: hexo urlname: blog-with-hexo3 缺点是，如果那篇忘记了这个，那生成的 html 文件将会是未知
+图片保存 hexo官网有推荐的方法，文档。当时我的觉这个太依赖hexo，不符合markdown的理念。所以，还是选择土办法管理图片，放在 source/images 目录下，post中直接用相对路径应用。亲测可行。
+博客的版本控制 hexo 的部署功能，只能建 public 文件夹中的内容推送到 Github 上。而配置文件和博客源文件都无法提交。如果换了电脑或电脑换了，那就什么都要从新开始了。"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://blog.qiwei.dev/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "hexo3搭建博客",
+      "item": "https://blog.qiwei.dev/posts/other/blog-with-hexo3/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "hexo3搭建博客",
+  "name": "hexo3搭建博客",
+  "description": "前几天心血来潮，翻出了不知道那年的博客，用户hexo重新搭建了下。把这个是记录下来。\n安装 这个不多说，hexo 官方文档有介绍。\n配置 基本的一些配置上面，上面也有，还有一些我参考了这篇博客，在此先谢过这位朋友的分享。\n遇到的问题及解决 CNAME 文件 因为 Github 需要 CNAME 文件，用于指定域名。不过放在 public 文件夹中的话，只要 clean 一次就没了。网站找了下资料，应该将其放在 source 目录总，这样在生成时候就会一起带到 public 文件夹中。一些博文中需要的图片（images）和favicon.ico等不变的内容也可以一起放在 source 目录下。\nREADME.md文件不渲染 在站点配置文件中添加\nskip_render: README.md stiemap 的生成 需要安装插件\nnpm install hexo-generator-sitemap --save 站点配置文件中添加配置\nsitemap: path: sitemap.xml 博文永久连接 默认是时间分开。但是这样路径比较长。不方便管理。网上有种方法是urlname。使用urlname来作为链接，避免使用文件名。这样文件名就可以自己定义，方便本地管理。\n具体做法是，在站点配置文件中，修改配置如下：\npermalink: post/:urlname.html 然后在每一篇 post 中都需要加一个urlname，如这篇文章的：\ntitle: 20171001-hexo3搭建博客 date: 2017-10-01 03:44:13 tags: hexo urlname: blog-with-hexo3 缺点是，如果那篇忘记了这个，那生成的 html 文件将会是未知\n图片保存 hexo官网有推荐的方法，文档。当时我的觉这个太依赖hexo，不符合markdown的理念。所以，还是选择土办法管理图片，放在 source/images 目录下，post中直接用相对路径应用。亲测可行。\n博客的版本控制 hexo 的部署功能，只能建 public 文件夹中的内容推送到 Github 上。而配置文件和博客源文件都无法提交。如果换了电脑或电脑换了，那就什么都要从新开始了。",
+  "keywords": [
+    
+  ],
+  "articleBody": "前几天心血来潮，翻出了不知道那年的博客，用户hexo重新搭建了下。把这个是记录下来。\n安装 这个不多说，hexo 官方文档有介绍。\n配置 基本的一些配置上面，上面也有，还有一些我参考了这篇博客，在此先谢过这位朋友的分享。\n遇到的问题及解决 CNAME 文件 因为 Github 需要 CNAME 文件，用于指定域名。不过放在 public 文件夹中的话，只要 clean 一次就没了。网站找了下资料，应该将其放在 source 目录总，这样在生成时候就会一起带到 public 文件夹中。一些博文中需要的图片（images）和favicon.ico等不变的内容也可以一起放在 source 目录下。\nREADME.md文件不渲染 在站点配置文件中添加\nskip_render: README.md stiemap 的生成 需要安装插件\nnpm install hexo-generator-sitemap --save 站点配置文件中添加配置\nsitemap: path: sitemap.xml 博文永久连接 默认是时间分开。但是这样路径比较长。不方便管理。网上有种方法是urlname。使用urlname来作为链接，避免使用文件名。这样文件名就可以自己定义，方便本地管理。\n具体做法是，在站点配置文件中，修改配置如下：\npermalink: post/:urlname.html 然后在每一篇 post 中都需要加一个urlname，如这篇文章的：\ntitle: 20171001-hexo3搭建博客 date: 2017-10-01 03:44:13 tags: hexo urlname: blog-with-hexo3 缺点是，如果那篇忘记了这个，那生成的 html 文件将会是未知\n图片保存 hexo官网有推荐的方法，文档。当时我的觉这个太依赖hexo，不符合markdown的理念。所以，还是选择土办法管理图片，放在 source/images 目录下，post中直接用相对路径应用。亲测可行。\n博客的版本控制 hexo 的部署功能，只能建 public 文件夹中的内容推送到 Github 上。而配置文件和博客源文件都无法提交。如果换了电脑或电脑换了，那就什么都要从新开始了。\n解决方法是，将整个博客目录都提交到 Github 上。\nhexo 生成站点目录时候，已经有一个 .gitignore 文件，里面帮我们忽略了所有的没必要提交的内容。我估计这个文件的目录就是方便保存配置和源文件。\n我的做法是，Github 上使用同一个源，用不同分支分别保存生成的页面和源文件。如 master 保存生成的整个站点。post 分支保存源文件。master 由 hexo 部署命令自动推送。 post 由我手动推送。\n这里说到主题的版本控制。我使用的 NexT 主题。按教程，我是直接从 Github 上 clone 下来的。themes/next 文件夹中有 git 的版本信息。这样，我提交博客配置时候，这个文件夹无法被提交， git 当他是一个子项目。后来看了下网站相同问题的解决方法。大致是将主题 fork 到自己的仓库中。然后在 clone 下来。这样如果主题配置或样式有改动，可以提交到自己的远程仓库中。不然他人的源肯定是不给提交的。\n总结 hexo 这东西还是很容易上手的。完全就看能不能持久的写博客了。\n",
+  "wordCount" : "106",
+  "inLanguage": "en",
+  "datePublished": "2017-10-01T03:44:13+08:00",
+  "dateModified": "2017-10-01T03:44:13+08:00",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://blog.qiwei.dev/posts/other/blog-with-hexo3/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "我的博客",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://blog.qiwei.dev/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://blog.qiwei.dev/" accesskey="h" title="我的博客 (Alt + H)">我的博客</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://blog.qiwei.dev/posts" title="Blogs">
+                    <span>Blogs</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://blog.qiwei.dev/categories/" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://blog.qiwei.dev/tags/" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://blog.qiwei.dev/about/" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      hexo3搭建博客
+    </h1>
+    <div class="post-meta"><span title='2017-10-01 03:44:13 +0800 CST'>October 1, 2017</span>
+
+</div>
+  </header> 
+  <div class="post-content"><p>前几天心血来潮，翻出了不知道那年的博客，用户hexo重新搭建了下。把这个是记录下来。</p>
+<h1 id="安装">安装<a hidden class="anchor" aria-hidden="true" href="#安装">#</a></h1>
+<p>这个不多说，<a href="https://hexo.io/zh-cn/docs/">hexo 官方文档</a>有介绍。</p>
+<h1 id="配置">配置<a hidden class="anchor" aria-hidden="true" href="#配置">#</a></h1>
+<p>基本的一些配置上面，上面也有，还有一些我参考了<a href="http://www.jianshu.com/p/808554f12929">这篇博客</a>，在此先谢过这位朋友的分享。</p>
+<h1 id="遇到的问题及解决">遇到的问题及解决<a hidden class="anchor" aria-hidden="true" href="#遇到的问题及解决">#</a></h1>
+<h2 id="cname-文件">CNAME 文件<a hidden class="anchor" aria-hidden="true" href="#cname-文件">#</a></h2>
+<p>因为 Github 需要 CNAME 文件，用于指定域名。不过放在 <code>public</code> 文件夹中的话，只要 <code>clean</code> 一次就没了。网站找了下资料，应该将其放在 <code>source</code> 目录总，这样在生成时候就会一起带到 <code>public</code> 文件夹中。一些博文中需要的图片（images）和favicon.ico等不变的内容也可以一起放在 <code>source</code> 目录下。</p>
+<h2 id="readmemd文件不渲染">README.md文件不渲染<a hidden class="anchor" aria-hidden="true" href="#readmemd文件不渲染">#</a></h2>
+<p>在站点配置文件中添加</p>
+<pre><code>skip_render: README.md
+</code></pre>
+<h2 id="stiemap-的生成">stiemap 的生成<a hidden class="anchor" aria-hidden="true" href="#stiemap-的生成">#</a></h2>
+<p>需要安装插件</p>
+<pre><code>npm install hexo-generator-sitemap --save
+</code></pre>
+<p>站点配置文件中添加配置</p>
+<pre><code>sitemap:
+	path: sitemap.xml
+</code></pre>
+<h2 id="博文永久连接">博文永久连接<a hidden class="anchor" aria-hidden="true" href="#博文永久连接">#</a></h2>
+<p>默认是时间分开。但是这样路径比较长。不方便管理。网上有种方法是urlname。使用urlname来作为链接，避免使用文件名。这样文件名就可以自己定义，方便本地管理。</p>
+<p>具体做法是，在站点配置文件中，修改配置如下：</p>
+<pre><code>permalink: post/:urlname.html
+</code></pre>
+<p>然后在每一篇 <code>post</code> 中都需要加一个urlname，如这篇文章的：</p>
+<pre tabindex="0"><code>title: 20171001-hexo3搭建博客
+date: 2017-10-01 03:44:13
+tags: hexo
+urlname: blog-with-hexo3
+</code></pre><p>缺点是，如果那篇忘记了这个，那生成的 <code>html</code> 文件将会是未知</p>
+<h2 id="图片保存">图片保存<a hidden class="anchor" aria-hidden="true" href="#图片保存">#</a></h2>
+<p>hexo官网有推荐的方法，<a href="https://hexo.io/zh-cn/docs/asset-folders.html">文档</a>。当时我的觉这个太依赖hexo，不符合markdown的理念。所以，还是选择土办法管理图片，放在 <code>source/images</code> 目录下，post中直接用相对路径应用。亲测可行。</p>
+<h2 id="博客的版本控制">博客的版本控制<a hidden class="anchor" aria-hidden="true" href="#博客的版本控制">#</a></h2>
+<p>hexo 的部署功能，只能建 <code>public</code> 文件夹中的内容推送到 Github 上。而配置文件和博客源文件都无法提交。如果换了电脑或电脑换了，那就什么都要从新开始了。</p>
+<p>解决方法是，将整个博客目录都提交到 Github 上。</p>
+<p>hexo 生成站点目录时候，已经有一个 <code>.gitignore</code> 文件，里面帮我们忽略了所有的没必要提交的内容。我估计这个文件的目录就是方便保存配置和源文件。</p>
+<p>我的做法是，Github 上使用同一个源，用不同分支分别保存生成的页面和源文件。如 <code>master</code> 保存生成的整个站点。<code>post</code> 分支保存源文件。<code>master</code> 由 hexo 部署命令自动推送。 <code>post</code> 由我手动推送。</p>
+<p>这里说到主题的版本控制。我使用的 NexT 主题。按教程，我是直接从 Github 上 clone 下来的。<code>themes/next</code> 文件夹中有 git 的版本信息。这样，我提交博客配置时候，这个文件夹无法被提交， git 当他是一个子项目。后来看了下网站相同问题的解决方法。大致是将主题 fork 到自己的仓库中。然后在 clone 下来。这样如果主题配置或样式有改动，可以提交到自己的远程仓库中。不然他人的源肯定是不给提交的。</p>
+<h1 id="总结">总结<a hidden class="anchor" aria-hidden="true" href="#总结">#</a></h1>
+<p>hexo 这东西还是很容易上手的。完全就看能不能持久的写博客了。</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="https://blog.qiwei.dev/">我的博客</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

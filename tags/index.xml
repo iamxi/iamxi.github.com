@@ -6,7 +6,97 @@
     <description>Recent content in Tags on 我的博客</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Thu, 08 Aug 2013 15:27:00 +0800</lastBuildDate><atom:link href="https://blog.qiwei.dev/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 28 Jun 2019 15:43:46 +0800</lastBuildDate><atom:link href="https://blog.qiwei.dev/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Feign</title>
+      <link>https://blog.qiwei.dev/tags/feign/</link>
+      <pubDate>Fri, 28 Jun 2019 15:43:46 +0800</pubDate>
+      
+      <guid>https://blog.qiwei.dev/tags/feign/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Spring Cloud</title>
+      <link>https://blog.qiwei.dev/tags/spring-cloud/</link>
+      <pubDate>Fri, 28 Jun 2019 15:43:46 +0800</pubDate>
+      
+      <guid>https://blog.qiwei.dev/tags/spring-cloud/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Zuul</title>
+      <link>https://blog.qiwei.dev/tags/zuul/</link>
+      <pubDate>Fri, 28 Jun 2019 15:43:46 +0800</pubDate>
+      
+      <guid>https://blog.qiwei.dev/tags/zuul/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Django</title>
+      <link>https://blog.qiwei.dev/tags/django/</link>
+      <pubDate>Thu, 22 Mar 2018 15:43:46 +0800</pubDate>
+      
+      <guid>https://blog.qiwei.dev/tags/django/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Java</title>
+      <link>https://blog.qiwei.dev/tags/java/</link>
+      <pubDate>Thu, 25 Jan 2018 20:53:21 +0800</pubDate>
+      
+      <guid>https://blog.qiwei.dev/tags/java/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Dubbo</title>
+      <link>https://blog.qiwei.dev/tags/dubbo/</link>
+      <pubDate>Mon, 09 Oct 2017 10:02:55 +0800</pubDate>
+      
+      <guid>https://blog.qiwei.dev/tags/dubbo/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Python</title>
+      <link>https://blog.qiwei.dev/tags/python/</link>
+      <pubDate>Thu, 03 Apr 2014 11:21:00 +0800</pubDate>
+      
+      <guid>https://blog.qiwei.dev/tags/python/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>web.py</title>
+      <link>https://blog.qiwei.dev/tags/web.py/</link>
+      <pubDate>Thu, 03 Apr 2014 11:21:00 +0800</pubDate>
+      
+      <guid>https://blog.qiwei.dev/tags/web.py/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Tool</title>
+      <link>https://blog.qiwei.dev/tags/tool/</link>
+      <pubDate>Tue, 11 Feb 2014 09:26:00 +0800</pubDate>
+      
+      <guid>https://blog.qiwei.dev/tags/tool/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>编写可读代码的艺术</title>
+      <link>https://blog.qiwei.dev/tags/%E7%BC%96%E5%86%99%E5%8F%AF%E8%AF%BB%E4%BB%A3%E7%A0%81%E7%9A%84%E8%89%BA%E6%9C%AF/</link>
+      <pubDate>Fri, 09 Aug 2013 17:12:00 +0800</pubDate>
+      
+      <guid>https://blog.qiwei.dev/tags/%E7%BC%96%E5%86%99%E5%8F%AF%E8%AF%BB%E4%BB%A3%E7%A0%81%E7%9A%84%E8%89%BA%E6%9C%AF/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>Design Patterns</title>
       <link>https://blog.qiwei.dev/tags/design-patterns/</link>
@@ -49,15 +139,6 @@
       <pubDate>Fri, 26 Jul 2013 12:02:00 +0800</pubDate>
       
       <guid>https://blog.qiwei.dev/tags/eclipse/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Java</title>
-      <link>https://blog.qiwei.dev/tags/java/</link>
-      <pubDate>Sat, 04 Aug 2012 23:00:00 +0800</pubDate>
-      
-      <guid>https://blog.qiwei.dev/tags/java/</guid>
       <description></description>
     </item>
     
