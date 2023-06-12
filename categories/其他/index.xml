@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>其他 on 我的博客</title>
-    <link>https://dev.qiwei.dev/categories/%E5%85%B6%E4%BB%96/</link>
+    <link>https://blog.qiwei.dev/categories/%E5%85%B6%E4%BB%96/</link>
     <description>Recent content in 其他 on 我的博客</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Thu, 25 Jul 2013 21:51:00 +0800</lastBuildDate><atom:link href="https://dev.qiwei.dev/categories/%E5%85%B6%E4%BB%96/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 25 Jul 2013 21:51:00 +0800</lastBuildDate><atom:link href="https://blog.qiwei.dev/categories/%E5%85%B6%E4%BB%96/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>我的第一篇博文</title>
-      <link>https://dev.qiwei.dev/posts/other/my-first-blog/</link>
+      <link>https://blog.qiwei.dev/posts/other/my-first-blog/</link>
       <pubDate>Thu, 25 Jul 2013 21:51:00 +0800</pubDate>
       
-      <guid>https://dev.qiwei.dev/posts/other/my-first-blog/</guid>
+      <guid>https://blog.qiwei.dev/posts/other/my-first-blog/</guid>
       <description>终于有了自己的域名，在Github上开了自己的博客。之前也坚持写过博客，可惜赶上妻子怀孕和儿子出生，忙里忙外了一年后，博客就再没更新。这次申请了自己的域名，就是希望给自己点动力，再开始自己的博客。</description>
     </item>
     

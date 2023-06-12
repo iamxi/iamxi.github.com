@@ -2,35 +2,35 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>重构 on 我的博客</title>
-    <link>https://dev.qiwei.dev/tags/%E9%87%8D%E6%9E%84/</link>
+    <link>https://blog.qiwei.dev/tags/%E9%87%8D%E6%9E%84/</link>
     <description>Recent content in 重构 on 我的博客</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Mon, 29 Jul 2013 13:28:00 +0800</lastBuildDate><atom:link href="https://dev.qiwei.dev/tags/%E9%87%8D%E6%9E%84/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 29 Jul 2013 13:28:00 +0800</lastBuildDate><atom:link href="https://blog.qiwei.dev/tags/%E9%87%8D%E6%9E%84/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>《重构》学习笔记-构筑测试系统与大型重构</title>
-      <link>https://dev.qiwei.dev/posts/coding/refactioring/refactioring-read-3/</link>
+      <link>https://blog.qiwei.dev/posts/coding/refactioring/refactioring-read-3/</link>
       <pubDate>Mon, 29 Jul 2013 13:28:00 +0800</pubDate>
       
-      <guid>https://dev.qiwei.dev/posts/coding/refactioring/refactioring-read-3/</guid>
+      <guid>https://blog.qiwei.dev/posts/coding/refactioring/refactioring-read-3/</guid>
       <description>学习《重构 改善既有代码的设计》，了解测试对重构的意义和作用，以及大型的重构。</description>
     </item>
     
     <item>
       <title>《重构》学习笔记-代码的坏味道</title>
-      <link>https://dev.qiwei.dev/posts/coding/refactioring/refactioring-read-2/</link>
+      <link>https://blog.qiwei.dev/posts/coding/refactioring/refactioring-read-2/</link>
       <pubDate>Mon, 29 Jul 2013 13:09:00 +0800</pubDate>
       
-      <guid>https://dev.qiwei.dev/posts/coding/refactioring/refactioring-read-2/</guid>
+      <guid>https://blog.qiwei.dev/posts/coding/refactioring/refactioring-read-2/</guid>
       <description>学习《重构 改善既有代码的设计》，认识代码的坏味道。</description>
     </item>
     
     <item>
       <title>《重构》学习笔记-重构原则</title>
-      <link>https://dev.qiwei.dev/posts/coding/refactioring/refactioring-read-1/</link>
+      <link>https://blog.qiwei.dev/posts/coding/refactioring/refactioring-read-1/</link>
       <pubDate>Sun, 28 Jul 2013 22:01:00 +0800</pubDate>
       
-      <guid>https://dev.qiwei.dev/posts/coding/refactioring/refactioring-read-1/</guid>
+      <guid>https://blog.qiwei.dev/posts/coding/refactioring/refactioring-read-1/</guid>
       <description>学习《重构 改善既有代码的设计》的笔记，了解如何重构以及重构的时机。</description>
     </item>
     

@@ -9,16 +9,16 @@
 <meta name="keywords" content="">
 <meta name="description" content="">
 <meta name="author" content="">
-<link rel="canonical" href="https://dev.qiwei.dev/tags/design-patterns/">
+<link rel="canonical" href="https://blog.qiwei.dev/tags/design-patterns/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.3613efbd0b1772781e8f49935e973cae632a7f61471c05b17be155505ccf87b5.css" integrity="sha256-NhPvvQsXcngej0mTXpc8rmMqf2FHHAWxe&#43;FVUFzPh7U=" rel="preload stylesheet" as="style">
-<link rel="icon" href="https://dev.qiwei.dev/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="https://dev.qiwei.dev/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="https://dev.qiwei.dev/favicon-32x32.png">
-<link rel="apple-touch-icon" href="https://dev.qiwei.dev/apple-touch-icon.png">
-<link rel="mask-icon" href="https://dev.qiwei.dev/safari-pinned-tab.svg">
+<link rel="icon" href="https://blog.qiwei.dev/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://blog.qiwei.dev/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://blog.qiwei.dev/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://blog.qiwei.dev/apple-touch-icon.png">
+<link rel="mask-icon" href="https://blog.qiwei.dev/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" type="application/rss+xml" href="https://dev.qiwei.dev/tags/design-patterns/index.xml">
+<link rel="alternate" type="application/rss+xml" href="https://blog.qiwei.dev/tags/design-patterns/index.xml">
 <noscript>
     <style>
         #theme-toggle,
@@ -58,7 +58,7 @@
 </noscript><meta property="og:title" content="Design Patterns" />
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
-<meta property="og:url" content="https://dev.qiwei.dev/tags/design-patterns/" />
+<meta property="og:url" content="https://blog.qiwei.dev/tags/design-patterns/" />
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Design Patterns"/>
@@ -81,7 +81,7 @@
 <header class="header">
     <nav class="nav">
         <div class="logo">
-            <a href="https://dev.qiwei.dev/" accesskey="h" title="我的博客 (Alt + H)">我的博客</a>
+            <a href="https://blog.qiwei.dev/" accesskey="h" title="我的博客 (Alt + H)">我的博客</a>
             <div class="logo-switches">
                 <button id="theme-toggle" accesskey="t" title="(Alt + T)">
                     <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
@@ -107,22 +107,22 @@
         </div>
         <ul id="menu">
             <li>
-                <a href="https://dev.qiwei.dev/posts" title="Blogs">
+                <a href="https://blog.qiwei.dev/posts" title="Blogs">
                     <span>Blogs</span>
                 </a>
             </li>
             <li>
-                <a href="https://dev.qiwei.dev/categories/" title="分类">
+                <a href="https://blog.qiwei.dev/categories/" title="分类">
                     <span>分类</span>
                 </a>
             </li>
             <li>
-                <a href="https://dev.qiwei.dev/tags/" title="标签">
+                <a href="https://blog.qiwei.dev/tags/" title="标签">
                     <span>标签</span>
                 </a>
             </li>
             <li>
-                <a href="https://dev.qiwei.dev/about/" title="关于">
+                <a href="https://blog.qiwei.dev/about/" title="关于">
                     <span>关于</span>
                 </a>
             </li>
@@ -149,7 +149,7 @@ public interface Component { public void operation(); public void add(Component 
 public class Composite implements Component { private List&lt;Component&gt; children = new ArrayList&lt;Component&gt;(); @Override public void operation() { for (Component child : children) { child.operation(); } } @Override public void add(Component item) { this....</p>
   </div>
   <footer class="entry-footer"><span title='2013-08-08 15:27:00 +0800 CST'>August 8, 2013</span></footer>
-  <a class="entry-link" aria-label="post link to 设计模式学习-组合模式（Composite）" href="https://dev.qiwei.dev/posts/coding/design-patterns/design-patterns-composite/"></a>
+  <a class="entry-link" aria-label="post link to 设计模式学习-组合模式（Composite）" href="https://blog.qiwei.dev/posts/coding/design-patterns/design-patterns-composite/"></a>
 </article>
 
 <article class="post-entry tag-entry"> 
@@ -166,7 +166,7 @@ public enum MessageBuilderEnum { RESET_PASSWORD_SMS(ResetPwSmsMsgSendServiceImpl
 private static ConcurrentHashMap&lt;String, AbstractMsgSendServiceImpl&gt; messageBuilder = new ConcurrentHashMap&lt;String, AbstractMsgSendServiceImpl&gt;(); public MessageSendServiceImpl() { for (MessageBuilderEnum builderClass : MessageBuilderEnum.values()) { try { messageBuilder.put(builderClass.getBuidlerClass() .getSimpleName(), (AbstractMsgSendServiceImpl) builderClass .getBuidlerClass().newInstance()); } catch (InstantiationException e) { logger.error(e.getMessage(), e); } catch (IllegalAccessException e) { logger....</p>
   </div>
   <footer class="entry-footer"><span title='2013-07-31 13:58:00 +0800 CST'>July 31, 2013</span></footer>
-  <a class="entry-link" aria-label="post link to 原型工厂模式" href="https://dev.qiwei.dev/posts/coding/design-patterns/design-patterns-prototype-factory/"></a>
+  <a class="entry-link" aria-label="post link to 原型工厂模式" href="https://blog.qiwei.dev/posts/coding/design-patterns/design-patterns-prototype-factory/"></a>
 </article>
 
 <article class="post-entry tag-entry"> 
@@ -186,7 +186,7 @@ Abstraction
 — 实现Implementor接口并定义它的具体实现。 示例代码： public abstract class Abstraction { private Implementor impl; public Implementor getImpl() { return impl; } public void setImpl(Implementor impl) { this.impl = impl; } public Abstraction(Implementor impl) { this.impl = impl; } public abstract void operation(); } public class RefinedAbstraction extends Abstraction { public RefinedAbstraction(Implementor impl) { super(impl); } @Override public void operation() { getImpl()....</p>
   </div>
   <footer class="entry-footer"><span title='2013-07-31 13:44:00 +0800 CST'>July 31, 2013</span></footer>
-  <a class="entry-link" aria-label="post link to 设计模式学习-桥接模式（Bridge）" href="https://dev.qiwei.dev/posts/coding/design-patterns/design-patterns-bridge/"></a>
+  <a class="entry-link" aria-label="post link to 设计模式学习-桥接模式（Bridge）" href="https://blog.qiwei.dev/posts/coding/design-patterns/design-patterns-bridge/"></a>
 </article>
 
 <article class="post-entry tag-entry"> 
@@ -207,7 +207,7 @@ Decorator模式增强了其他对象的功能而同时又不改变它的接口�
 模式Proxy在不改变它的接口的条件下，为另一个对象定义了一个代理。</p>
   </div>
   <footer class="entry-footer"><span title='2013-07-31 12:26:00 +0800 CST'>July 31, 2013</span></footer>
-  <a class="entry-link" aria-label="post link to 设计模式学习-适配器（Adapter）" href="https://dev.qiwei.dev/posts/coding/design-patterns/design-patterns-adapter/"></a>
+  <a class="entry-link" aria-label="post link to 设计模式学习-适配器（Adapter）" href="https://blog.qiwei.dev/posts/coding/design-patterns/design-patterns-adapter/"></a>
 </article>
 
 <article class="post-entry tag-entry"> 
@@ -224,7 +224,7 @@ Decorator模式增强了其他对象的功能而同时又不改变它的接口�
 当然没必要就不要用。</p>
   </div>
   <footer class="entry-footer"><span title='2013-07-31 09:59:00 +0800 CST'>July 31, 2013</span></footer>
-  <a class="entry-link" aria-label="post link to 设计模式学习-创建型模式" href="https://dev.qiwei.dev/posts/coding/design-patterns/design-patterns-creational-pattern/"></a>
+  <a class="entry-link" aria-label="post link to 设计模式学习-创建型模式" href="https://blog.qiwei.dev/posts/coding/design-patterns/design-patterns-creational-pattern/"></a>
 </article>
 
 <article class="post-entry tag-entry"> 
@@ -241,7 +241,7 @@ Singleton类可以有子类，而且用这个扩展类的实例来配置一个�
 相关模式： Abstract Factory、Builder、Prototype都可以用Singleton实现。</p>
   </div>
   <footer class="entry-footer"><span title='2013-07-31 09:39:00 +0800 CST'>July 31, 2013</span></footer>
-  <a class="entry-link" aria-label="post link to 设计模式学习-单件（Singleton）" href="https://dev.qiwei.dev/posts/coding/design-patterns/design-patterns-singleton/"></a>
+  <a class="entry-link" aria-label="post link to 设计模式学习-单件（Singleton）" href="https://blog.qiwei.dev/posts/coding/design-patterns/design-patterns-singleton/"></a>
 </article>
 
 <article class="post-entry tag-entry"> 
@@ -257,7 +257,7 @@ Singleton类可以有子类，而且用这个扩展类的实例来配置一个�
 ——实现一个克隆自身的操作 示例代码: public abstract class Prototype implements Cloneable { public Prototype clone() { try { return (Prototype) super.clone(); } catch (CloneNotSupportedException e) { e.printStackTrace(); } return null; } public abstract String getThing(); } public class ConcretePrototype extends Prototype { @Override public String getThing() { return &#34;ConcretePrototype&#34;; } } public class Client { public static void main(String[] args) { ConcretePrototype cp = new ConcretePrototype(); ConcretePrototype newCp = (ConcretePrototype) cp....</p>
   </div>
   <footer class="entry-footer"><span title='2013-07-30 17:23:00 +0800 CST'>July 30, 2013</span></footer>
-  <a class="entry-link" aria-label="post link to 设计模式学习-原型（Prototype）" href="https://dev.qiwei.dev/posts/coding/design-patterns/design-patterns-prototype/"></a>
+  <a class="entry-link" aria-label="post link to 设计模式学习-原型（Prototype）" href="https://blog.qiwei.dev/posts/coding/design-patterns/design-patterns-prototype/"></a>
 </article>
 
 <article class="post-entry tag-entry"> 
@@ -278,7 +278,7 @@ public class ConcreteCreator extends Creator { @Override protected Product facto
 适用性： 一个系统要独立于它的产品的创建、组合和表示时。 一个系统要由多个产品系列中的一个来配置时。 当你要强调一系列相关的产品对象的设计以便进行联合使用时。 当你提供一个产品类库，而只想显示它们的接口而不是实现时。 相关模式： Abstract Factory经常用工厂方法来实现； 工厂方法通常在Template Method中被调用； Prototype不需要创建Creator的子类。但是，它们通常要求一个针对Product类的Initialize操作。Creator使用Initialize来初始化对象。而Factory Method不需要这样的操作。 </p>
   </div>
   <footer class="entry-footer"><span title='2013-07-30 16:21:00 +0800 CST'>July 30, 2013</span></footer>
-  <a class="entry-link" aria-label="post link to 设计模式学习-工厂方法（Factory Method）" href="https://dev.qiwei.dev/posts/coding/design-patterns/design-patterns-factory-method/"></a>
+  <a class="entry-link" aria-label="post link to 设计模式学习-工厂方法（Factory Method）" href="https://blog.qiwei.dev/posts/coding/design-patterns/design-patterns-factory-method/"></a>
 </article>
 
 <article class="post-entry tag-entry"> 
@@ -295,7 +295,7 @@ public class ConcreteBuilder extends Builder { @Override public void buildPart(S
 public class Director { private Builder builder; public Director(Builder builder) { this.builder = builder; } public void Construct() { for (int i = 0; i &lt; 10; i&#43;&#43;) { builder....</p>
   </div>
   <footer class="entry-footer"><span title='2013-07-30 15:56:00 +0800 CST'>July 30, 2013</span></footer>
-  <a class="entry-link" aria-label="post link to 设计模式学习-生成器（Builder）" href="https://dev.qiwei.dev/posts/coding/design-patterns/design-patterns-builder/"></a>
+  <a class="entry-link" aria-label="post link to 设计模式学习-生成器（Builder）" href="https://blog.qiwei.dev/posts/coding/design-patterns/design-patterns-builder/"></a>
 </article>
 
 <article class="post-entry tag-entry"> 
@@ -311,12 +311,12 @@ public abstract class AbstractFactory { public abstract AbstractProductA createP
 public class ConcreteFactory1 extends AbstractFactory { @Override public AbstractProductA createProductA() { return new ProductA1(); } @Override public AbstractProductB createProductB() { return new ProductB1(); } } public class ConcreteFactory2 extends AbstractFactory { @Override public AbstractProductA createProductA() { return new ProductA2(); } @Override public AbstractProductB createProductB() { return new ProductB2(); } } AbstractProduct类...</p>
   </div>
   <footer class="entry-footer"><span title='2013-07-29 16:56:00 +0800 CST'>July 29, 2013</span></footer>
-  <a class="entry-link" aria-label="post link to 设计模式学习-抽象工厂（Abstract Factory）" href="https://dev.qiwei.dev/posts/coding/design-patterns/design-patterns-abstract-factory/"></a>
+  <a class="entry-link" aria-label="post link to 设计模式学习-抽象工厂（Abstract Factory）" href="https://blog.qiwei.dev/posts/coding/design-patterns/design-patterns-abstract-factory/"></a>
 </article>
     </main>
     
 <footer class="footer">
-    <span>&copy; 2023 <a href="https://dev.qiwei.dev/">我的博客</a></span>
+    <span>&copy; 2023 <a href="https://blog.qiwei.dev/">我的博客</a></span>
     <span>
         Powered by
         <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
