@@ -147,6 +147,19 @@
 
 <article class="post-entry"> 
   <header class="entry-header">
+    <h2>用apache的ant解压zip文件（中文文件或文件夹解决方法）
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>昨天在研究用apache的ant包来解压zip文件，把经验写下来与大家分享。 写贴上代码
+package upzip; import java.io.File; import java.io.FileOutputStream; import java.io.InputStream; import org.apache.tools.zip.*; import java.util.Enumeration; /** * 压缩解压ZIP文件 * @author Administrator * */ public class AntZip { private ZipFile zipFile; private static int bufSize; //size of bytes private byte[] buf; private int readedBytes; /** * * @param bufSize 缓存大小 */ public AntZip(int bufSize){ this.bufSize = bufSize; this.buf = new byte[this.bufSize]; } public AntZip(){ this(1024); } /** * 生存目录 * @param directory 解压文件存放目录 * @param subDirectory 子目录（没有时可传入空字符串） */ private void createDirectory(String directory, String subDirectory) { String dir[]; File fl = new File(directory); try { if(subDirectory == &#34;&#34; &amp;&amp; fl....</p>
+  </div>
+  <footer class="entry-footer"><span title='2011-03-04 12:01:00 +0800 CST'>March 4, 2011</span></footer>
+  <a class="entry-link" aria-label="post link to 用apache的ant解压zip文件（中文文件或文件夹解决方法）" href="https://blog.qiwei.dev/posts/coding/apache-ant-unzip-chinese/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
     <h2>ClientAbortException: java.net.SocketException:”异常的问题
     </h2>
   </header>

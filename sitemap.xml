@@ -2,28 +2,37 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://blog.qiwei.dev/tags/ddd/</loc>
+    <lastmod>2023-06-13T12:54:34+08:00</lastmod>
+  </url><url>
+    <loc>https://blog.qiwei.dev/posts/arch/ddd-gossip/</loc>
+    <lastmod>2023-06-13T12:54:34+08:00</lastmod>
+  </url><url>
+    <loc>https://blog.qiwei.dev/posts/</loc>
+    <lastmod>2023-06-13T12:54:34+08:00</lastmod>
+  </url><url>
+    <loc>https://blog.qiwei.dev/tags/</loc>
+    <lastmod>2023-06-13T12:54:34+08:00</lastmod>
+  </url><url>
+    <loc>https://blog.qiwei.dev/</loc>
+    <lastmod>2023-06-13T12:54:34+08:00</lastmod>
+  </url><url>
+    <loc>https://blog.qiwei.dev/tags/%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1/</loc>
+    <lastmod>2023-06-13T12:54:34+08:00</lastmod>
+  </url><url>
     <loc>https://blog.qiwei.dev/about/</loc>
     <lastmod>2023-06-01T14:12:43+08:00</lastmod>
   </url><url>
     <loc>https://blog.qiwei.dev/tags/feign/</loc>
     <lastmod>2019-06-28T15:43:46+08:00</lastmod>
   </url><url>
-    <loc>https://blog.qiwei.dev/posts/</loc>
-    <lastmod>2019-06-28T15:43:46+08:00</lastmod>
-  </url><url>
     <loc>https://blog.qiwei.dev/tags/spring-cloud/</loc>
-    <lastmod>2019-06-28T15:43:46+08:00</lastmod>
-  </url><url>
-    <loc>https://blog.qiwei.dev/tags/</loc>
     <lastmod>2019-06-28T15:43:46+08:00</lastmod>
   </url><url>
     <loc>https://blog.qiwei.dev/tags/zuul/</loc>
     <lastmod>2019-06-28T15:43:46+08:00</lastmod>
   </url><url>
     <loc>https://blog.qiwei.dev/posts/coding/zuul-gateway-lost-auth-info/</loc>
-    <lastmod>2019-06-28T15:43:46+08:00</lastmod>
-  </url><url>
-    <loc>https://blog.qiwei.dev/</loc>
     <lastmod>2019-06-28T15:43:46+08:00</lastmod>
   </url><url>
     <loc>https://blog.qiwei.dev/tags/django/</loc>

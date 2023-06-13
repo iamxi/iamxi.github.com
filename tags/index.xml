@@ -6,7 +6,25 @@
     <description>Recent content in Tags on 我的博客</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Fri, 28 Jun 2019 15:43:46 +0800</lastBuildDate><atom:link href="https://blog.qiwei.dev/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 13 Jun 2023 12:54:34 +0800</lastBuildDate><atom:link href="https://blog.qiwei.dev/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>DDD</title>
+      <link>https://blog.qiwei.dev/tags/ddd/</link>
+      <pubDate>Tue, 13 Jun 2023 12:54:34 +0800</pubDate>
+      
+      <guid>https://blog.qiwei.dev/tags/ddd/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>领域驱动设计</title>
+      <link>https://blog.qiwei.dev/tags/%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1/</link>
+      <pubDate>Tue, 13 Jun 2023 12:54:34 +0800</pubDate>
+      
+      <guid>https://blog.qiwei.dev/tags/%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>Feign</title>
       <link>https://blog.qiwei.dev/tags/feign/</link>
