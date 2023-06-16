@@ -153,6 +153,29 @@
 
 <article class="post-entry"> 
   <header class="entry-header">
+    <h2>webpy源码阅读之HelloWorld
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>使用过Django和web.py，只是一直没有好好深入学习过，Django使用时间比较长，不过Django庞大了点，不适合我这种没耐心的人去学习，所以选择了web.py。
+Hello World! 先看下web.py官方cookbook的“Hello World!”例子
+import web urls = (&#34;/.*&#34;), &#34;hello&#34;) app = web.application(urls, globals()) class hello: def GET(self): return &#39;Hello, world!&#39; if __name__ == &#34;__main__&#34;: app.run() 在例子中可以看到app.run()是启动了服务，而app的是application的一个实例，初始化工作是web.application(urls, globals())，就拿这个做入口，来看下application类的源码吧。
+初始化 初始化的流程：
+初始化mapping 把_load和_unload变成钩子加入到processors 把Reloader和reload_mapping变成钩子加入到processors 载入main所在模块 init的参数有三个，第一个mapping，上面例子中的urls；第二个fvars，例子中的globals()，globals()是python自带的一个函数，其返回值是全局名字空间，包括了函数、类、导入模块等等，是一个字典类型；第三个autoreload，是否允许自动重新载入。
+mapping初始化 self.init_mapping(mapping) def init_mapping(self, mapping): self.mapping = list(utils.group(mapping, 2)) 最后mapping的形式会是[[‘1’,‘2’],[‘1’,‘2’]]这样，这边就可以理解urls列表的样式了。
+_load和_unload变成钩子加入到processors 关于钩子和处理器详见官网。
+self.add_processor(loadhook(self._load)) self.add_processor(unloadhook(self._unload)) loadhook函数的作用就是在执行其参数传入的函数前执行一些操作，unloadhook则是在其后执行一些操作。这两个都类似于python的decorator。而_load和_unload则是将application实例本身加入web.ctx.app_stack或从其中移除。
+如果autoreload不为True则初始化就到此为止了。在初始化的时候，如果autoreload为None，则回去参数读取web.config内的debug的值，默认为False，所以如果autoreload参数没有传入，一般都是不会自动加载，后面操作不会再去进行了。
+Reloader和reload_mapping变成钩子加入到processors 和第二步相似，reload_mapping就是用来从新载入主的app，并初始化mapping。而Reloader则是在检查磁盘上任何模块是否有变化，如果有则重新加载。
+重新import 通过main获取主app所在的模块名称和所在文件名，然后通过文件名重新import。这步还是简单的，不过代码值得一看，可以学好如sys.modules、getattr()及__import__()的用法。
+启动服务 def run(self, *middleware): return wsgi.runwsgi(self.wsgifunc(*middleware)) run函数调用wsgi模块的runwsgi函数，在hello world中就是启动一个http simple服务。具体内容等看到wsgi模块和httpserver模块再说了。</p>
+  </div>
+  <footer class="entry-footer"><span title='2014-04-03 11:21:00 +0800 CST'>April 3, 2014</span></footer>
+  <a class="entry-link" aria-label="post link to webpy源码阅读之HelloWorld" href="https://blog.qiwei.dev/posts/coding/webpy-source-helloworld/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
     <h2>推荐程序员阅读的书籍 -- 编程实践
     </h2>
   </header>
@@ -339,27 +362,6 @@ private int size; size为ArrayList内的数据数量，但并不是elementData�
   </div>
   <footer class="entry-footer"><span title='2013-08-14 15:11:00 +0800 CST'>August 14, 2013</span></footer>
   <a class="entry-link" aria-label="post link to Java源码解读——ArrayList" href="https://blog.qiwei.dev/posts/coding/java-source-arraylist/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2>编写可读代码的艺术-代码应当易于理解
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>虽说我编程也有五年了，不过很多细节的东西还是不够注意。关于别人是否能读懂自己所写的代码，这个问题的确很少在平常的开发中想过，即使有过这个念头，最多的也就是考虑下代码的结构清晰，这有助于减少BUG，方便阅读。至于其他相关的就比较少解除了，或是完全没有概念。之前学习过变量和函数的命名，不过实际中很少考虑，命名很是随意。读这书是希望提高下自己的代码质量，当然个人认为代码的可读、整洁、优美是代码质量的一部分。
-可读性基本定理 定理：代码的写法应当是别人理解它所需的时间最小化
-找一个同事，测试下他读自己代码并理解它所需要的时间，这个“理解代码时间”就是最小化的理论度量。并且这个“理解”有很高的标准，真的完全理解所看的代码的话，就能改动它、找出缺陷并明白它是如何与代码的其他部分交互的。
-总是越小越好吗 从代码数量上来看，越少的代码，阅读和理解的速度就应该越快，但这不是必然，少的代码并不总是更好，如：
-assert((!(bucket = FindBucket(key))) || !bucket-&gt;IsOccupied()); 相比
-bucket = FindBucket(key); if (bucket != NULL) assert(!bucket-&gt;IsOccupied()); 前者理解起来比后者两行代码所花的时间更多。
-有时候一条适合的注释可以让阅读着更快地理解代码，尽管增加了长度。
-理解代码所需的时间是否与其他目标有冲突 这里说的其他目标包括优化、架构、测试等。不过答案是否定的，这些根本不会相互影响。更多的介绍会在后面章节提到。
-最难的部分 是的，最难的部分是让养成一个在编码时考虑如何让他人更容易理解你的代码的习惯。这不光需要时间去适应，而且需要一定的毅力。开发过程中各种情况都会让你放弃这种想法，比如进度、他人代码的质量等。
-如果你是个新手，说真的，这书值得去看。在日常的工作中，去理解他人代码或是他人来阅读你的代码的情景时常有。甚至自己也会忘记自己所写代码的含义，一周或一个月后再去看自己的代码，都觉得那么陌生。项目的维护时间远多余开发，当后期需要再次开发或修改BUG的时候，那些好的、易于理解的代码将大大节省时间。所以编写可读代码不经方便他人，还能提高自身的工作效率。</p>
-  </div>
-  <footer class="entry-footer"><span title='2013-08-09 17:12:00 +0800 CST'>August 9, 2013</span></footer>
-  <a class="entry-link" aria-label="post link to 编写可读代码的艺术-代码应当易于理解" href="https://blog.qiwei.dev/posts/coding/the-art-of-readable-code/"></a>
 </article>
 <footer class="page-footer">
   <nav class="pagination">

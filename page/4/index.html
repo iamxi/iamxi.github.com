@@ -147,6 +147,23 @@
 
 <article class="post-entry"> 
   <header class="entry-header">
+    <h2>设计模式学习-生成器（Builder）
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>用来构建复杂的实例，java的StringBuilder就是一个Builder模式的例子。
+意图： 将一个复杂对象的构建与它的表示分离，使得同样的构建过程可以创建不同的表示
+结构： 代码示例： Builder类
+public abstract class Builder { protected String product; public Builder() { product = new String(&#34;&#34;); } public void buildPart(String part) { //默认空实现 } public String getResult() { return product; } } ConcreteBuilder类
+public class ConcreteBuilder extends Builder { @Override public void buildPart(String part) { product &#43;= part; } } Director类
+public class Director { private Builder builder; public Director(Builder builder) { this.builder = builder; } public void Construct() { for (int i = 0; i &lt; 10; i&#43;&#43;) { builder....</p>
+  </div>
+  <footer class="entry-footer"><span title='2013-07-30 15:56:00 +0800 CST'>July 30, 2013</span></footer>
+  <a class="entry-link" aria-label="post link to 设计模式学习-生成器（Builder）" href="https://blog.qiwei.dev/posts/coding/design-patterns/design-patterns-builder/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
     <h2>设计模式学习-抽象工厂（Abstract Factory）
     </h2>
   </header>
@@ -297,25 +314,6 @@ public void method1(String... arg1) { System.out.println(&#34;1&#34;); } public 
   </div>
   <footer class="entry-footer"><span title='2011-11-03 21:41:00 +0800 CST'>November 3, 2011</span></footer>
   <a class="entry-link" aria-label="post link to Hibernate获取返回值报XXX connot be cast to [Ljava.lang.Object" href="https://blog.qiwei.dev/posts/coding/hibernate-cannot-cast/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2>itext中文本的绝对位置放置
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>text中表格可以使用
-table.writeSelectedRows(0, -1, x, y, writer.getDirectContent()); 来实现绝对位置放置。那文本段落呢…
-当我们不需要itext对每个单词、句子、段落实现自动格式的时候，或是想使用特殊布局，就可以使用PdfContentByte来实现绝对位置放置。
-PdfContentByte的初始化：
-PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(&#34;test.pdf&#34;)); PdfContentByte cb = writer.DirectContent; 将文本写入ContentByte中时，必须使用方法beginText()和endText()，同时也必须设置字体和尺寸。有两种方法来写入和放置文本。
-方法一：
-BaseFont bf = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.NOT_EMBEDDED); cb.beginText(); cb.setFontAndSize(bf, 12); cb.showTextAligned(PdfContentByte.ALIGN_CENTER, text &#43; &#34;This text is centered&#34;, 250, 700, 0); cb.endText(); 方法二：
-BaseFont bf = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.NOT_EMBEDDED); cb.beginText(); cb.setFontAndSize(bf, 12); cb.setTextMatrix(100, 400); cb.showText(&#34;Text at position 100,400.&#34;); cb.endText(); </p>
-  </div>
-  <footer class="entry-footer"><span title='2011-05-12 12:02:00 +0800 CST'>May 12, 2011</span></footer>
-  <a class="entry-link" aria-label="post link to itext中文本的绝对位置放置" href="https://blog.qiwei.dev/posts/coding/itext-absolute-position/"></a>
 </article>
 <footer class="page-footer">
   <nav class="pagination">

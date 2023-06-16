@@ -153,6 +153,27 @@
 
 <article class="post-entry"> 
   <header class="entry-header">
+    <h2>编写可读代码的艺术-代码应当易于理解
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>虽说我编程也有五年了，不过很多细节的东西还是不够注意。关于别人是否能读懂自己所写的代码，这个问题的确很少在平常的开发中想过，即使有过这个念头，最多的也就是考虑下代码的结构清晰，这有助于减少BUG，方便阅读。至于其他相关的就比较少解除了，或是完全没有概念。之前学习过变量和函数的命名，不过实际中很少考虑，命名很是随意。读这书是希望提高下自己的代码质量，当然个人认为代码的可读、整洁、优美是代码质量的一部分。
+可读性基本定理 定理：代码的写法应当是别人理解它所需的时间最小化
+找一个同事，测试下他读自己代码并理解它所需要的时间，这个“理解代码时间”就是最小化的理论度量。并且这个“理解”有很高的标准，真的完全理解所看的代码的话，就能改动它、找出缺陷并明白它是如何与代码的其他部分交互的。
+总是越小越好吗 从代码数量上来看，越少的代码，阅读和理解的速度就应该越快，但这不是必然，少的代码并不总是更好，如：
+assert((!(bucket = FindBucket(key))) || !bucket-&gt;IsOccupied()); 相比
+bucket = FindBucket(key); if (bucket != NULL) assert(!bucket-&gt;IsOccupied()); 前者理解起来比后者两行代码所花的时间更多。
+有时候一条适合的注释可以让阅读着更快地理解代码，尽管增加了长度。
+理解代码所需的时间是否与其他目标有冲突 这里说的其他目标包括优化、架构、测试等。不过答案是否定的，这些根本不会相互影响。更多的介绍会在后面章节提到。
+最难的部分 是的，最难的部分是让养成一个在编码时考虑如何让他人更容易理解你的代码的习惯。这不光需要时间去适应，而且需要一定的毅力。开发过程中各种情况都会让你放弃这种想法，比如进度、他人代码的质量等。
+如果你是个新手，说真的，这书值得去看。在日常的工作中，去理解他人代码或是他人来阅读你的代码的情景时常有。甚至自己也会忘记自己所写代码的含义，一周或一个月后再去看自己的代码，都觉得那么陌生。项目的维护时间远多余开发，当后期需要再次开发或修改BUG的时候，那些好的、易于理解的代码将大大节省时间。所以编写可读代码不经方便他人，还能提高自身的工作效率。</p>
+  </div>
+  <footer class="entry-footer"><span title='2013-08-09 17:12:00 +0800 CST'>August 9, 2013</span></footer>
+  <a class="entry-link" aria-label="post link to 编写可读代码的艺术-代码应当易于理解" href="https://blog.qiwei.dev/posts/coding/the-art-of-readable-code/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
     <h2>霸王别姬-人生一场戏
     </h2>
   </header>
@@ -320,23 +341,6 @@ public class ConcreteCreator extends Creator { @Override protected Product facto
   </div>
   <footer class="entry-footer"><span title='2013-07-30 16:21:00 +0800 CST'>July 30, 2013</span></footer>
   <a class="entry-link" aria-label="post link to 设计模式学习-工厂方法（Factory Method）" href="https://blog.qiwei.dev/posts/coding/design-patterns/design-patterns-factory-method/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2>设计模式学习-生成器（Builder）
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>用来构建复杂的实例，java的StringBuilder就是一个Builder模式的例子。
-意图： 将一个复杂对象的构建与它的表示分离，使得同样的构建过程可以创建不同的表示
-结构： 代码示例： Builder类
-public abstract class Builder { protected String product; public Builder() { product = new String(&#34;&#34;); } public void buildPart(String part) { //默认空实现 } public String getResult() { return product; } } ConcreteBuilder类
-public class ConcreteBuilder extends Builder { @Override public void buildPart(String part) { product &#43;= part; } } Director类
-public class Director { private Builder builder; public Director(Builder builder) { this.builder = builder; } public void Construct() { for (int i = 0; i &lt; 10; i&#43;&#43;) { builder....</p>
-  </div>
-  <footer class="entry-footer"><span title='2013-07-30 15:56:00 +0800 CST'>July 30, 2013</span></footer>
-  <a class="entry-link" aria-label="post link to 设计模式学习-生成器（Builder）" href="https://blog.qiwei.dev/posts/coding/design-patterns/design-patterns-builder/"></a>
 </article>
 <footer class="page-footer">
   <nav class="pagination">
