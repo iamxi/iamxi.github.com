@@ -147,6 +147,24 @@
 
 <article class="post-entry"> 
   <header class="entry-header">
+    <h2>Java源码解读——ArrayList
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>为了提高自己的Java开发能力，我也向高手、牛人学习，去解读源码。自己底子差了点，不过看个源码还是没问题的。第一站ArrayList。
+源码为Java 1.7的源码
+ArrayList是一个实现可变长数组，继承AbstractList类，实现所有的List接口，还实现了RandomAccess、Cloneable、Serializable接口。ArrayList不进行同步，除此之外基本和Vector等同。
+1、成员变量 private transient Object[] elementData; elementData用于保存数据的数组。
+private int size; size为ArrayList内的数据数量，但并不是elementData的长度。
+2、构造方法 public ArrayList(int initialCapacity) { super(); if (initialCapacity &lt; 0) throw new IllegalArgumentException(&#34;Illegal Capacity: &#34;&#43; initialCapacity); this.elementData = new Object[initialCapacity]; } public ArrayList() { this(10); } public ArrayList(Collection&lt;? extends E&gt; c) { elementData = c.toArray(); size = elementData.length; if (elementData.getClass() != Object[].class) elementData = Arrays.copyOf(elementData, size, Object[].class); } 第一个是根据指定长度建立List，第二个是根据默认长度建立List，第三个根据传入Collection子类实例创建List。通过第三个实例看到Collection子类都会实现toArray()方法，可以看出至少很多Collection子类依赖于数组来实现（还没看过其他的集合实现，这只是我的妄言而已）。
+3、add方法 public boolean add(E e) { ensureCapacityInternal(size &#43; 1); elementData[size&#43;&#43;] = e; return true; } 该方法在数组最后添加一个元素。ensureCapacityInternal方法提供了ArrayList的自增长实现，以确保elementData有足够的长度来容纳新进入的元素（后面介绍自增长的实现）。...</p>
+  </div>
+  <footer class="entry-footer"><span title='2013-08-14 15:11:00 +0800 CST'>August 14, 2013</span></footer>
+  <a class="entry-link" aria-label="post link to Java源码解读——ArrayList" href="https://blog.qiwei.dev/posts/coding/java-source-arraylist/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
     <h2>编写可读代码的艺术-代码应当易于理解
     </h2>
   </header>
@@ -314,27 +332,6 @@ Singleton类可以有子类，而且用这个扩展类的实例来配置一个�
   </div>
   <footer class="entry-footer"><span title='2013-07-30 17:23:00 +0800 CST'>July 30, 2013</span></footer>
   <a class="entry-link" aria-label="post link to 设计模式学习-原型（Prototype）" href="https://blog.qiwei.dev/posts/coding/design-patterns/design-patterns-prototype/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2>设计模式学习-工厂方法（Factory Method）
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>意图： 定义一个用于创建对象的接口，让子类决定实例化哪一个类。 Factory Method使一个类的实例化延迟到其子类。
-别名： 虚构造器（Virtual Constructor）
-结构： Product
-— 定义工厂方法所创建的对象的接口。 ConcreteProduct
-— 实现Productt接口。 Creator
-— 声明工厂方法，该方法返回一个 Product类型的对象。Creator也可以定义一个工厂方法的缺省实现，它返回一个缺省的 ConcreteProduct对象。 ConcreteProduct对象 — 可以调用工厂方法以创建一个Product对象。 ConcreteCreator
-— 重定义工厂方法以返回一个ConcreteProduct实例。 代码示例： Creator类
-public abstract class Creator { protected abstract Product factoryMethod(); public void anOperation() { Product product = factoryMethod(); //do some thing } } ConcreteCreator类
-public class ConcreteCreator extends Creator { @Override protected Product factoryMethod() { return new ConcreteProduct(); } } 问题： 可能仅为了创建适当的 Product对象而迫使你创建Creator子类。
-适用性： 一个系统要独立于它的产品的创建、组合和表示时。 一个系统要由多个产品系列中的一个来配置时。 当你要强调一系列相关的产品对象的设计以便进行联合使用时。 当你提供一个产品类库，而只想显示它们的接口而不是实现时。 相关模式： Abstract Factory经常用工厂方法来实现； 工厂方法通常在Template Method中被调用； Prototype不需要创建Creator的子类。但是，它们通常要求一个针对Product类的Initialize操作。Creator使用Initialize来初始化对象。而Factory Method不需要这样的操作。 </p>
-  </div>
-  <footer class="entry-footer"><span title='2013-07-30 16:21:00 +0800 CST'>July 30, 2013</span></footer>
-  <a class="entry-link" aria-label="post link to 设计模式学习-工厂方法（Factory Method）" href="https://blog.qiwei.dev/posts/coding/design-patterns/design-patterns-factory-method/"></a>
 </article>
 <footer class="page-footer">
   <nav class="pagination">

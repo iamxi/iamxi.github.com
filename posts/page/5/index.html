@@ -153,6 +153,20 @@
 
 <article class="post-entry"> 
   <header class="entry-header">
+    <h2>Hibernate获取返回值报XXX connot be cast to [Ljava.lang.Object
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>今天在测试时候发现在获取Hibernate返回数据时候报 java.math.BigDecimal cannot be cast to \[Ljava.lang.Object 异常，但是查看了代码，很简单也很平常，createNativeQuery执行，getResultList获取结果集，每行都用Object[]类型。调试时候发现返回结果集为[2]，也就是就一行且一个。也就是说，每行的类型不再是 Object[]。
+按以往， getResultList 的返回是一个 List(Object\[\])，当如果返回只有一个，比如1或2是，类型就变成了该数据库字段所对应的类型，在我这里就是BigDecimal。
+真是不明白，多个就是Object[]，一个就变成不是数组了。 Hibernate莫名其妙啊。发下牢骚。。。</p>
+  </div>
+  <footer class="entry-footer"><span title='2011-11-03 21:41:00 +0800 CST'>November 3, 2011</span></footer>
+  <a class="entry-link" aria-label="post link to Hibernate获取返回值报XXX connot be cast to [Ljava.lang.Object" href="https://blog.qiwei.dev/posts/coding/hibernate-cannot-cast/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
     <h2>itext中文本的绝对位置放置
     </h2>
   </header>

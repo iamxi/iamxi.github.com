@@ -147,6 +147,21 @@
 
 <article class="post-entry"> 
   <header class="entry-header">
+    <h2>Spring4定时任务的注解配置
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>不想写繁琐的xml文件，所以试着用Spring的注解来配置定时任务。按网上好多写的那样，使用@Scheduled注解：
+@Scheduled(fixedRate=5000) public void doSomething() { // something that should execute periodically } 但是怎么也无法让定时任务跑起来。最后无奈，只有去官网看英语了。
+原来，还需要有一个允许定时任务的注解，放在一个有@configuration注解类中。
+@Configuration @EnableAsync @EnableScheduling public class AppConfig { } 其中，@EnableAsysnc是允许异步任务。至于@Configuration的说明，见Spring的最新文档。</p>
+  </div>
+  <footer class="entry-footer"><span title='2014-11-03 22:57:00 +0800 CST'>November 3, 2014</span></footer>
+  <a class="entry-link" aria-label="post link to Spring4定时任务的注解配置" href="https://blog.qiwei.dev/posts/coding/spring-scheduling-annotation-support/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
     <h2>webpy源码阅读之HelloWorld
     </h2>
   </header>
@@ -338,24 +353,6 @@ static的一些使用注意事项： 1、静态方法只能调用同类中的其
   </div>
   <footer class="entry-footer"><span title='2013-08-21 10:43:00 +0800 CST'>August 21, 2013</span></footer>
   <a class="entry-link" aria-label="post link to Java静态代码块（static{}）" href="https://blog.qiwei.dev/posts/coding/java-static-code-block/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2>Java源码解读——ArrayList
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>为了提高自己的Java开发能力，我也向高手、牛人学习，去解读源码。自己底子差了点，不过看个源码还是没问题的。第一站ArrayList。
-源码为Java 1.7的源码
-ArrayList是一个实现可变长数组，继承AbstractList类，实现所有的List接口，还实现了RandomAccess、Cloneable、Serializable接口。ArrayList不进行同步，除此之外基本和Vector等同。
-1、成员变量 private transient Object[] elementData; elementData用于保存数据的数组。
-private int size; size为ArrayList内的数据数量，但并不是elementData的长度。
-2、构造方法 public ArrayList(int initialCapacity) { super(); if (initialCapacity &lt; 0) throw new IllegalArgumentException(&#34;Illegal Capacity: &#34;&#43; initialCapacity); this.elementData = new Object[initialCapacity]; } public ArrayList() { this(10); } public ArrayList(Collection&lt;? extends E&gt; c) { elementData = c.toArray(); size = elementData.length; if (elementData.getClass() != Object[].class) elementData = Arrays.copyOf(elementData, size, Object[].class); } 第一个是根据指定长度建立List，第二个是根据默认长度建立List，第三个根据传入Collection子类实例创建List。通过第三个实例看到Collection子类都会实现toArray()方法，可以看出至少很多Collection子类依赖于数组来实现（还没看过其他的集合实现，这只是我的妄言而已）。
-3、add方法 public boolean add(E e) { ensureCapacityInternal(size &#43; 1); elementData[size&#43;&#43;] = e; return true; } 该方法在数组最后添加一个元素。ensureCapacityInternal方法提供了ArrayList的自增长实现，以确保elementData有足够的长度来容纳新进入的元素（后面介绍自增长的实现）。...</p>
-  </div>
-  <footer class="entry-footer"><span title='2013-08-14 15:11:00 +0800 CST'>August 14, 2013</span></footer>
-  <a class="entry-link" aria-label="post link to Java源码解读——ArrayList" href="https://blog.qiwei.dev/posts/coding/java-source-arraylist/"></a>
 </article>
 <footer class="page-footer">
   <nav class="pagination">

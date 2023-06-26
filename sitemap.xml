@@ -2,19 +2,22 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://blog.qiwei.dev/posts/</loc>
+    <lastmod>2023-06-26T16:04:36+08:00</lastmod>
+  </url><url>
+    <loc>https://blog.qiwei.dev/posts/other/thinking-about-project-speedup/</loc>
+    <lastmod>2023-06-26T16:04:36+08:00</lastmod>
+  </url><url>
+    <loc>https://blog.qiwei.dev/</loc>
+    <lastmod>2023-06-26T16:04:36+08:00</lastmod>
+  </url><url>
     <loc>https://blog.qiwei.dev/tags/ddd/</loc>
     <lastmod>2023-06-14T13:04:51+08:00</lastmod>
   </url><url>
     <loc>https://blog.qiwei.dev/posts/arch/ddd-easy-using/</loc>
     <lastmod>2023-06-14T13:04:51+08:00</lastmod>
   </url><url>
-    <loc>https://blog.qiwei.dev/posts/</loc>
-    <lastmod>2023-06-14T13:04:51+08:00</lastmod>
-  </url><url>
     <loc>https://blog.qiwei.dev/tags/</loc>
-    <lastmod>2023-06-14T13:04:51+08:00</lastmod>
-  </url><url>
-    <loc>https://blog.qiwei.dev/</loc>
     <lastmod>2023-06-14T13:04:51+08:00</lastmod>
   </url><url>
     <loc>https://blog.qiwei.dev/tags/%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1/</loc>
