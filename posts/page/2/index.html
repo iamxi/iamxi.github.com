@@ -153,6 +153,22 @@
 
 <article class="post-entry"> 
   <header class="entry-header">
+    <h2>SpringMVC没有拦截根路径的问题
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>在开发tomcat &#43; spring mvc的web工程时候，发现在controller中配置的根路劲不会被拦截到，或者说前段返回的根本就不是controller中所配置的。比如，我在controller中配置根路径的返回为一个欢迎页面：
+@RequestMapping(value = &#34;/&#34;, method = RequestMethod.GET) public ModelAndView main() { ModelAndView mv = new ModelAndView(&#34;main&#34;); return mv; } 但访问“http://localhost:8080/project_name/”，返回的却是404.
+在对该单元测试中，对根路径的访问等得到了正确的结果，这证明spring的配置是正确的。于是乎想起来web.xml中的配置可能存在为题，自然最有可能有问题的是web.xml对默认页面的设置了。及welcome-file-list。但是自己并没有配置这个。后来看了tomcat官网对tomcat目录下conf/web.xml的说明才知道，原来此处的web.xml中的配置将被当作默认配置，而部署的工程内的web.xml中的配置会覆盖默认配置，但是如果向我那样没有配置welcome-file-list，那么就会使用默认的了。为此当访问根目录的时候，tomcat试图去寻找默认的index.html等资源，而不是把请求交给spring的拦截器。
+知道了这些，解决问的就简单了，直接修改工程下的web.xml，加入如下配置：
+&lt;welcome-file-list&gt; &lt;welcome-file&gt;&lt;/welcome-file&gt; &lt;/welcome-file-list&gt; 这样就配置后，tomcat就知道不需要对根路径的访问做处理了，而将请求交给了spring的拦截器。</p>
+  </div>
+  <footer class="entry-footer"><span title='2014-12-02 15:22:00 +0800 CST'>December 2, 2014</span></footer>
+  <a class="entry-link" aria-label="post link to SpringMVC没有拦截根路径的问题" href="https://blog.qiwei.dev/posts/coding/springmvc-cant-fiter-root-url/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
     <h2>Spring4定时任务的注解配置
     </h2>
   </header>
@@ -339,26 +355,6 @@ INSTALLED_APPS = ( &#39;django.contrib.auth&#39;, &#39;django.contrib.contenttyp
   </div>
   <footer class="entry-footer"><span title='2013-08-29 17:01:00 +0800 CST'>August 29, 2013</span></footer>
   <a class="entry-link" aria-label="post link to Django基础入门" href="https://blog.qiwei.dev/posts/coding/django-study-start/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2>Java静态代码块（static{}）
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>静态代码块：即在类中的标有static修饰符的代码块，如：
-static { } 与一般代码块的异同： 相同点：都是在JVM加载类时且在构造方法执行之前执行，在类中都可以定义多个，一般在代码块中对一些static变量进行赋值。
-不同点：静态代码块在非静态代码块之前执行。静态代码块只在第一次new执行一次，之后不再执行，而非静态代码块在每new一次就执行一次。非静态代码块可在普通方法中定义；而静态代码块不行。
-与静态方法的区别： 静态代码块在第一次初始化的时候被执行，静态方法在类加载的时候被加载，且必须需要主动调用才会执行。
-执行顺序相关： 1、单个类的初始化顺序如下：为静态属性分配内存并赋值-&gt;执行静态代码块-&gt;为非静态属性分配内存并赋值-&gt;执行非静态代码块-&gt;构造函数。
-2、有继承关系的类的初始化顺序如下：父静属-&gt;父静块-&gt;子静属-&gt;子静块-&gt;父非静属-&gt;父非静块-&gt;父构造-&gt;子非静属-&gt;子非静块-&gt;子构造。
-static的一些使用注意事项： 1、静态方法只能调用同类中的其他静态成员（静态方法或是静态变量）。
-2、静态方法不能使用this和super。因为静态方法不属于任何实例。
-3、静态变量属于整个类，在类的方法中不能定义静态方法。</p>
-  </div>
-  <footer class="entry-footer"><span title='2013-08-21 10:43:00 +0800 CST'>August 21, 2013</span></footer>
-  <a class="entry-link" aria-label="post link to Java静态代码块（static{}）" href="https://blog.qiwei.dev/posts/coding/java-static-code-block/"></a>
 </article>
 <footer class="page-footer">
   <nav class="pagination">
