@@ -10,7 +10,7 @@
 <meta name="description" content="">
 <meta name="author" content="">
 <link rel="canonical" href="https://blog.qiwei.dev/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.3613efbd0b1772781e8f49935e973cae632a7f61471c05b17be155505ccf87b5.css" integrity="sha256-NhPvvQsXcngej0mTXpc8rmMqf2FHHAWxe&#43;FVUFzPh7U=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bf5f9f73cf17311d52cedbcda82c922e91b2f566d88a85ad9f5b5a08b586bd5f.css" integrity="sha256-v1&#43;fc88XMR1SztvNqCySLpGy9WbYioWtn1taCLWGvV8=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://blog.qiwei.dev/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://blog.qiwei.dev/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="https://blog.qiwei.dev/favicon-32x32.png">
@@ -144,7 +144,7 @@
   <div class="entry-content">
     <p>意图： 将对象组合成树形结构以表示“部分-整体”的层次结构。Composite使得用户对单个对象和组合对象的使用具有一致性。
 结构： 参与者
-Component(Graphic) 为组合中的对象声明接口。 在适当的情况下，实现所有类共有接口的缺省行为。 (可选)在递归结构中定义一个接口，用于访问一个父部件，并在合适的情况下实现它。 Leaf(Rectangle、Line、Text等) 在组合中表示叶节点对象，叶节点没有子节点。 在组合中定义图元对象的行为。 Composite(Picture) 定义有子部件的那些部件的行为。 存储子部件。 在Component接口中实现与子部件有关的操作。 Client 通过Component接口操纵组合部件的对象。 代码示例： Component
+Component(Graphic)为组合中的对象声明接口。在适当的情况下，实现所有类共有接口的缺省行为。(可选)在递归结构中定义一个接口，用于访问一个父部件，并在合适的情况下实现它。Leaf(Rectangle、Line、Text等)在组合中表示叶节点对象，叶节点没有子节点。在组合中定义图元对象的行为。Composite(Picture)定义有子部件的那些部件的行为。存储子部件。在Component接口中实现与子部件有关的操作。Client通过Component接口操纵组合部件的对象。代码示例： Component
 public interface Component { public void operation(); public void add(Component item); void remove(Component item); public Component getChild(int i); } Composite
 public class Composite implements Component { private List&lt;Component&gt; children = new ArrayList&lt;Component&gt;(); @Override public void operation() { for (Component child : children) { child.operation(); } } @Override public void add(Component item) { this....</p>
   </div>
@@ -180,10 +180,10 @@ private static ConcurrentHashMap&lt;String, AbstractMsgSendServiceImpl&gt; messa
 结构 参与者
 Abstraction
 — 定义抽象类的接口。
-— 维护一个指向Implementor类型对象的指针。 RefinedAbstraction
-— 扩充由Abstraction定义的接口。 Implementor
-— 定义实现类的接口，该接口不一定要与Abstraction的接口完全一致；事实上这两个接口可以完全不同。一般来讲，Implementor接口仅提供基本操作，而Abstraction则定义了基于这些基本操作的较高层次的操作。 ConcreteImplementor
-— 实现Implementor接口并定义它的具体实现。 示例代码： public abstract class Abstraction { private Implementor impl; public Implementor getImpl() { return impl; } public void setImpl(Implementor impl) { this.impl = impl; } public Abstraction(Implementor impl) { this.impl = impl; } public abstract void operation(); } public class RefinedAbstraction extends Abstraction { public RefinedAbstraction(Implementor impl) { super(impl); } @Override public void operation() { getImpl()....</p>
+— 维护一个指向Implementor类型对象的指针。RefinedAbstraction
+— 扩充由Abstraction定义的接口。Implementor
+— 定义实现类的接口，该接口不一定要与Abstraction的接口完全一致；事实上这两个接口可以完全不同。一般来讲，Implementor接口仅提供基本操作，而Abstraction则定义了基于这些基本操作的较高层次的操作。ConcreteImplementor
+— 实现Implementor接口并定义它的具体实现。示例代码： public abstract class Abstraction { private Implementor impl; public Implementor getImpl() { return impl; } public void setImpl(Implementor impl) { this.impl = impl; } public Abstraction(Implementor impl) { this.impl = impl; } public abstract void operation(); } public class RefinedAbstraction extends Abstraction { public RefinedAbstraction(Implementor impl) { super(impl); } @Override public void operation() { getImpl()....</p>
   </div>
   <footer class="entry-footer"><span title='2013-07-31 13:44:00 +0800 CST'>July 31, 2013</span></footer>
   <a class="entry-link" aria-label="post link to 设计模式学习-桥接模式（Bridge）" href="https://blog.qiwei.dev/posts/coding/design-patterns/design-patterns-bridge/"></a>
@@ -253,10 +253,10 @@ Singleton类可以有子类，而且用这个扩展类的实例来配置一个�
     <p>意图： 定义一个用于创建对象的接口，让子类决定实例化哪一个类。 Factory Method使一个类的实例化延迟到其子类。
 别名： 虚构造器（Virtual Constructor）
 结构： Product
-— 定义工厂方法所创建的对象的接口。 ConcreteProduct
-— 实现Productt接口。 Creator
-— 声明工厂方法，该方法返回一个 Product类型的对象。Creator也可以定义一个工厂方法的缺省实现，它返回一个缺省的 ConcreteProduct对象。 ConcreteProduct对象 — 可以调用工厂方法以创建一个Product对象。 ConcreteCreator
-— 重定义工厂方法以返回一个ConcreteProduct实例。 代码示例： Creator类
+— 定义工厂方法所创建的对象的接口。ConcreteProduct
+— 实现Productt接口。Creator
+— 声明工厂方法，该方法返回一个 Product类型的对象。Creator也可以定义一个工厂方法的缺省实现，它返回一个缺省的 ConcreteProduct对象。ConcreteProduct对象— 可以调用工厂方法以创建一个Product对象。ConcreteCreator
+— 重定义工厂方法以返回一个ConcreteProduct实例。代码示例： Creator类
 public abstract class Creator { protected abstract Product factoryMethod(); public void anOperation() { Product product = factoryMethod(); //do some thing } } ConcreteCreator类
 public class ConcreteCreator extends Creator { @Override protected Product factoryMethod() { return new ConcreteProduct(); } } 问题： 可能仅为了创建适当的 Product对象而迫使你创建Creator子类。
 适用性： 一个系统要独立于它的产品的创建、组合和表示时。 一个系统要由多个产品系列中的一个来配置时。 当你要强调一系列相关的产品对象的设计以便进行联合使用时。 当你提供一个产品类库，而只想显示它们的接口而不是实现时。 相关模式： Abstract Factory经常用工厂方法来实现； 工厂方法通常在Template Method中被调用； Prototype不需要创建Creator的子类。但是，它们通常要求一个针对Product类的Initialize操作。Creator使用Initialize来初始化对象。而Factory Method不需要这样的操作。 </p>

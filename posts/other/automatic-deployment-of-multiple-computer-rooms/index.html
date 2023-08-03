@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>多机房自动化部署 | 我的博客</title>
+<meta name="keywords" content="">
+<meta name="description" content="之前入职了一家小公司，接了一个任务，实现多机房的自动化部署。
+大致的情况如下：
+公司产品主要面向政府，产品大部分都部署政府的机房中； 有一套jinkens，但是只能实现公司自己机房的部署； 现在外部机房的部署要么靠开发登上去后手动传包部署，要么由运维代为操作； 政府机房连接困难，VPN&#43;二次验证&#43;堡垒机&#43;SSH，同时也不允许开放公网入口； 并没有采用任何云原生技术或容器技术。 从上述情况看，就VPN&#43;二次验证这一点，基本毙掉了大部分互联网公司的方案。网上能看到的方案，无论大厂还是小厂的，单机房还是多机房多活，基本都是自己机房，可控权限高。采用这些方案的话，就要设法实现VPN&#43;二次验证的自动化。面对不同政府机房不同VPN，这条路并不好走。
+我没有DevOps开发经验，对于运维自动化也了解很少，只能找了些工具作为参考。最后决定模仿SaltStack，做一个C/S结构的发布平台。在服务端，主要是流程控制，从发布计划到单次发布作业，流程标准化、可追溯、可视化。客户端采用轮询方式，主动去服务端获取发布作业，然后执行相关的部署工作。
+主动的轮询，客户端主动连接服务器，而不是服务器去连接客户端，这样政府机房服务器并不需要开放端口给外部使用。客户端通过公网访问服务端，也避开了VPN这一层。和SaltStack不同的是，我们的客户端在一个机房之部署一个，有一个客户端负载整个机房的部署任务。也是因为政府机房每台服务器都开放公网访问。客户端可以通过SSH连接每一台同机房服务器，类似于Ansible。C/S结构还有一个好处是以根据不同环境来做各种定制客户端，避免了服务端去适配。
+基本框架订好了，剩下的就是细节问题。应用部署文件需要传输，同时最近的启动参数、配置文件等都需要一并传输过去。为了实现回滚，还需要有一套备份机制。最后还要对应用状态做检查，确定部署是否成功。
+安全问题是一个坎，毕竟需要走公网，涉及数据传输，安全性就要求很高。有些对安全要求严格的政府机构可能就不允许这样的方案。
+我没等到这个方案落地就离开了这家公司，所以后面无法在具体实现上跟进了。这里只算是记录了初步设想。">
+<meta name="author" content="">
+<link rel="canonical" href="https://blog.qiwei.dev/posts/other/automatic-deployment-of-multiple-computer-rooms/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bf5f9f73cf17311d52cedbcda82c922e91b2f566d88a85ad9f5b5a08b586bd5f.css" integrity="sha256-v1&#43;fc88XMR1SztvNqCySLpGy9WbYioWtn1taCLWGvV8=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.acb54fd32bbc1982428b8850317e45d076b95012730a5936667e6bc21777692a.js" integrity="sha256-rLVP0yu8GYJCi4hQMX5F0Ha5UBJzClk2Zn5rwhd3aSo="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://blog.qiwei.dev/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://blog.qiwei.dev/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://blog.qiwei.dev/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://blog.qiwei.dev/apple-touch-icon.png">
+<link rel="mask-icon" href="https://blog.qiwei.dev/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="多机房自动化部署" />
+<meta property="og:description" content="之前入职了一家小公司，接了一个任务，实现多机房的自动化部署。
+大致的情况如下：
+公司产品主要面向政府，产品大部分都部署政府的机房中； 有一套jinkens，但是只能实现公司自己机房的部署； 现在外部机房的部署要么靠开发登上去后手动传包部署，要么由运维代为操作； 政府机房连接困难，VPN&#43;二次验证&#43;堡垒机&#43;SSH，同时也不允许开放公网入口； 并没有采用任何云原生技术或容器技术。 从上述情况看，就VPN&#43;二次验证这一点，基本毙掉了大部分互联网公司的方案。网上能看到的方案，无论大厂还是小厂的，单机房还是多机房多活，基本都是自己机房，可控权限高。采用这些方案的话，就要设法实现VPN&#43;二次验证的自动化。面对不同政府机房不同VPN，这条路并不好走。
+我没有DevOps开发经验，对于运维自动化也了解很少，只能找了些工具作为参考。最后决定模仿SaltStack，做一个C/S结构的发布平台。在服务端，主要是流程控制，从发布计划到单次发布作业，流程标准化、可追溯、可视化。客户端采用轮询方式，主动去服务端获取发布作业，然后执行相关的部署工作。
+主动的轮询，客户端主动连接服务器，而不是服务器去连接客户端，这样政府机房服务器并不需要开放端口给外部使用。客户端通过公网访问服务端，也避开了VPN这一层。和SaltStack不同的是，我们的客户端在一个机房之部署一个，有一个客户端负载整个机房的部署任务。也是因为政府机房每台服务器都开放公网访问。客户端可以通过SSH连接每一台同机房服务器，类似于Ansible。C/S结构还有一个好处是以根据不同环境来做各种定制客户端，避免了服务端去适配。
+基本框架订好了，剩下的就是细节问题。应用部署文件需要传输，同时最近的启动参数、配置文件等都需要一并传输过去。为了实现回滚，还需要有一套备份机制。最后还要对应用状态做检查，确定部署是否成功。
+安全问题是一个坎，毕竟需要走公网，涉及数据传输，安全性就要求很高。有些对安全要求严格的政府机构可能就不允许这样的方案。
+我没等到这个方案落地就离开了这家公司，所以后面无法在具体实现上跟进了。这里只算是记录了初步设想。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://blog.qiwei.dev/posts/other/automatic-deployment-of-multiple-computer-rooms/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-08-03T20:23:05+08:00" />
+<meta property="article:modified_time" content="2023-08-03T20:23:05+08:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="多机房自动化部署"/>
+<meta name="twitter:description" content="之前入职了一家小公司，接了一个任务，实现多机房的自动化部署。
+大致的情况如下：
+公司产品主要面向政府，产品大部分都部署政府的机房中； 有一套jinkens，但是只能实现公司自己机房的部署； 现在外部机房的部署要么靠开发登上去后手动传包部署，要么由运维代为操作； 政府机房连接困难，VPN&#43;二次验证&#43;堡垒机&#43;SSH，同时也不允许开放公网入口； 并没有采用任何云原生技术或容器技术。 从上述情况看，就VPN&#43;二次验证这一点，基本毙掉了大部分互联网公司的方案。网上能看到的方案，无论大厂还是小厂的，单机房还是多机房多活，基本都是自己机房，可控权限高。采用这些方案的话，就要设法实现VPN&#43;二次验证的自动化。面对不同政府机房不同VPN，这条路并不好走。
+我没有DevOps开发经验，对于运维自动化也了解很少，只能找了些工具作为参考。最后决定模仿SaltStack，做一个C/S结构的发布平台。在服务端，主要是流程控制，从发布计划到单次发布作业，流程标准化、可追溯、可视化。客户端采用轮询方式，主动去服务端获取发布作业，然后执行相关的部署工作。
+主动的轮询，客户端主动连接服务器，而不是服务器去连接客户端，这样政府机房服务器并不需要开放端口给外部使用。客户端通过公网访问服务端，也避开了VPN这一层。和SaltStack不同的是，我们的客户端在一个机房之部署一个，有一个客户端负载整个机房的部署任务。也是因为政府机房每台服务器都开放公网访问。客户端可以通过SSH连接每一台同机房服务器，类似于Ansible。C/S结构还有一个好处是以根据不同环境来做各种定制客户端，避免了服务端去适配。
+基本框架订好了，剩下的就是细节问题。应用部署文件需要传输，同时最近的启动参数、配置文件等都需要一并传输过去。为了实现回滚，还需要有一套备份机制。最后还要对应用状态做检查，确定部署是否成功。
+安全问题是一个坎，毕竟需要走公网，涉及数据传输，安全性就要求很高。有些对安全要求严格的政府机构可能就不允许这样的方案。
+我没等到这个方案落地就离开了这家公司，所以后面无法在具体实现上跟进了。这里只算是记录了初步设想。"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://blog.qiwei.dev/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "多机房自动化部署",
+      "item": "https://blog.qiwei.dev/posts/other/automatic-deployment-of-multiple-computer-rooms/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "多机房自动化部署",
+  "name": "多机房自动化部署",
+  "description": "之前入职了一家小公司，接了一个任务，实现多机房的自动化部署。\n大致的情况如下：\n公司产品主要面向政府，产品大部分都部署政府的机房中； 有一套jinkens，但是只能实现公司自己机房的部署； 现在外部机房的部署要么靠开发登上去后手动传包部署，要么由运维代为操作； 政府机房连接困难，VPN+二次验证+堡垒机+SSH，同时也不允许开放公网入口； 并没有采用任何云原生技术或容器技术。 从上述情况看，就VPN+二次验证这一点，基本毙掉了大部分互联网公司的方案。网上能看到的方案，无论大厂还是小厂的，单机房还是多机房多活，基本都是自己机房，可控权限高。采用这些方案的话，就要设法实现VPN+二次验证的自动化。面对不同政府机房不同VPN，这条路并不好走。\n我没有DevOps开发经验，对于运维自动化也了解很少，只能找了些工具作为参考。最后决定模仿SaltStack，做一个C/S结构的发布平台。在服务端，主要是流程控制，从发布计划到单次发布作业，流程标准化、可追溯、可视化。客户端采用轮询方式，主动去服务端获取发布作业，然后执行相关的部署工作。\n主动的轮询，客户端主动连接服务器，而不是服务器去连接客户端，这样政府机房服务器并不需要开放端口给外部使用。客户端通过公网访问服务端，也避开了VPN这一层。和SaltStack不同的是，我们的客户端在一个机房之部署一个，有一个客户端负载整个机房的部署任务。也是因为政府机房每台服务器都开放公网访问。客户端可以通过SSH连接每一台同机房服务器，类似于Ansible。C/S结构还有一个好处是以根据不同环境来做各种定制客户端，避免了服务端去适配。\n基本框架订好了，剩下的就是细节问题。应用部署文件需要传输，同时最近的启动参数、配置文件等都需要一并传输过去。为了实现回滚，还需要有一套备份机制。最后还要对应用状态做检查，确定部署是否成功。\n安全问题是一个坎，毕竟需要走公网，涉及数据传输，安全性就要求很高。有些对安全要求严格的政府机构可能就不允许这样的方案。\n我没等到这个方案落地就离开了这家公司，所以后面无法在具体实现上跟进了。这里只算是记录了初步设想。",
+  "keywords": [
+    
+  ],
+  "articleBody": "之前入职了一家小公司，接了一个任务，实现多机房的自动化部署。\n大致的情况如下：\n公司产品主要面向政府，产品大部分都部署政府的机房中； 有一套jinkens，但是只能实现公司自己机房的部署； 现在外部机房的部署要么靠开发登上去后手动传包部署，要么由运维代为操作； 政府机房连接困难，VPN+二次验证+堡垒机+SSH，同时也不允许开放公网入口； 并没有采用任何云原生技术或容器技术。 从上述情况看，就VPN+二次验证这一点，基本毙掉了大部分互联网公司的方案。网上能看到的方案，无论大厂还是小厂的，单机房还是多机房多活，基本都是自己机房，可控权限高。采用这些方案的话，就要设法实现VPN+二次验证的自动化。面对不同政府机房不同VPN，这条路并不好走。\n我没有DevOps开发经验，对于运维自动化也了解很少，只能找了些工具作为参考。最后决定模仿SaltStack，做一个C/S结构的发布平台。在服务端，主要是流程控制，从发布计划到单次发布作业，流程标准化、可追溯、可视化。客户端采用轮询方式，主动去服务端获取发布作业，然后执行相关的部署工作。\n主动的轮询，客户端主动连接服务器，而不是服务器去连接客户端，这样政府机房服务器并不需要开放端口给外部使用。客户端通过公网访问服务端，也避开了VPN这一层。和SaltStack不同的是，我们的客户端在一个机房之部署一个，有一个客户端负载整个机房的部署任务。也是因为政府机房每台服务器都开放公网访问。客户端可以通过SSH连接每一台同机房服务器，类似于Ansible。C/S结构还有一个好处是以根据不同环境来做各种定制客户端，避免了服务端去适配。\n基本框架订好了，剩下的就是细节问题。应用部署文件需要传输，同时最近的启动参数、配置文件等都需要一并传输过去。为了实现回滚，还需要有一套备份机制。最后还要对应用状态做检查，确定部署是否成功。\n安全问题是一个坎，毕竟需要走公网，涉及数据传输，安全性就要求很高。有些对安全要求严格的政府机构可能就不允许这样的方案。\n我没等到这个方案落地就离开了这家公司，所以后面无法在具体实现上跟进了。这里只算是记录了初步设想。\n",
+  "wordCount" : "13",
+  "inLanguage": "en",
+  "datePublished": "2023-08-03T20:23:05+08:00",
+  "dateModified": "2023-08-03T20:23:05+08:00",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://blog.qiwei.dev/posts/other/automatic-deployment-of-multiple-computer-rooms/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "我的博客",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://blog.qiwei.dev/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://blog.qiwei.dev/" accesskey="h" title="我的博客 (Alt + H)">我的博客</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://blog.qiwei.dev/posts" title="Blogs">
+                    <span>Blogs</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://blog.qiwei.dev/categories/" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://blog.qiwei.dev/tags/" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://blog.qiwei.dev/about/" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      多机房自动化部署
+    </h1>
+    <div class="post-meta"><span title='2023-08-03 20:23:05 +0800 CST'>August 3, 2023</span>
+
+</div>
+  </header> 
+  <div class="post-content"><p>之前入职了一家小公司，接了一个任务，实现多机房的自动化部署。</p>
+<p>大致的情况如下：</p>
+<ul>
+<li>公司产品主要面向政府，产品大部分都部署政府的机房中；</li>
+<li>有一套jinkens，但是只能实现公司自己机房的部署；</li>
+<li>现在外部机房的部署要么靠开发登上去后手动传包部署，要么由运维代为操作；</li>
+<li>政府机房连接困难，VPN+二次验证+堡垒机+SSH，同时也不允许开放公网入口；</li>
+<li>并没有采用任何云原生技术或容器技术。</li>
+</ul>
+<p>从上述情况看，就<strong>VPN+二次验证</strong>这一点，基本毙掉了大部分互联网公司的方案。网上能看到的方案，无论大厂还是小厂的，单机房还是多机房多活，基本都是自己机房，可控权限高。采用这些方案的话，就要设法实现<strong>VPN+二次验证</strong>的自动化。面对不同政府机房不同VPN，这条路并不好走。</p>
+<p>我没有DevOps开发经验，对于运维自动化也了解很少，只能找了些工具作为参考。最后决定模仿<code>SaltStack</code>，做一个C/S结构的发布平台。在服务端，主要是流程控制，从发布计划到单次发布作业，流程标准化、可追溯、可视化。客户端采用轮询方式，主动去服务端获取发布作业，然后执行相关的部署工作。</p>
+<p>主动的轮询，客户端主动连接服务器，而不是服务器去连接客户端，这样政府机房服务器并不需要开放端口给外部使用。客户端通过公网访问服务端，也避开了VPN这一层。和SaltStack不同的是，我们的客户端在一个机房之部署一个，有一个客户端负载整个机房的部署任务。也是因为政府机房每台服务器都开放公网访问。客户端可以通过SSH连接每一台同机房服务器，类似于<code>Ansible</code>。C/S结构还有一个好处是以根据不同环境来做各种定制客户端，避免了服务端去适配。</p>
+<p>基本框架订好了，剩下的就是细节问题。应用部署文件需要传输，同时最近的启动参数、配置文件等都需要一并传输过去。为了实现回滚，还需要有一套备份机制。最后还要对应用状态做检查，确定部署是否成功。</p>
+<p>安全问题是一个坎，毕竟需要走公网，涉及数据传输，安全性就要求很高。有些对安全要求严格的政府机构可能就不允许这样的方案。</p>
+<p>我没等到这个方案落地就离开了这家公司，所以后面无法在具体实现上跟进了。这里只算是记录了初步设想。</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="https://blog.qiwei.dev/">我的博客</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

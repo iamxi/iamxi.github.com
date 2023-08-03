@@ -2,7 +2,7 @@
 <html lang="en" dir="auto">
 
 <head>
-	<meta name="generator" content="Hugo 0.112.5"><meta charset="utf-8">
+	<meta name="generator" content="Hugo 0.116.1"><meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
@@ -11,7 +11,7 @@
 <meta name="description" content="">
 <meta name="author" content="">
 <link rel="canonical" href="https://blog.qiwei.dev/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.3613efbd0b1772781e8f49935e973cae632a7f61471c05b17be155505ccf87b5.css" integrity="sha256-NhPvvQsXcngej0mTXpc8rmMqf2FHHAWxe&#43;FVUFzPh7U=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bf5f9f73cf17311d52cedbcda82c922e91b2f566d88a85ad9f5b5a08b586bd5f.css" integrity="sha256-v1&#43;fc88XMR1SztvNqCySLpGy9WbYioWtn1taCLWGvV8=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://blog.qiwei.dev/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://blog.qiwei.dev/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="https://blog.qiwei.dev/favicon-32x32.png">
@@ -147,6 +147,24 @@
 
 <article class="post-entry"> 
   <header class="entry-header">
+    <h2>Mybatis返回特殊Map
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>想返回个特殊实体，一个Map，key是一个表的一个字段的值，value是另一个表的所有记录。参考了下网上的“攻略”，不过和攻略里面讲的有点不同，那里面key的值value的实体实在同一个表内，如果不同表，会报缺少set方法的异常。解决方法很简单，就是在实体里面加个字段对应的属性。但是并不愿意为了一个查询语句就要去改变实体。
+无聊看了下session的select，提供了通过 ResultHandler 来处理返回的结果集。所以尝试着解决这个问题。
+mapper.xml里面的配置如下：
+&lt;resultMap type=&#34;HashMap&#34; id=&#34;testMap&#34;&gt; &lt;result column=&#34;UA_INFO&#34; property=&#34;key&#34; /&gt; &lt;association property=&#34;value&#34; resultMap=&#34;com.xxx.xxx.BaseResultMap&#34;&gt; &lt;/association&gt; &lt;/resultMap&gt; &lt;select id=&#34;getUaMapByTimestamp&#34; parameterType=&#34;Map&#34; resultMap=&#34;testMap&#34;&gt; SQL语句 &lt;/select&gt; com.xxx.xxx.BaseResultMap是另一个实体的mapper的resultMap。这个查询，返回的每一条记录都是 {key=..., value=...}
+这个结果集并不符合要求。不过通过ResultHandler来处理每一条记录就可以达到要求了。
+看下Mybatis源码里面有关继承 ResultHandler 的 DefaultMapResultHandler类。
+public class DefaultMapResultHandler&lt;K, V&gt; implements ResultHandler { private final Map&lt;K, V&gt; mappedResults; private final String mapKey; @SuppressWarnings(&#34;unchecked&#34;) public DefaultMapResultHandler(String mapKey, ObjectFactory objectFactory) { this.mappedResults = objectFactory.create(Map.class); this.mapKey = mapKey; } public void handleResult(ResultContext context) { // TODO is that assignment always true?...</p>
+  </div>
+  <footer class="entry-footer"><span title='2012-08-04 23:00:00 +0800 CST'>August 4, 2012</span></footer>
+  <a class="entry-link" aria-label="post link to Mybatis返回特殊Map" href="https://blog.qiwei.dev/posts/coding/mybatis-special-map/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
     <h2>Java可变参数方法及它的重载
     </h2>
   </header>
@@ -185,12 +203,12 @@ public void method1(String... arg1) { System.out.println(&#34;1&#34;); } public 
   </header>
   <div class="entry-content">
     <p>text中表格可以使用
-table.writeSelectedRows(0, -1, x, y, writer.getDirectContent()); 来实现绝对位置放置。那文本段落呢…
+table.writeSelectedRows(0, -1, x, y, writer.getDirectContent());来实现绝对位置放置。那文本段落呢…
 当我们不需要itext对每个单词、句子、段落实现自动格式的时候，或是想使用特殊布局，就可以使用PdfContentByte来实现绝对位置放置。
 PdfContentByte的初始化：
-PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(&#34;test.pdf&#34;)); PdfContentByte cb = writer.DirectContent; 将文本写入ContentByte中时，必须使用方法beginText()和endText()，同时也必须设置字体和尺寸。有两种方法来写入和放置文本。
+PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(&#34;test.pdf&#34;)); PdfContentByte cb = writer.DirectContent;将文本写入ContentByte中时，必须使用方法beginText()和endText()，同时也必须设置字体和尺寸。有两种方法来写入和放置文本。
 方法一：
-BaseFont bf = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.NOT_EMBEDDED); cb.beginText(); cb.setFontAndSize(bf, 12); cb.showTextAligned(PdfContentByte.ALIGN_CENTER, text &#43; &#34;This text is centered&#34;, 250, 700, 0); cb.endText(); 方法二：
+BaseFont bf = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.NOT_EMBEDDED); cb.beginText(); cb.setFontAndSize(bf, 12); cb.showTextAligned(PdfContentByte.ALIGN_CENTER, text &#43; &#34;This text is centered&#34;, 250, 700, 0); cb.endText();方法二：
 BaseFont bf = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.NOT_EMBEDDED); cb.beginText(); cb.setFontAndSize(bf, 12); cb.setTextMatrix(100, 400); cb.showText(&#34;Text at position 100,400.&#34;); cb.endText(); </p>
   </div>
   <footer class="entry-footer"><span title='2011-05-12 12:02:00 +0800 CST'>May 12, 2011</span></footer>

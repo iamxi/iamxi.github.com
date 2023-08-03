@@ -6,7 +6,23 @@
     <description>Recent content on 我的博客</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Fri, 28 Jul 2023 15:17:23 +0800</lastBuildDate><atom:link href="https://blog.qiwei.dev/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 03 Aug 2023 20:23:05 +0800</lastBuildDate><atom:link href="https://blog.qiwei.dev/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>多机房自动化部署</title>
+      <link>https://blog.qiwei.dev/posts/other/automatic-deployment-of-multiple-computer-rooms/</link>
+      <pubDate>Thu, 03 Aug 2023 20:23:05 +0800</pubDate>
+      
+      <guid>https://blog.qiwei.dev/posts/other/automatic-deployment-of-multiple-computer-rooms/</guid>
+      <description>之前入职了一家小公司，接了一个任务，实现多机房的自动化部署。
+大致的情况如下：
+公司产品主要面向政府，产品大部分都部署政府的机房中； 有一套jinkens，但是只能实现公司自己机房的部署； 现在外部机房的部署要么靠开发登上去后手动传包部署，要么由运维代为操作； 政府机房连接困难，VPN+二次验证+堡垒机+SSH，同时也不允许开放公网入口； 并没有采用任何云原生技术或容器技术。 从上述情况看，就VPN+二次验证这一点，基本毙掉了大部分互联网公司的方案。网上能看到的方案，无论大厂还是小厂的，单机房还是多机房多活，基本都是自己机房，可控权限高。采用这些方案的话，就要设法实现VPN+二次验证的自动化。面对不同政府机房不同VPN，这条路并不好走。
+我没有DevOps开发经验，对于运维自动化也了解很少，只能找了些工具作为参考。最后决定模仿SaltStack，做一个C/S结构的发布平台。在服务端，主要是流程控制，从发布计划到单次发布作业，流程标准化、可追溯、可视化。客户端采用轮询方式，主动去服务端获取发布作业，然后执行相关的部署工作。
+主动的轮询，客户端主动连接服务器，而不是服务器去连接客户端，这样政府机房服务器并不需要开放端口给外部使用。客户端通过公网访问服务端，也避开了VPN这一层。和SaltStack不同的是，我们的客户端在一个机房之部署一个，有一个客户端负载整个机房的部署任务。也是因为政府机房每台服务器都开放公网访问。客户端可以通过SSH连接每一台同机房服务器，类似于Ansible。C/S结构还有一个好处是以根据不同环境来做各种定制客户端，避免了服务端去适配。
+基本框架订好了，剩下的就是细节问题。应用部署文件需要传输，同时最近的启动参数、配置文件等都需要一并传输过去。为了实现回滚，还需要有一套备份机制。最后还要对应用状态做检查，确定部署是否成功。
+安全问题是一个坎，毕竟需要走公网，涉及数据传输，安全性就要求很高。有些对安全要求严格的政府机构可能就不允许这样的方案。
+我没等到这个方案落地就离开了这家公司，所以后面无法在具体实现上跟进了。这里只算是记录了初步设想。</description>
+    </item>
+    
     <item>
       <title>找工作</title>
       <link>https://blog.qiwei.dev/posts/other/job-hunting/</link>
@@ -175,12 +191,12 @@ public Result invoke(Invoker&amp;lt;?&amp;gt; invoker, Invocation invocation) th
 配置 基本的一些配置上面，上面也有，还有一些我参考了这篇博客，在此先谢过这位朋友的分享。
 遇到的问题及解决 CNAME 文件 因为 Github 需要 CNAME 文件，用于指定域名。不过放在 public 文件夹中的话，只要 clean 一次就没了。网站找了下资料，应该将其放在 source 目录总，这样在生成时候就会一起带到 public 文件夹中。一些博文中需要的图片（images）和favicon.ico等不变的内容也可以一起放在 source 目录下。
 README.md文件不渲染 在站点配置文件中添加
-skip_render: README.md stiemap 的生成 需要安装插件
-npm install hexo-generator-sitemap --save 站点配置文件中添加配置
-sitemap: path: sitemap.xml 博文永久连接 默认是时间分开。但是这样路径比较长。不方便管理。网上有种方法是urlname。使用urlname来作为链接，避免使用文件名。这样文件名就可以自己定义，方便本地管理。
+skip_render: README.mdstiemap 的生成 需要安装插件
+npm install hexo-generator-sitemap --save站点配置文件中添加配置
+sitemap:path: sitemap.xml博文永久连接 默认是时间分开。但是这样路径比较长。不方便管理。网上有种方法是urlname。使用urlname来作为链接，避免使用文件名。这样文件名就可以自己定义，方便本地管理。
 具体做法是，在站点配置文件中，修改配置如下：
-permalink: post/:urlname.html 然后在每一篇 post 中都需要加一个urlname，如这篇文章的：
-title: 20171001-hexo3搭建博客 date: 2017-10-01 03:44:13 tags: hexo urlname: blog-with-hexo3 缺点是，如果那篇忘记了这个，那生成的 html 文件将会是未知
+permalink: post/:urlname.html然后在每一篇 post 中都需要加一个urlname，如这篇文章的：
+title: 20171001-hexo3搭建博客date: 2017-10-01 03:44:13tags: hexourlname: blog-with-hexo3 缺点是，如果那篇忘记了这个，那生成的 html 文件将会是未知
 图片保存 hexo官网有推荐的方法，文档。当时我的觉这个太依赖hexo，不符合markdown的理念。所以，还是选择土办法管理图片，放在 source/images 目录下，post中直接用相对路径应用。亲测可行。
 博客的版本控制 hexo 的部署功能，只能建 public 文件夹中的内容推送到 Github 上。而配置文件和博客源文件都无法提交。如果换了电脑或电脑换了，那就什么都要从新开始了。</description>
     </item>

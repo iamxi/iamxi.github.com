@@ -2,7 +2,7 @@
 <html lang="en" dir="auto">
 
 <head>
-	<meta name="generator" content="Hugo 0.112.5"><meta charset="utf-8">
+	<meta name="generator" content="Hugo 0.116.1"><meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
@@ -11,7 +11,7 @@
 <meta name="description" content="">
 <meta name="author" content="">
 <link rel="canonical" href="https://blog.qiwei.dev/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.3613efbd0b1772781e8f49935e973cae632a7f61471c05b17be155505ccf87b5.css" integrity="sha256-NhPvvQsXcngej0mTXpc8rmMqf2FHHAWxe&#43;FVUFzPh7U=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bf5f9f73cf17311d52cedbcda82c922e91b2f566d88a85ad9f5b5a08b586bd5f.css" integrity="sha256-v1&#43;fc88XMR1SztvNqCySLpGy9WbYioWtn1taCLWGvV8=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://blog.qiwei.dev/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://blog.qiwei.dev/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="https://blog.qiwei.dev/favicon-32x32.png">
@@ -147,6 +147,23 @@
 
 <article class="post-entry"> 
   <header class="entry-header">
+    <h2>设计模式学习-单件（Singleton）
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>意图： 保证一个类仅有一个实例，并提供一个访问它的全局访问点。
+结构图： 代码示例： public class Singleton { private static Singleton instance = new Singleton(); private Singleton() { } public static Singleton getInstance() { return instance; } public void test() { System.out.println(&#34;Singleton test&#34;); } public static void main(String[] args) { Singleton s = Singleton.getInstance(); s.test(); } } 效果： 因为Singleton类封装它的唯一实例，所以它可以严格的控制。
+注意： Singleton不是说只能唯一，也可以控制其实例的数量，对多个实例的创建和控制。
+Singleton类可以有子类，而且用这个扩展类的实例来配置一个应用是很容易的。你可以用你所需要的类的实例在运行时刻配置应用。
+实现： 保证一个唯一的实例是该模式的重点，不同语言对此有不同的方法。面对语言特性，还需要注意并发同步等问题。
+相关模式： Abstract Factory、Builder、Prototype都可以用Singleton实现。</p>
+  </div>
+  <footer class="entry-footer"><span title='2013-07-31 09:39:00 +0800 CST'>July 31, 2013</span></footer>
+  <a class="entry-link" aria-label="post link to 设计模式学习-单件（Singleton）" href="https://blog.qiwei.dev/posts/coding/design-patterns/design-patterns-singleton/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
     <h2>设计模式学习-原型（Prototype）
     </h2>
   </header>
@@ -154,8 +171,8 @@
     <p>很少见到，我都没遇到过，或是遇到过也没注意。
 意图： 用原型实例指定创建对象的种类，并且通过拷贝这些原型创建新的对象。
 结构： Prototype
-——声明一个克隆自身的接口 ConcretePrototype
-——实现一个克隆自身的操作 示例代码: public abstract class Prototype implements Cloneable { public Prototype clone() { try { return (Prototype) super.clone(); } catch (CloneNotSupportedException e) { e.printStackTrace(); } return null; } public abstract String getThing(); } public class ConcretePrototype extends Prototype { @Override public String getThing() { return &#34;ConcretePrototype&#34;; } } public class Client { public static void main(String[] args) { ConcretePrototype cp = new ConcretePrototype(); ConcretePrototype newCp = (ConcretePrototype) cp....</p>
+——声明一个克隆自身的接口ConcretePrototype
+——实现一个克隆自身的操作示例代码: public abstract class Prototype implements Cloneable { public Prototype clone() { try { return (Prototype) super.clone(); } catch (CloneNotSupportedException e) { e.printStackTrace(); } return null; } public abstract String getThing(); } public class ConcretePrototype extends Prototype { @Override public String getThing() { return &#34;ConcretePrototype&#34;; } } public class Client { public static void main(String[] args) { ConcretePrototype cp = new ConcretePrototype(); ConcretePrototype newCp = (ConcretePrototype) cp....</p>
   </div>
   <footer class="entry-footer"><span title='2013-07-30 17:23:00 +0800 CST'>July 30, 2013</span></footer>
   <a class="entry-link" aria-label="post link to 设计模式学习-原型（Prototype）" href="https://blog.qiwei.dev/posts/coding/design-patterns/design-patterns-prototype/"></a>
@@ -170,10 +187,10 @@
     <p>意图： 定义一个用于创建对象的接口，让子类决定实例化哪一个类。 Factory Method使一个类的实例化延迟到其子类。
 别名： 虚构造器（Virtual Constructor）
 结构： Product
-— 定义工厂方法所创建的对象的接口。 ConcreteProduct
-— 实现Productt接口。 Creator
-— 声明工厂方法，该方法返回一个 Product类型的对象。Creator也可以定义一个工厂方法的缺省实现，它返回一个缺省的 ConcreteProduct对象。 ConcreteProduct对象 — 可以调用工厂方法以创建一个Product对象。 ConcreteCreator
-— 重定义工厂方法以返回一个ConcreteProduct实例。 代码示例： Creator类
+— 定义工厂方法所创建的对象的接口。ConcreteProduct
+— 实现Productt接口。Creator
+— 声明工厂方法，该方法返回一个 Product类型的对象。Creator也可以定义一个工厂方法的缺省实现，它返回一个缺省的 ConcreteProduct对象。ConcreteProduct对象— 可以调用工厂方法以创建一个Product对象。ConcreteCreator
+— 重定义工厂方法以返回一个ConcreteProduct实例。代码示例： Creator类
 public abstract class Creator { protected abstract Product factoryMethod(); public void anOperation() { Product product = factoryMethod(); //do some thing } } ConcreteCreator类
 public class ConcreteCreator extends Creator { @Override protected Product factoryMethod() { return new ConcreteProduct(); } } 问题： 可能仅为了创建适当的 Product对象而迫使你创建Creator子类。
 适用性： 一个系统要独立于它的产品的创建、组合和表示时。 一个系统要由多个产品系列中的一个来配置时。 当你要强调一系列相关的产品对象的设计以便进行联合使用时。 当你提供一个产品类库，而只想显示它们的接口而不是实现时。 相关模式： Abstract Factory经常用工厂方法来实现； 工厂方法通常在Template Method中被调用； Prototype不需要创建Creator的子类。但是，它们通常要求一个针对Product类的Initialize操作。Creator使用Initialize来初始化对象。而Factory Method不需要这样的操作。 </p>
@@ -300,24 +317,6 @@ public String statement() { double totalAmount = 0; //总消费余额 int freque
   </div>
   <footer class="entry-footer"><span title='2013-07-25 21:51:00 +0800 CST'>July 25, 2013</span></footer>
   <a class="entry-link" aria-label="post link to 我的第一篇博文" href="https://blog.qiwei.dev/posts/other/my-first-blog/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2>Mybatis返回特殊Map
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>想返回个特殊实体，一个Map，key是一个表的一个字段的值，value是另一个表的所有记录。参考了下网上的“攻略”，不过和攻略里面讲的有点不同，那里面key的值value的实体实在同一个表内，如果不同表，会报缺少set方法的异常。解决方法很简单，就是在实体里面加个字段对应的属性。但是并不愿意为了一个查询语句就要去改变实体。
-无聊看了下session的select，提供了通过 ResultHandler 来处理返回的结果集。所以尝试着解决这个问题。
-mapper.xml里面的配置如下：
-&lt;resultMap type=&#34;HashMap&#34; id=&#34;testMap&#34;&gt; &lt;result column=&#34;UA_INFO&#34; property=&#34;key&#34; /&gt; &lt;association property=&#34;value&#34; resultMap=&#34;com.xxx.xxx.BaseResultMap&#34;&gt; &lt;/association&gt; &lt;/resultMap&gt; &lt;select id=&#34;getUaMapByTimestamp&#34; parameterType=&#34;Map&#34; resultMap=&#34;testMap&#34;&gt; SQL语句 &lt;/select&gt; com.xxx.xxx.BaseResultMap是另一个实体的mapper的resultMap。这个查询，返回的每一条记录都是 {key=..., value=...}
-这个结果集并不符合要求。不过通过ResultHandler来处理每一条记录就可以达到要求了。
-看下Mybatis源码里面有关继承 ResultHandler 的 DefaultMapResultHandler类。
-public class DefaultMapResultHandler&lt;K, V&gt; implements ResultHandler { private final Map&lt;K, V&gt; mappedResults; private final String mapKey; @SuppressWarnings(&#34;unchecked&#34;) public DefaultMapResultHandler(String mapKey, ObjectFactory objectFactory) { this.mappedResults = objectFactory.create(Map.class); this.mapKey = mapKey; } public void handleResult(ResultContext context) { // TODO is that assignment always true?...</p>
-  </div>
-  <footer class="entry-footer"><span title='2012-08-04 23:00:00 +0800 CST'>August 4, 2012</span></footer>
-  <a class="entry-link" aria-label="post link to Mybatis返回特殊Map" href="https://blog.qiwei.dev/posts/coding/mybatis-special-map/"></a>
 </article>
 <footer class="page-footer">
   <nav class="pagination">
