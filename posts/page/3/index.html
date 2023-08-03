@@ -10,7 +10,7 @@
 <meta name="description" content="Posts - 我的博客">
 <meta name="author" content="">
 <link rel="canonical" href="https://blog.qiwei.dev/posts/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.bf5f9f73cf17311d52cedbcda82c922e91b2f566d88a85ad9f5b5a08b586bd5f.css" integrity="sha256-v1&#43;fc88XMR1SztvNqCySLpGy9WbYioWtn1taCLWGvV8=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.3613efbd0b1772781e8f49935e973cae632a7f61471c05b17be155505ccf87b5.css" integrity="sha256-NhPvvQsXcngej0mTXpc8rmMqf2FHHAWxe&#43;FVUFzPh7U=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://blog.qiwei.dev/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://blog.qiwei.dev/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="https://blog.qiwei.dev/favicon-32x32.png">
@@ -153,26 +153,6 @@
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>Django基础入门
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>安装： 下载后运行python setup.py install或pip安装
-创建项目： 进入准备创建项目的目录下，运行命令：
-django-admin.py startproject xxxdjango-admin.py在windows（其他系统也可能因为安装不同而不在环境变量里）下不能直接调用，可以将其放入环境变量中或是去python的安装目录下的Lib\site-packages\django\bin下运行。windows下没有关联文件类型的话，上面的命令前需要加上ptyhon，即
-python django-admin.py startproject xxx创建的项目结构如下：
-projectname/ |- manage.py |- projectname/ |- __init__.py |- settings.py |- urls.py |- wsgi.py 运行项目： python manage.py runserver默认端口号是8000，可以指定端口号运行
-python manage.py runserver 8080访问http://127.0.0.1:8000/可以显示django的默认页面 这种运行方式并非部署，只是运行Development Server，只能可靠的处理一次单个请求。在此模式下代码或配置的变动都会立即生效。
-创建APP： python manage.py startapp xxxAPP结构如下：
-APPname/ |- __init__.py |- models.py |- tests.py |- views.py 进入项目的settings.py下，把新建的APP加入到INSTALLED\_APPS 中，例如：
-INSTALLED_APPS = ( &#39;django.contrib.auth&#39;, &#39;django.contrib.contenttypes&#39;, &#39;django.contrib.sessions&#39;, &#39;django.contrib.sites&#39;, &#39;django.contrib.messages&#39;, &#39;django.contrib.staticfiles&#39;, # Uncomment the next line to enable the admin: # &#39;django....</p>
-  </div>
-  <footer class="entry-footer"><span title='2013-08-29 17:01:00 +0800 CST'>August 29, 2013</span></footer>
-  <a class="entry-link" aria-label="post link to Django基础入门" href="https://blog.qiwei.dev/posts/coding/django-study-start/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
     <h2>Java静态代码块（static{}）
     </h2>
   </header>
@@ -200,8 +180,8 @@ static的一些使用注意事项： 1、静态方法只能调用同类中的其
     <p>为了提高自己的Java开发能力，我也向高手、牛人学习，去解读源码。自己底子差了点，不过看个源码还是没问题的。第一站ArrayList。
 源码为Java 1.7的源码
 ArrayList是一个实现可变长数组，继承AbstractList类，实现所有的List接口，还实现了RandomAccess、Cloneable、Serializable接口。ArrayList不进行同步，除此之外基本和Vector等同。
-1、成员变量 private transient Object[] elementData;elementData用于保存数据的数组。
-private int size;size为ArrayList内的数据数量，但并不是elementData的长度。
+1、成员变量 private transient Object[] elementData; elementData用于保存数据的数组。
+private int size; size为ArrayList内的数据数量，但并不是elementData的长度。
 2、构造方法 public ArrayList(int initialCapacity) { super(); if (initialCapacity &lt; 0) throw new IllegalArgumentException(&#34;Illegal Capacity: &#34;&#43; initialCapacity); this.elementData = new Object[initialCapacity]; } public ArrayList() { this(10); } public ArrayList(Collection&lt;? extends E&gt; c) { elementData = c.toArray(); size = elementData.length; if (elementData.getClass() != Object[].class) elementData = Arrays.copyOf(elementData, size, Object[].class); } 第一个是根据指定长度建立List，第二个是根据默认长度建立List，第三个根据传入Collection子类实例创建List。通过第三个实例看到Collection子类都会实现toArray()方法，可以看出至少很多Collection子类依赖于数组来实现（还没看过其他的集合实现，这只是我的妄言而已）。
 3、add方法 public boolean add(E e) { ensureCapacityInternal(size &#43; 1); elementData[size&#43;&#43;] = e; return true; } 该方法在数组最后添加一个元素。ensureCapacityInternal方法提供了ArrayList的自增长实现，以确保elementData有足够的长度来容纳新进入的元素（后面介绍自增长的实现）。...</p>
   </div>
@@ -219,8 +199,8 @@ private int size;size为ArrayList内的数据数量，但并不是elementData�
 可读性基本定理 定理：代码的写法应当是别人理解它所需的时间最小化
 找一个同事，测试下他读自己代码并理解它所需要的时间，这个“理解代码时间”就是最小化的理论度量。并且这个“理解”有很高的标准，真的完全理解所看的代码的话，就能改动它、找出缺陷并明白它是如何与代码的其他部分交互的。
 总是越小越好吗 从代码数量上来看，越少的代码，阅读和理解的速度就应该越快，但这不是必然，少的代码并不总是更好，如：
-assert((!(bucket = FindBucket(key))) || !bucket-&gt;IsOccupied());相比
-bucket = FindBucket(key);if (bucket != NULL) assert(!bucket-&gt;IsOccupied());前者理解起来比后者两行代码所花的时间更多。
+assert((!(bucket = FindBucket(key))) || !bucket-&gt;IsOccupied()); 相比
+bucket = FindBucket(key); if (bucket != NULL) assert(!bucket-&gt;IsOccupied()); 前者理解起来比后者两行代码所花的时间更多。
 有时候一条适合的注释可以让阅读着更快地理解代码，尽管增加了长度。
 理解代码所需的时间是否与其他目标有冲突 这里说的其他目标包括优化、架构、测试等。不过答案是否定的，这些根本不会相互影响。更多的介绍会在后面章节提到。
 最难的部分 是的，最难的部分是让养成一个在编码时考虑如何让他人更容易理解你的代码的习惯。这不光需要时间去适应，而且需要一定的毅力。开发过程中各种情况都会让你放弃这种想法，比如进度、他人代码的质量等。
@@ -264,7 +244,7 @@ bucket = FindBucket(key);if (bucket != NULL) assert(!bucket-&gt;IsOccupied());
   <div class="entry-content">
     <p>意图： 将对象组合成树形结构以表示“部分-整体”的层次结构。Composite使得用户对单个对象和组合对象的使用具有一致性。
 结构： 参与者
-Component(Graphic)为组合中的对象声明接口。在适当的情况下，实现所有类共有接口的缺省行为。(可选)在递归结构中定义一个接口，用于访问一个父部件，并在合适的情况下实现它。Leaf(Rectangle、Line、Text等)在组合中表示叶节点对象，叶节点没有子节点。在组合中定义图元对象的行为。Composite(Picture)定义有子部件的那些部件的行为。存储子部件。在Component接口中实现与子部件有关的操作。Client通过Component接口操纵组合部件的对象。代码示例： Component
+Component(Graphic) 为组合中的对象声明接口。 在适当的情况下，实现所有类共有接口的缺省行为。 (可选)在递归结构中定义一个接口，用于访问一个父部件，并在合适的情况下实现它。 Leaf(Rectangle、Line、Text等) 在组合中表示叶节点对象，叶节点没有子节点。 在组合中定义图元对象的行为。 Composite(Picture) 定义有子部件的那些部件的行为。 存储子部件。 在Component接口中实现与子部件有关的操作。 Client 通过Component接口操纵组合部件的对象。 代码示例： Component
 public interface Component { public void operation(); public void add(Component item); void remove(Component item); public Component getChild(int i); } Composite
 public class Composite implements Component { private List&lt;Component&gt; children = new ArrayList&lt;Component&gt;(); @Override public void operation() { for (Component child : children) { child.operation(); } } @Override public void add(Component item) { this....</p>
   </div>
@@ -300,10 +280,10 @@ private static ConcurrentHashMap&lt;String, AbstractMsgSendServiceImpl&gt; messa
 结构 参与者
 Abstraction
 — 定义抽象类的接口。
-— 维护一个指向Implementor类型对象的指针。RefinedAbstraction
-— 扩充由Abstraction定义的接口。Implementor
-— 定义实现类的接口，该接口不一定要与Abstraction的接口完全一致；事实上这两个接口可以完全不同。一般来讲，Implementor接口仅提供基本操作，而Abstraction则定义了基于这些基本操作的较高层次的操作。ConcreteImplementor
-— 实现Implementor接口并定义它的具体实现。示例代码： public abstract class Abstraction { private Implementor impl; public Implementor getImpl() { return impl; } public void setImpl(Implementor impl) { this.impl = impl; } public Abstraction(Implementor impl) { this.impl = impl; } public abstract void operation(); } public class RefinedAbstraction extends Abstraction { public RefinedAbstraction(Implementor impl) { super(impl); } @Override public void operation() { getImpl()....</p>
+— 维护一个指向Implementor类型对象的指针。 RefinedAbstraction
+— 扩充由Abstraction定义的接口。 Implementor
+— 定义实现类的接口，该接口不一定要与Abstraction的接口完全一致；事实上这两个接口可以完全不同。一般来讲，Implementor接口仅提供基本操作，而Abstraction则定义了基于这些基本操作的较高层次的操作。 ConcreteImplementor
+— 实现Implementor接口并定义它的具体实现。 示例代码： public abstract class Abstraction { private Implementor impl; public Implementor getImpl() { return impl; } public void setImpl(Implementor impl) { this.impl = impl; } public Abstraction(Implementor impl) { this.impl = impl; } public abstract void operation(); } public class RefinedAbstraction extends Abstraction { public RefinedAbstraction(Implementor impl) { super(impl); } @Override public void operation() { getImpl()....</p>
   </div>
   <footer class="entry-footer"><span title='2013-07-31 13:44:00 +0800 CST'>July 31, 2013</span></footer>
   <a class="entry-link" aria-label="post link to 设计模式学习-桥接模式（Bridge）" href="https://blog.qiwei.dev/posts/coding/design-patterns/design-patterns-bridge/"></a>
@@ -345,6 +325,23 @@ Decorator模式增强了其他对象的功能而同时又不改变它的接口�
   </div>
   <footer class="entry-footer"><span title='2013-07-31 09:59:00 +0800 CST'>July 31, 2013</span></footer>
   <a class="entry-link" aria-label="post link to 设计模式学习-创建型模式" href="https://blog.qiwei.dev/posts/coding/design-patterns/design-patterns-creational-pattern/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>设计模式学习-单件（Singleton）
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>意图： 保证一个类仅有一个实例，并提供一个访问它的全局访问点。
+结构图： 代码示例： public class Singleton { private static Singleton instance = new Singleton(); private Singleton() { } public static Singleton getInstance() { return instance; } public void test() { System.out.println(&#34;Singleton test&#34;); } public static void main(String[] args) { Singleton s = Singleton.getInstance(); s.test(); } } 效果： 因为Singleton类封装它的唯一实例，所以它可以严格的控制。
+注意： Singleton不是说只能唯一，也可以控制其实例的数量，对多个实例的创建和控制。
+Singleton类可以有子类，而且用这个扩展类的实例来配置一个应用是很容易的。你可以用你所需要的类的实例在运行时刻配置应用。
+实现： 保证一个唯一的实例是该模式的重点，不同语言对此有不同的方法。面对语言特性，还需要注意并发同步等问题。
+相关模式： Abstract Factory、Builder、Prototype都可以用Singleton实现。</p>
+  </div>
+  <footer class="entry-footer"><span title='2013-07-31 09:39:00 +0800 CST'>July 31, 2013</span></footer>
+  <a class="entry-link" aria-label="post link to 设计模式学习-单件（Singleton）" href="https://blog.qiwei.dev/posts/coding/design-patterns/design-patterns-singleton/"></a>
 </article>
 <footer class="page-footer">
   <nav class="pagination">

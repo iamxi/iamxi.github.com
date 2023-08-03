@@ -10,8 +10,8 @@
 <meta name="description" content="将一个复杂对象的构建与它的表示分离，使得同样的构建过程可以创建不同的表示，java的StringBuilder就是一个Builder模式的例子。">
 <meta name="author" content="">
 <link rel="canonical" href="https://blog.qiwei.dev/posts/coding/design-patterns/design-patterns-builder/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.bf5f9f73cf17311d52cedbcda82c922e91b2f566d88a85ad9f5b5a08b586bd5f.css" integrity="sha256-v1&#43;fc88XMR1SztvNqCySLpGy9WbYioWtn1taCLWGvV8=" rel="preload stylesheet" as="style">
-<script defer crossorigin="anonymous" src="/assets/js/highlight.acb54fd32bbc1982428b8850317e45d076b95012730a5936667e6bc21777692a.js" integrity="sha256-rLVP0yu8GYJCi4hQMX5F0Ha5UBJzClk2Zn5rwhd3aSo="
+<link crossorigin="anonymous" href="/assets/css/stylesheet.3613efbd0b1772781e8f49935e973cae632a7f61471c05b17be155505ccf87b5.css" integrity="sha256-NhPvvQsXcngej0mTXpc8rmMqf2FHHAWxe&#43;FVUFzPh7U=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
     onload="hljs.initHighlightingOnLoad();"></script>
 <link rel="icon" href="https://blog.qiwei.dev/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://blog.qiwei.dev/favicon-16x16.png">
@@ -98,7 +98,7 @@
   "keywords": [
     "Design Patterns", "设计模式"
   ],
-  "articleBody": "用来构建复杂的实例，java的StringBuilder就是一个Builder模式的例子。\n意图： 将一个复杂对象的构建与它的表示分离，使得同样的构建过程可以创建不同的表示\n结构： 代码示例： Builder类\npublic abstract class Builder { protected String product; public Builder() { product = new String(\"\"); } public void buildPart(String part) { //默认空实现 } public String getResult() { return product; } } ConcreteBuilder类\npublic class ConcreteBuilder extends Builder { @Override public void buildPart(String part) { product += part; } } Director类\npublic class Director { private Builder builder; public Director(Builder builder) { this.builder = builder; } public void Construct() { for (int i = 0; i \u003c 10; i++) { builder.buildPart(\"aaa\"); } } public String getResult() { return builder.getResult(); } } 调用\npublic class Client { public static void main(String[] args) { Director dir = new Director(new ConcreteBuilder()); dir.Construct(); System.out.println(dir.getResult()); } } 优点： 使你可以改变一个产品的内部表示；\r它将构造代码和表示代码分开；\r使你可对构造过程进行更精细的控制；\r适用： 当创建复杂对象的算法应该独立于该对象的组成部分以及它们的装配方式时。 当构造过程必须允许被构造的对象有不同的表示时。\n相关模式： Abstract Factory和Builder比较相似。主要的区别是Builder模式着重于一步步构造一个复杂对象。而 Abstract Factory着重于多个系列的产品对象（简单的或是复杂的）。Builder在最后的一步返回产品，而对于 Abstract Factory来说，产品是立即返回的。\nComposite通常是用Builder生成的\n",
+  "articleBody": "用来构建复杂的实例，java的StringBuilder就是一个Builder模式的例子。\n意图： 将一个复杂对象的构建与它的表示分离，使得同样的构建过程可以创建不同的表示\n结构： 代码示例： Builder类\npublic abstract class Builder { protected String product; public Builder() { product = new String(\"\"); } public void buildPart(String part) { //默认空实现 } public String getResult() { return product; } } ConcreteBuilder类\npublic class ConcreteBuilder extends Builder { @Override public void buildPart(String part) { product += part; } } Director类\npublic class Director { private Builder builder; public Director(Builder builder) { this.builder = builder; } public void Construct() { for (int i = 0; i \u003c 10; i++) { builder.buildPart(\"aaa\"); } } public String getResult() { return builder.getResult(); } } 调用\npublic class Client { public static void main(String[] args) { Director dir = new Director(new ConcreteBuilder()); dir.Construct(); System.out.println(dir.getResult()); } } 优点： 使你可以改变一个产品的内部表示； 它将构造代码和表示代码分开； 使你可对构造过程进行更精细的控制； 适用： 当创建复杂对象的算法应该独立于该对象的组成部分以及它们的装配方式时。 当构造过程必须允许被构造的对象有不同的表示时。\n相关模式： Abstract Factory和Builder比较相似。主要的区别是Builder模式着重于一步步构造一个复杂对象。而 Abstract Factory着重于多个系列的产品对象（简单的或是复杂的）。Builder在最后的一步返回产品，而对于 Abstract Factory来说，产品是立即返回的。\nComposite通常是用Builder生成的\n",
   "wordCount" : "132",
   "inLanguage": "en",
   "datePublished": "2013-07-30T15:56:00+08:00",
@@ -237,7 +237,7 @@
 </span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>  
 </span></span><span style="display:flex;"><span>      
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">Construct</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>  
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span> i <span style="color:#f92672">&lt;</span> 10<span style="color:#f92672">;</span> i<span style="color:#f92672">++)</span> <span style="color:#f92672">{</span>  
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span><span style="color:#f92672">;</span> i <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">10</span><span style="color:#f92672">;</span> i<span style="color:#f92672">++)</span> <span style="color:#f92672">{</span>  
 </span></span><span style="display:flex;"><span>            builder<span style="color:#f92672">.</span><span style="color:#a6e22e">buildPart</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;aaa&#34;</span><span style="color:#f92672">);</span>  
 </span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>  
 </span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>  
