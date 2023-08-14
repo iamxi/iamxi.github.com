@@ -10,7 +10,7 @@
 <meta name="description" content="Posts - 我的博客">
 <meta name="author" content="">
 <link rel="canonical" href="https://blog.qiwei.dev/posts/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.bf5f9f73cf17311d52cedbcda82c922e91b2f566d88a85ad9f5b5a08b586bd5f.css" integrity="sha256-v1&#43;fc88XMR1SztvNqCySLpGy9WbYioWtn1taCLWGvV8=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.3613efbd0b1772781e8f49935e973cae632a7f61471c05b17be155505ccf87b5.css" integrity="sha256-NhPvvQsXcngej0mTXpc8rmMqf2FHHAWxe&#43;FVUFzPh7U=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://blog.qiwei.dev/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://blog.qiwei.dev/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="https://blog.qiwei.dev/favicon-32x32.png">
@@ -153,6 +153,23 @@
 
 <article class="post-entry"> 
   <header class="entry-header">
+    <h2>设计模式学习-创建型模式
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>用于创建对象的模式。包括单件模式（Singleton）、抽象工厂模式（Abstract Factory）、生成器模式（Builder）、工厂方法模式（Factory Method）、原型模式（Prototype）。
+用一个系统创建的那些对象的类对系统进行参数化有两种常用方法：
+一、生成创建对象的类的子类；这对应于使用 Factory Method模式。这种方法的主要缺点是，仅为了改变产品类，就可能需要创建一个新的子类。这样的改变可能是级联的。
+二、对系统进行参数化的方法更多的依赖于对象复合：定义一个对象负责明确产品对象的类，并将它作为该系统的参数。这是 Abstract Factory、Builder和Prototype模式的关键特征。所有这三个模式都涉及到创建一个新的负责创建产品对象的“工厂对象”。Abstract Factory由这个工厂对象产生多个类的对象。 Builder由这个工厂对象使用一个相对复杂的协议，逐步创建一个复杂产品。 Prototype由该工厂对象通过拷贝原型对象来创建产品对象。
+如何选择： 使用Abstract Factory、Prototype或Builder的设计甚至比使用Factory Method的那些设计更灵活，但它们也更加复杂。通常，设计以使用 Factory Method开始，并且当设计者发现需要更大的灵活性时，设计便会向其他创建型模式演化。
+当然没必要就不要用。</p>
+  </div>
+  <footer class="entry-footer"><span title='2013-07-31 09:59:00 +0800 CST'>July 31, 2013</span></footer>
+  <a class="entry-link" aria-label="post link to 设计模式学习-创建型模式" href="https://blog.qiwei.dev/posts/coding/design-patterns/design-patterns-creational-pattern/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
     <h2>设计模式学习-单件（Singleton）
     </h2>
   </header>
@@ -177,8 +194,8 @@ Singleton类可以有子类，而且用这个扩展类的实例来配置一个�
     <p>很少见到，我都没遇到过，或是遇到过也没注意。
 意图： 用原型实例指定创建对象的种类，并且通过拷贝这些原型创建新的对象。
 结构： Prototype
-——声明一个克隆自身的接口ConcretePrototype
-——实现一个克隆自身的操作示例代码: public abstract class Prototype implements Cloneable { public Prototype clone() { try { return (Prototype) super.clone(); } catch (CloneNotSupportedException e) { e.printStackTrace(); } return null; } public abstract String getThing(); } public class ConcretePrototype extends Prototype { @Override public String getThing() { return &#34;ConcretePrototype&#34;; } } public class Client { public static void main(String[] args) { ConcretePrototype cp = new ConcretePrototype(); ConcretePrototype newCp = (ConcretePrototype) cp....</p>
+——声明一个克隆自身的接口 ConcretePrototype
+——实现一个克隆自身的操作 示例代码: public abstract class Prototype implements Cloneable { public Prototype clone() { try { return (Prototype) super.clone(); } catch (CloneNotSupportedException e) { e.printStackTrace(); } return null; } public abstract String getThing(); } public class ConcretePrototype extends Prototype { @Override public String getThing() { return &#34;ConcretePrototype&#34;; } } public class Client { public static void main(String[] args) { ConcretePrototype cp = new ConcretePrototype(); ConcretePrototype newCp = (ConcretePrototype) cp....</p>
   </div>
   <footer class="entry-footer"><span title='2013-07-30 17:23:00 +0800 CST'>July 30, 2013</span></footer>
   <a class="entry-link" aria-label="post link to 设计模式学习-原型（Prototype）" href="https://blog.qiwei.dev/posts/coding/design-patterns/design-patterns-prototype/"></a>
@@ -193,10 +210,10 @@ Singleton类可以有子类，而且用这个扩展类的实例来配置一个�
     <p>意图： 定义一个用于创建对象的接口，让子类决定实例化哪一个类。 Factory Method使一个类的实例化延迟到其子类。
 别名： 虚构造器（Virtual Constructor）
 结构： Product
-— 定义工厂方法所创建的对象的接口。ConcreteProduct
-— 实现Productt接口。Creator
-— 声明工厂方法，该方法返回一个 Product类型的对象。Creator也可以定义一个工厂方法的缺省实现，它返回一个缺省的 ConcreteProduct对象。ConcreteProduct对象— 可以调用工厂方法以创建一个Product对象。ConcreteCreator
-— 重定义工厂方法以返回一个ConcreteProduct实例。代码示例： Creator类
+— 定义工厂方法所创建的对象的接口。 ConcreteProduct
+— 实现Productt接口。 Creator
+— 声明工厂方法，该方法返回一个 Product类型的对象。Creator也可以定义一个工厂方法的缺省实现，它返回一个缺省的 ConcreteProduct对象。 ConcreteProduct对象 — 可以调用工厂方法以创建一个Product对象。 ConcreteCreator
+— 重定义工厂方法以返回一个ConcreteProduct实例。 代码示例： Creator类
 public abstract class Creator { protected abstract Product factoryMethod(); public void anOperation() { Product product = factoryMethod(); //do some thing } } ConcreteCreator类
 public class ConcreteCreator extends Creator { @Override protected Product factoryMethod() { return new ConcreteProduct(); } } 问题： 可能仅为了创建适当的 Product对象而迫使你创建Creator子类。
 适用性： 一个系统要独立于它的产品的创建、组合和表示时。 一个系统要由多个产品系列中的一个来配置时。 当你要强调一系列相关的产品对象的设计以便进行联合使用时。 当你提供一个产品类库，而只想显示它们的接口而不是实现时。 相关模式： Abstract Factory经常用工厂方法来实现； 工厂方法通常在Template Method中被调用； Prototype不需要创建Creator的子类。但是，它们通常要求一个针对Product类的Initialize操作。Creator使用Initialize来初始化对象。而Factory Method不需要这样的操作。 </p>
@@ -306,23 +323,6 @@ public String statement() { double totalAmount = 0; //总消费余额 int freque
   </div>
   <footer class="entry-footer"><span title='2013-07-26 12:02:00 +0800 CST'>July 26, 2013</span></footer>
   <a class="entry-link" aria-label="post link to 保护眼睛，设置eclipse文本编辑背景色为自然绿" href="https://blog.qiwei.dev/posts/tool/eclipse-green-color-theme/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2>我的第一篇博文
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>开始 终于有了自己的域名，在Github上开了自己的博客。之前也坚持写过博客，可惜赶上妻子怀孕和儿子出生，忙里忙外了一年后，博客就再没更新。这次申请了自己的域名，就是希望给自己点动力，再开始自己的博客。
-##为什么要写博客 这个问题很严肃，我也不清除为什么要写博客，就是有一种写博客的想法。如果说分享技术心得，说句实话，我不是那种技术大牛，充其量就是一个普普通通的程序员，我有的技术，相信大部分程序员也知道。而且我的文笔极差，初高中每次语文考试作文都是不及格的份，写个文章出来我都觉得对不起读者。不过还是鼓起勇气来写博客，可能是那些黑客精神看多了，也可能是想着记录自己的生成吧。不管什么愿意，我的欲望已经迫使我去完成这件事了。
-自己介绍 一个工作了五年的程序员，2008年毕业后就从事Java开发工作，前三年都在蹉跎岁月，后来才该为自己的人生奋斗。不过努力了两年，还在迷茫中。
-本人喜欢新奇的事务，但没什么恒心，兴趣转移也快，经常是看下这个，搞搞那个，结果都是一事无成。现在只希望这个博客不要半途而废。虽然认识自己的缺点不容易，不过也不能无止境的说自己的坏话。
-关于域名 域名中姓氏放到了后面，这个并不是我崇洋媚外，也不是赶时髦，只是不知道谁注册了我姓名的域名，还拿去卖玩具，哎。
-打算 先把以前的写的文章搬过来，期间把网站美化下。剩下的就是持续写。</p>
-  </div>
-  <footer class="entry-footer"><span title='2013-07-25 21:51:00 +0800 CST'>July 25, 2013</span></footer>
-  <a class="entry-link" aria-label="post link to 我的第一篇博文" href="https://blog.qiwei.dev/posts/other/my-first-blog/"></a>
 </article>
 <footer class="page-footer">
   <nav class="pagination">

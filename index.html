@@ -2,7 +2,7 @@
 <html lang="en" dir="auto">
 
 <head>
-	<meta name="generator" content="Hugo 0.116.1"><meta charset="utf-8">
+	<meta name="generator" content="Hugo 0.117.0"><meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
@@ -11,7 +11,7 @@
 <meta name="description" content="">
 <meta name="author" content="">
 <link rel="canonical" href="https://blog.qiwei.dev/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.bf5f9f73cf17311d52cedbcda82c922e91b2f566d88a85ad9f5b5a08b586bd5f.css" integrity="sha256-v1&#43;fc88XMR1SztvNqCySLpGy9WbYioWtn1taCLWGvV8=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.3613efbd0b1772781e8f49935e973cae632a7f61471c05b17be155505ccf87b5.css" integrity="sha256-NhPvvQsXcngej0mTXpc8rmMqf2FHHAWxe&#43;FVUFzPh7U=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://blog.qiwei.dev/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://blog.qiwei.dev/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="https://blog.qiwei.dev/favicon-32x32.png">
@@ -146,6 +146,22 @@
 <main class="main"> 
 
 <article class="first-entry"> 
+  <header class="entry-header">
+    <h2>能力和平台
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>虽然做了十几年研发，听了好多关于甲方和乙方的事，不过一直也没机会当任何一方。最近有幸做了一次甲方，参加了和乙方的讨论会。乙方是做SaaS版CRM，我们甲方的需求是希望将一些招租信息维护在CRM中，然后能以H5形式展示并分享给客户。对乙方来说这个功能需要定制化开发，就报了个百来天的工时。甲方的领导听了就很不乐意，认为一个简单功能还要这么多工时。作为一名技术人员，我自然知道这工时中的水分，这是领导都发话了，我说和不说都没啥区别。
+这里不讨论工时水不水的问题，主要看下乙方的态度。合同没签，生意还在谈，报这么高工时明显不利于谈判。那难道是乙方没有合同的想法？肯定不是，没有哪个公司、哪个业务员不愿意赚钱的。我能理解的是，报高工时的目的只是不愿意做定制化开发，但产品还是想卖的。理解这个之前，我们先聊聊传统的办公软件。
+我接触过不少的办公软件，传统的面向企业的办公软件，为了满足企业的各种需求，都是做定制化开发的。软件公司卖软件是一次性交易，后续无法再靠软件在同一个客户身上赚钱。软件定制化开发则是作为维护服务，收取客户维护费。但为了做定制化开发，就需要有大量的外围技术人员去做支持。这种模式自然能对需求的适配性更高，但开发成本也高。
+对于SaaS模式，软件公司就变成售卖服务。这种云端产品，如果做大量定制化开发，对自己的产品来说是很不利的。所以很多都是做标准化，做平台化。平台化可以利用自身能力，让客户再有限的范围能做扩展。这种模式下，无法像定制化开发那样高度适配需求，但是降低了维护成本，让团队集中力量完善自身产品。所以说，乙方努力做自己的产品，打造平台，并不想做一些定制化开发工作。
+说了乙方，再说说甲方。CRM是一款客户管理软件，它不承担企业的业务能力。甲方把管理招租信息的功能放在CRM中，实际已经让CRM系统去做业务工作。这样的问题，将来如果想更换服务提供商就很麻烦了。自己将自己与提供商绑定了。这种招租信息管理，应该是企业的业务能力，企业应该沉淀这种能力。如果自身有这样的能力，只需要通过CRM的平台，把能力接入进去就行，免去了定制化开发的费用，企业自身业务也更强健。</p>
+  </div>
+  <footer class="entry-footer"><span title='2023-08-14 15:34:18 +0800 CST'>August 14, 2023</span></footer>
+  <a class="entry-link" aria-label="post link to 能力和平台" href="https://blog.qiwei.dev/posts/dt/ability-and-platform/"></a>
+</article>
+
+<article class="post-entry"> 
   <header class="entry-header">
     <h2>多机房自动化部署
     </h2>
@@ -323,20 +339,6 @@ private static String stringAssemble(Object data, String type, String splitPunct
   </div>
   <footer class="entry-footer"><span title='2018-01-20 10:58:21 +0800 CST'>January 20, 2018</span></footer>
   <a class="entry-link" aria-label="post link to javabean字段文字拼接" href="https://blog.qiwei.dev/posts/coding/java-bean-field-assemble/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2>Dubbo统一异常拦截
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>问题 最近换了岗位，工作内容改成跟着架构师完善公司的技术架构。第一个任务就是做一个统一的异常拦截并返回相关错误码的方案。
-公司采用dubbo做分布式框架，按dubbo的推荐，异常已经直接抛给调用方（consumer），只是公司现有的约定是使用错误码。问了几个前辈后才知道，原来dubbo在处理自定义异常的时候有些限制。
-public Result invoke(Invoker&lt;?&gt; invoker, Invocation invocation) throws RpcException { try { Result result = invoker.invoke(invocation); if (result.hasException() &amp;&amp; GenericService.class != invoker.getInterface()) { try { Throwable exception = result.getException(); // 如果是checked异常，直接抛出 if (! (exception instanceof RuntimeException) &amp;&amp; (exception instanceof Exception)) { return result; } // 在方法签名上有声明，直接抛出 try { Method method = invoker.getInterface().getMethod(invocation.getMethodName(), invocation.getParameterTypes()); Class&lt;?&gt;[] exceptionClassses = method.getExceptionTypes(); for (Class&lt;?&gt; exceptionClass : exceptionClassses) { if (exception.getClass().equals(exceptionClass)) { return result; } } } catch (NoSuchMethodException e) { return result; } // 未在方法签名上定义的异常，在服务器端打印ERROR日志 logger....</p>
-  </div>
-  <footer class="entry-footer"><span title='2017-10-09 10:02:55 +0800 CST'>October 9, 2017</span></footer>
-  <a class="entry-link" aria-label="post link to Dubbo统一异常拦截" href="https://blog.qiwei.dev/posts/coding/dubbo-exception-filter/"></a>
 </article>
 <footer class="page-footer">
   <nav class="pagination">

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>数字化转型 on 我的博客</title>
+    <link>https://blog.qiwei.dev/tags/%E6%95%B0%E5%AD%97%E5%8C%96%E8%BD%AC%E5%9E%8B/</link>
+    <description>Recent content in 数字化转型 on 我的博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Mon, 14 Aug 2023 15:34:18 +0800</lastBuildDate><atom:link href="https://blog.qiwei.dev/tags/%E6%95%B0%E5%AD%97%E5%8C%96%E8%BD%AC%E5%9E%8B/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>能力和平台</title>
+      <link>https://blog.qiwei.dev/posts/dt/ability-and-platform/</link>
+      <pubDate>Mon, 14 Aug 2023 15:34:18 +0800</pubDate>
+      
+      <guid>https://blog.qiwei.dev/posts/dt/ability-and-platform/</guid>
+      <description>虽然做了十几年研发，听了好多关于甲方和乙方的事，不过一直也没机会当任何一方。最近有幸做了一次甲方，参加了和乙方的讨论会。乙方是做SaaS版CRM，我们甲方的需求是希望将一些招租信息维护在CRM中，然后能以H5形式展示并分享给客户。对乙方来说这个功能需要定制化开发，就报了个百来天的工时。甲方的领导听了就很不乐意，认为一个简单功能还要这么多工时。作为一名技术人员，我自然知道这工时中的水分，这是领导都发话了，我说和不说都没啥区别。
+这里不讨论工时水不水的问题，主要看下乙方的态度。合同没签，生意还在谈，报这么高工时明显不利于谈判。那难道是乙方没有合同的想法？肯定不是，没有哪个公司、哪个业务员不愿意赚钱的。我能理解的是，报高工时的目的只是不愿意做定制化开发，但产品还是想卖的。理解这个之前，我们先聊聊传统的办公软件。
+我接触过不少的办公软件，传统的面向企业的办公软件，为了满足企业的各种需求，都是做定制化开发的。软件公司卖软件是一次性交易，后续无法再靠软件在同一个客户身上赚钱。软件定制化开发则是作为维护服务，收取客户维护费。但为了做定制化开发，就需要有大量的外围技术人员去做支持。这种模式自然能对需求的适配性更高，但开发成本也高。
+对于SaaS模式，软件公司就变成售卖服务。这种云端产品，如果做大量定制化开发，对自己的产品来说是很不利的。所以很多都是做标准化，做平台化。平台化可以利用自身能力，让客户再有限的范围能做扩展。这种模式下，无法像定制化开发那样高度适配需求，但是降低了维护成本，让团队集中力量完善自身产品。所以说，乙方努力做自己的产品，打造平台，并不想做一些定制化开发工作。
+说了乙方，再说说甲方。CRM是一款客户管理软件，它不承担企业的业务能力。甲方把管理招租信息的功能放在CRM中，实际已经让CRM系统去做业务工作。这样的问题，将来如果想更换服务提供商就很麻烦了。自己将自己与提供商绑定了。这种招租信息管理，应该是企业的业务能力，企业应该沉淀这种能力。如果自身有这样的能力，只需要通过CRM的平台，把能力接入进去就行，免去了定制化开发的费用，企业自身业务也更强健。</description>
+    </item>
+    
+  </channel>
+</rss>

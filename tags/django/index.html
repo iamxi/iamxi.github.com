@@ -10,7 +10,7 @@
 <meta name="description" content="">
 <meta name="author" content="">
 <link rel="canonical" href="https://blog.qiwei.dev/tags/django/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.bf5f9f73cf17311d52cedbcda82c922e91b2f566d88a85ad9f5b5a08b586bd5f.css" integrity="sha256-v1&#43;fc88XMR1SztvNqCySLpGy9WbYioWtn1taCLWGvV8=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.3613efbd0b1772781e8f49935e973cae632a7f61471c05b17be155505ccf87b5.css" integrity="sha256-NhPvvQsXcngej0mTXpc8rmMqf2FHHAWxe&#43;FVUFzPh7U=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://blog.qiwei.dev/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://blog.qiwei.dev/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="https://blog.qiwei.dev/favicon-32x32.png">
@@ -160,13 +160,13 @@ TEMPLATES = [ { &#39;BACKEND&#39;: &#39;django.template.backends.django.DjangoTe
     <p>目标 搭建起apache部署Django项目的环境，操作系统CentOS 5，软件版本如下：
 python 2.7 Django 1.5 mod_wsgi 3.3 apache 2.2 Python更新 安装 系统用的是python版本是2.6&#43;，现在需要将python版本更新至2.7&#43;版本了。
 下载python2.7的源码包，然后编译安装，命令如下：
-./configure --enable-sharedmake allmake install这边需要注意的是，configure的参数--enable-shared，使用这个参数为python生成动态链接库。如果没有加此参数，编译安装也可以正常完成，不会影响python的使用。但是到安装mod_wsgi会出现错误，错误内容为：
+./configure --enable-shared make all make install 这边需要注意的是，configure的参数--enable-shared，使用这个参数为python生成动态链接库。如果没有加此参数，编译安装也可以正常完成，不会影响python的使用。但是到安装mod_wsgi会出现错误，错误内容为：
 /usr/local/lib/python2.7/config/libpython2.7.a: could not read symbols: Bad value collect2ld returned 1 exit status apxs:Error: Command failed with rc=65536
 这个错误就是在安装python时候没有./configure --enable-shared
 检查版本 完成后一般的路径是 /usr/local/lib/python2.7，可以使用命令检查其版本是否正确
-/usr/loacl/bin/python2.7 -V若是出现错误：python: error while loading shared libraries: libpython2.7.so .1.0: cannot open shared object file: No such file or directory。使用vim新建文件/etc/ld.so.conf.d/python2.7.conf，加入内容：/usr/local/lib。保存退出后运行：ldconfig，再次运行，看是否成功。
+/usr/loacl/bin/python2.7 -V 若是出现错误：python: error while loading shared libraries: libpython2.7.so .1.0: cannot open shared object file: No such file or directory。使用vim新建文件/etc/ld.so.conf.d/python2.7.conf，加入内容：/usr/local/lib。保存退出后运行：ldconfig，再次运行，看是否成功。
 建立软链接 用于替换shell下的默认python命令的版本
-mv /usr/bin/python /usr/bin/oldpythonln -s /usr/local/bin/python2....</p>
+mv /usr/bin/python /usr/bin/oldpython ln -s /usr/local/bin/python2....</p>
   </div>
   <footer class="entry-footer"><span title='2013-12-11 16:19:00 +0800 CST'>December 11, 2013</span></footer>
   <a class="entry-link" aria-label="post link to Linux下Django部署环境的搭建" href="https://blog.qiwei.dev/posts/coding/python-mode-wsgi-apache-install/"></a>
@@ -181,16 +181,16 @@ mv /usr/bin/python /usr/bin/oldpythonln -s /usr/local/bin/python2....</p>
     <p>一、安装： 安装Apache、Python、Django、mod_wsgi、项目所需的依赖（数据库驱动、第三方库等）
 二、项目设置： 1、把整个项目放到服务器上
 2、改变DEBUG配置，修改settings.py文件的DEBUG属性
-DEBUG=False3、数据库连接配置，修改settings.py的数据库连接配置
+DEBUG=False 3、数据库连接配置，修改settings.py的数据库连接配置
 4、修改允许访问的HOST，修改settings.py的ALLOWED_HOSTS=[&#39;*&#39;]
 5、添加404和500页面，把页面文件放到template目录下
 6、静态文件配置，修改settings.py的STATIC_ROOT的值，此属性的值是部署后静态文件保存的目录。
 7、收集静态文件，运行命令：python manage.py collectstatic。django会把STATICFILES_DIRS中配置的目录下的所有文件和文件夹拷贝到STATIC_ROOT配置的目录下。
 8、修改与settings.py同目录下的wsgi.py，添加如下代码：
-import syssys.path.append(&#34;/home/myproject&#34;)&#34;/home/myproject&#34;替换成项目的根目录，这段代码的作用是把项目的路径添加到python的环境变量下，使得os.environ.setdefault(&#34;DJANGO_SETTINGS_MODULE&#34;, &#34;myproject.settings&#34;)这句断码可以正确查找到项目的settings.py文件。
+import sys sys.path.append(&#34;/home/myproject&#34;) &#34;/home/myproject&#34;替换成项目的根目录，这段代码的作用是把项目的路径添加到python的环境变量下，使得os.environ.setdefault(&#34;DJANGO_SETTINGS_MODULE&#34;, &#34;myproject.settings&#34;)这句断码可以正确查找到项目的settings.py文件。
 三、Apache配置： 修改配置文件httpd.conf 1）、配置Apache加载mod_wsgi
-LoadModule wsgi_module modules/mod_wsgi.so2）、配置静态文件映射
-Alias URL-path file-path|directory-path如Alias /static &#34;/home/myproject/static&#34;3）、apache虚拟主机（VirtualHost）配置
+LoadModule wsgi_module modules/mod_wsgi.so 2）、配置静态文件映射
+Alias URL-path file-path|directory-path 如Alias /static &#34;/home/myproject/static&#34; 3）、apache虚拟主机（VirtualHost）配置
 &lt;VirtualHost *:80&gt; DocumentRoot /ytxt/surveyproject ServerName www.feiyuejihua.com WSGIScriptAlias / /ytxt/surveyproject/surveyproject/django.wsgi ErrorLog /ytxt/log/feiyuejihua.log &lt;Directory /&gt; Order deny,allow Allow from all &lt;/Directory&gt; &lt;Directory /apache&gt; Allow from all &lt;/Directory&gt; &lt;/VirtualHost&gt; DocumentRoot：为项目的根路径 ServerName：项目的域名 ErrorLog：为异常日志路径 WSGIScriptAlias：映射一个URL到一个文件系统地址并委派目标文件为WSGI Script 四、启动服务器： 启动：httpd -k start 重启：httpd -k restart 关闭：httpd -k stop 或 httpd -k shutdown </p>
   </div>
   <footer class="entry-footer"><span title='2013-09-02 10:20:00 +0800 CST'>September 2, 2013</span></footer>
@@ -205,11 +205,11 @@ Alias URL-path file-path|directory-path如Alias /static &#34;/home/myproject/st
   <div class="entry-content">
     <p>安装： 下载后运行python setup.py install或pip安装
 创建项目： 进入准备创建项目的目录下，运行命令：
-django-admin.py startproject xxxdjango-admin.py在windows（其他系统也可能因为安装不同而不在环境变量里）下不能直接调用，可以将其放入环境变量中或是去python的安装目录下的Lib\site-packages\django\bin下运行。windows下没有关联文件类型的话，上面的命令前需要加上ptyhon，即
-python django-admin.py startproject xxx创建的项目结构如下：
-projectname/ |- manage.py |- projectname/ |- __init__.py |- settings.py |- urls.py |- wsgi.py 运行项目： python manage.py runserver默认端口号是8000，可以指定端口号运行
-python manage.py runserver 8080访问http://127.0.0.1:8000/可以显示django的默认页面 这种运行方式并非部署，只是运行Development Server，只能可靠的处理一次单个请求。在此模式下代码或配置的变动都会立即生效。
-创建APP： python manage.py startapp xxxAPP结构如下：
+django-admin.py startproject xxx django-admin.py在windows（其他系统也可能因为安装不同而不在环境变量里）下不能直接调用，可以将其放入环境变量中或是去python的安装目录下的Lib\site-packages\django\bin下运行。windows下没有关联文件类型的话，上面的命令前需要加上ptyhon，即
+python django-admin.py startproject xxx 创建的项目结构如下：
+projectname/ |- manage.py |- projectname/ |- __init__.py |- settings.py |- urls.py |- wsgi.py 运行项目： python manage.py runserver 默认端口号是8000，可以指定端口号运行
+python manage.py runserver 8080 访问http://127.0.0.1:8000/可以显示django的默认页面 这种运行方式并非部署，只是运行Development Server，只能可靠的处理一次单个请求。在此模式下代码或配置的变动都会立即生效。
+创建APP： python manage.py startapp xxx APP结构如下：
 APPname/ |- __init__.py |- models.py |- tests.py |- views.py 进入项目的settings.py下，把新建的APP加入到INSTALLED\_APPS 中，例如：
 INSTALLED_APPS = ( &#39;django.contrib.auth&#39;, &#39;django.contrib.contenttypes&#39;, &#39;django.contrib.sessions&#39;, &#39;django.contrib.sites&#39;, &#39;django.contrib.messages&#39;, &#39;django.contrib.staticfiles&#39;, # Uncomment the next line to enable the admin: # &#39;django....</p>
   </div>

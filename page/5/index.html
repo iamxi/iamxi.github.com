@@ -2,7 +2,7 @@
 <html lang="en" dir="auto">
 
 <head>
-	<meta name="generator" content="Hugo 0.116.1"><meta charset="utf-8">
+	<meta name="generator" content="Hugo 0.117.0"><meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
@@ -11,7 +11,7 @@
 <meta name="description" content="">
 <meta name="author" content="">
 <link rel="canonical" href="https://blog.qiwei.dev/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.bf5f9f73cf17311d52cedbcda82c922e91b2f566d88a85ad9f5b5a08b586bd5f.css" integrity="sha256-v1&#43;fc88XMR1SztvNqCySLpGy9WbYioWtn1taCLWGvV8=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.3613efbd0b1772781e8f49935e973cae632a7f61471c05b17be155505ccf87b5.css" integrity="sha256-NhPvvQsXcngej0mTXpc8rmMqf2FHHAWxe&#43;FVUFzPh7U=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://blog.qiwei.dev/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://blog.qiwei.dev/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="https://blog.qiwei.dev/favicon-32x32.png">
@@ -147,6 +147,23 @@
 
 <article class="post-entry"> 
   <header class="entry-header">
+    <h2>我的第一篇博文
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>开始 终于有了自己的域名，在Github上开了自己的博客。之前也坚持写过博客，可惜赶上妻子怀孕和儿子出生，忙里忙外了一年后，博客就再没更新。这次申请了自己的域名，就是希望给自己点动力，再开始自己的博客。
+##为什么要写博客 这个问题很严肃，我也不清除为什么要写博客，就是有一种写博客的想法。如果说分享技术心得，说句实话，我不是那种技术大牛，充其量就是一个普普通通的程序员，我有的技术，相信大部分程序员也知道。而且我的文笔极差，初高中每次语文考试作文都是不及格的份，写个文章出来我都觉得对不起读者。不过还是鼓起勇气来写博客，可能是那些黑客精神看多了，也可能是想着记录自己的生成吧。不管什么愿意，我的欲望已经迫使我去完成这件事了。
+自己介绍 一个工作了五年的程序员，2008年毕业后就从事Java开发工作，前三年都在蹉跎岁月，后来才该为自己的人生奋斗。不过努力了两年，还在迷茫中。
+本人喜欢新奇的事务，但没什么恒心，兴趣转移也快，经常是看下这个，搞搞那个，结果都是一事无成。现在只希望这个博客不要半途而废。虽然认识自己的缺点不容易，不过也不能无止境的说自己的坏话。
+关于域名 域名中姓氏放到了后面，这个并不是我崇洋媚外，也不是赶时髦，只是不知道谁注册了我姓名的域名，还拿去卖玩具，哎。
+打算 先把以前的写的文章搬过来，期间把网站美化下。剩下的就是持续写。</p>
+  </div>
+  <footer class="entry-footer"><span title='2013-07-25 21:51:00 +0800 CST'>July 25, 2013</span></footer>
+  <a class="entry-link" aria-label="post link to 我的第一篇博文" href="https://blog.qiwei.dev/posts/other/my-first-blog/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
     <h2>Mybatis返回特殊Map
     </h2>
   </header>
@@ -203,12 +220,12 @@ public void method1(String... arg1) { System.out.println(&#34;1&#34;); } public 
   </header>
   <div class="entry-content">
     <p>text中表格可以使用
-table.writeSelectedRows(0, -1, x, y, writer.getDirectContent());来实现绝对位置放置。那文本段落呢…
+table.writeSelectedRows(0, -1, x, y, writer.getDirectContent()); 来实现绝对位置放置。那文本段落呢…
 当我们不需要itext对每个单词、句子、段落实现自动格式的时候，或是想使用特殊布局，就可以使用PdfContentByte来实现绝对位置放置。
 PdfContentByte的初始化：
-PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(&#34;test.pdf&#34;)); PdfContentByte cb = writer.DirectContent;将文本写入ContentByte中时，必须使用方法beginText()和endText()，同时也必须设置字体和尺寸。有两种方法来写入和放置文本。
+PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(&#34;test.pdf&#34;)); PdfContentByte cb = writer.DirectContent; 将文本写入ContentByte中时，必须使用方法beginText()和endText()，同时也必须设置字体和尺寸。有两种方法来写入和放置文本。
 方法一：
-BaseFont bf = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.NOT_EMBEDDED); cb.beginText(); cb.setFontAndSize(bf, 12); cb.showTextAligned(PdfContentByte.ALIGN_CENTER, text &#43; &#34;This text is centered&#34;, 250, 700, 0); cb.endText();方法二：
+BaseFont bf = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.NOT_EMBEDDED); cb.beginText(); cb.setFontAndSize(bf, 12); cb.showTextAligned(PdfContentByte.ALIGN_CENTER, text &#43; &#34;This text is centered&#34;, 250, 700, 0); cb.endText(); 方法二：
 BaseFont bf = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.NOT_EMBEDDED); cb.beginText(); cb.setFontAndSize(bf, 12); cb.setTextMatrix(100, 400); cb.showText(&#34;Text at position 100,400.&#34;); cb.endText(); </p>
   </div>
   <footer class="entry-footer"><span title='2011-05-12 12:02:00 +0800 CST'>May 12, 2011</span></footer>
