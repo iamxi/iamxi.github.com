@@ -6,7 +6,25 @@
     <description>Recent content in 数字化转型 on 我的博客</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Mon, 14 Aug 2023 15:34:18 +0800</lastBuildDate><atom:link href="https://blog.qiwei.dev/tags/%E6%95%B0%E5%AD%97%E5%8C%96%E8%BD%AC%E5%9E%8B/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 17 Aug 2023 17:09:19 +0800</lastBuildDate><atom:link href="https://blog.qiwei.dev/tags/%E6%95%B0%E5%AD%97%E5%8C%96%E8%BD%AC%E5%9E%8B/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>我对数字化转型的理解</title>
+      <link>https://blog.qiwei.dev/posts/dt/my-mind-of-digital-transformation/</link>
+      <pubDate>Thu, 17 Aug 2023 17:09:19 +0800</pubDate>
+      
+      <guid>https://blog.qiwei.dev/posts/dt/my-mind-of-digital-transformation/</guid>
+      <description>换了一份新工作，开始投身企业数字化转型的领域。对这个领域，我只能算是一个新手。为了工作，恶补了不少知识。看书、看博客、看各种课程，总算有了一点点理解。
+作为一名技术人员，很容易被“数字化”三个字欺骗，把它与之前企业“信息化”做联想，然后觉得“数字化转型”也可能是提升一波企业的各种业务系统。而且看很多资料，也是介绍各种技术的，从架构到大数据，从AI到智能决策。很容易让人只从一面来看待数字化转型。
+很多人把企业数字化视为第四次工业革命的一部分。那回顾下前三次工业革命，看看能不能找出点什么。
+第一次工业革命时，已经有大量农民进入城市变为工人，在工厂中通过出卖劳动力换取报酬。随后一些关键技术被发明，如蒸汽机、飞梭、、纺纱机、蒸汽火车等，使得工厂使用机械替代原本工人手工的劳动。这也使得那些从农民转变而来的工人失去了生计。
+第二次工业革命是以电灯的发明为标志，石油作为能源使用。工厂将生产集中，劳动分工使得工人根据生产力。随着掌握专业知识的人越来越多，中产阶级开始崛起。
+第三次工业革命又称第三次科技革命，自动化的计算机提升了生产力，核技术提供了超过石油的发电效率。科学技术推动生产力的发展，转化为直接生产力的速度加快，也改变提高劳动生产率的方法。同时工厂效率提高释放劳动力进入服务业，第三产业比重上升。人们衣食住行等日常生活发生变革。（来自维基百科）
+个人理解上，每次革命都是科技在推动，每一次也都在改变工人的生产方式。从机械式重复劳动到专门化劳动分工，从文盲工人到专业知识中产。这个过程中，对工人的知识和技能水平要求越来越高，而那些纯体力或重复性工作一步一步被科学技术的产物所取代。同时人作为昂贵的资源，减少对人的依赖也是一直的趋势。
+再回来看企业数字化转型，依然是要求工人的知识和技术水平进一步提升，淘汰一批跟不上时代，思维无法转换的，不管是从管理层到普通员工都是如此。另外，使用人工智能以减低人的不确定性因素，也减少了对人力资源的依赖。可预见不久的未来，由于自动化和智能化的提升，从事日常运营和管理的人越来越少，更多的转向决策、创新等工作。
+对IT技术人员来说，数字化转型更多的是给了一个额外的就业选择，不过人才需求应该没法抵得过现在裁员节奏。
+以上是我的个人浅见。</description>
+    </item>
+    
     <item>
       <title>能力和平台</title>
       <link>https://blog.qiwei.dev/posts/dt/ability-and-platform/</link>
