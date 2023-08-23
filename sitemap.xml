@@ -2,16 +2,25 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://blog.qiwei.dev/categories/</loc>
+    <lastmod>2023-08-23T11:29:19+08:00</lastmod>
+  </url><url>
     <loc>https://blog.qiwei.dev/posts/</loc>
-    <lastmod>2023-08-17T17:09:19+08:00</lastmod>
+    <lastmod>2023-08-23T11:29:19+08:00</lastmod>
+  </url><url>
+    <loc>https://blog.qiwei.dev/categories/%E5%85%B6%E4%BB%96/</loc>
+    <lastmod>2023-08-23T11:29:19+08:00</lastmod>
+  </url><url>
+    <loc>https://blog.qiwei.dev/</loc>
+    <lastmod>2023-08-23T11:29:19+08:00</lastmod>
+  </url><url>
+    <loc>https://blog.qiwei.dev/posts/other/dinner-party-and-favor/</loc>
+    <lastmod>2023-08-23T11:29:19+08:00</lastmod>
   </url><url>
     <loc>https://blog.qiwei.dev/tags/</loc>
     <lastmod>2023-08-17T17:09:19+08:00</lastmod>
   </url><url>
     <loc>https://blog.qiwei.dev/posts/dt/my-mind-of-digital-transformation/</loc>
-    <lastmod>2023-08-17T17:09:19+08:00</lastmod>
-  </url><url>
-    <loc>https://blog.qiwei.dev/</loc>
     <lastmod>2023-08-17T17:09:19+08:00</lastmod>
   </url><url>
     <loc>https://blog.qiwei.dev/tags/%E6%95%B0%E5%AD%97%E5%8C%96%E8%BD%AC%E5%9E%8B/</loc>
@@ -94,12 +103,6 @@
   </url><url>
     <loc>https://blog.qiwei.dev/posts/coding/webpy-source-helloworld/</loc>
     <lastmod>2014-04-03T11:21:00+08:00</lastmod>
-  </url><url>
-    <loc>https://blog.qiwei.dev/categories/</loc>
-    <lastmod>2014-02-28T16:48:00+08:00</lastmod>
-  </url><url>
-    <loc>https://blog.qiwei.dev/categories/%E5%85%B6%E4%BB%96/</loc>
-    <lastmod>2014-02-28T16:48:00+08:00</lastmod>
   </url><url>
     <loc>https://blog.qiwei.dev/posts/other/developer-read-books-coding/</loc>
     <lastmod>2014-02-28T16:48:00+08:00</lastmod>

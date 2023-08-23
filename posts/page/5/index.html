@@ -153,6 +153,20 @@
 
 <article class="post-entry"> 
   <header class="entry-header">
+    <h2>《重构》学习笔记-重构原则
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>码农真得很辛苦，每天除了要下地编码之外，还需要挑灯夜战，学习专业知识，唉。不抱怨了，抱怨都是那些自暴自弃的人愤世嫉俗的。最近看《重构》一书，话说是一本很多人推荐看的好书，封面上还写着“从初级程序员到编程高手的秘籍”。好吧，我承认是初级程序员。所以我看了。
+第一章 与其他书不同，第一章是一个例子。很多书，包括大学教材啊，技术教材都是以要讲的内容的定义和一些学习的重要意义之类的做第一章，而此书却给了一个系统的小部分代码来做重构的小例子。这样写的原因作者说了，不过对于我们这种应试教育下出生的人来说有点小小的不习惯。
+public String statement() { double totalAmount = 0; //总消费余额 int frequentRenterPoints = 0; //常客积点 Enumeration rentals = _rentals.elements(); String result = &#34;Rental Record for &#34; &#43; getName() &#43; &#34;\n&#34;; while(rentals.hasMoreElements()) { double thisAmount = 0; //取得一笔租借记录 Rental each = (Rental) rentals.nextElement(); //determine amounts for each line switch(each.getDaysRented() &gt; 2) { //取得影片租价格 case Movie.REGULAR: //普通片 thisAmount &#43;= 2; if (each.getDaysRented() &gt; 2) thisAmount &#43;= (each.getDaysRented() - 2)*1.5; break; case Movie....</p>
+  </div>
+  <footer class="entry-footer"><span title='2013-07-28 22:01:00 +0800 CST'>July 28, 2013</span></footer>
+  <a class="entry-link" aria-label="post link to 《重构》学习笔记-重构原则" href="https://blog.qiwei.dev/posts/coding/refactioring/refactioring-read-1/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
     <h2>保护眼睛，设置eclipse文本编辑背景色为自然绿
     </h2>
   </header>

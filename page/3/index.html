@@ -147,6 +147,27 @@
 
 <article class="post-entry"> 
   <header class="entry-header">
+    <h2>Linux下Django部署环境的搭建
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>目标 搭建起apache部署Django项目的环境，操作系统CentOS 5，软件版本如下：
+python 2.7 Django 1.5 mod_wsgi 3.3 apache 2.2 Python更新 安装 系统用的是python版本是2.6&#43;，现在需要将python版本更新至2.7&#43;版本了。
+下载python2.7的源码包，然后编译安装，命令如下：
+./configure --enable-shared make all make install 这边需要注意的是，configure的参数--enable-shared，使用这个参数为python生成动态链接库。如果没有加此参数，编译安装也可以正常完成，不会影响python的使用。但是到安装mod_wsgi会出现错误，错误内容为：
+/usr/local/lib/python2.7/config/libpython2.7.a: could not read symbols: Bad value collect2ld returned 1 exit status apxs:Error: Command failed with rc=65536
+这个错误就是在安装python时候没有./configure --enable-shared
+检查版本 完成后一般的路径是 /usr/local/lib/python2.7，可以使用命令检查其版本是否正确
+/usr/loacl/bin/python2.7 -V 若是出现错误：python: error while loading shared libraries: libpython2.7.so .1.0: cannot open shared object file: No such file or directory。使用vim新建文件/etc/ld.so.conf.d/python2.7.conf，加入内容：/usr/local/lib。保存退出后运行：ldconfig，再次运行，看是否成功。
+建立软链接 用于替换shell下的默认python命令的版本
+mv /usr/bin/python /usr/bin/oldpython ln -s /usr/local/bin/python2....</p>
+  </div>
+  <footer class="entry-footer"><span title='2013-12-11 16:19:00 +0800 CST'>December 11, 2013</span></footer>
+  <a class="entry-link" aria-label="post link to Linux下Django部署环境的搭建" href="https://blog.qiwei.dev/posts/coding/python-mode-wsgi-apache-install/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
     <h2>Clone使用方法详解
     </h2>
   </header>
@@ -332,26 +353,6 @@ private static ConcurrentHashMap&lt;String, AbstractMsgSendServiceImpl&gt; messa
   </div>
   <footer class="entry-footer"><span title='2013-07-31 13:58:00 +0800 CST'>July 31, 2013</span></footer>
   <a class="entry-link" aria-label="post link to 原型工厂模式" href="https://blog.qiwei.dev/posts/coding/design-patterns/design-patterns-prototype-factory/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2>设计模式学习-桥接模式（Bridge）
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>意图 将抽象部分与它的实现部分分离，使它们都可以独立地变化。
-别名 Handle/Body
-结构 参与者
-Abstraction
-— 定义抽象类的接口。
-— 维护一个指向Implementor类型对象的指针。 RefinedAbstraction
-— 扩充由Abstraction定义的接口。 Implementor
-— 定义实现类的接口，该接口不一定要与Abstraction的接口完全一致；事实上这两个接口可以完全不同。一般来讲，Implementor接口仅提供基本操作，而Abstraction则定义了基于这些基本操作的较高层次的操作。 ConcreteImplementor
-— 实现Implementor接口并定义它的具体实现。 示例代码： public abstract class Abstraction { private Implementor impl; public Implementor getImpl() { return impl; } public void setImpl(Implementor impl) { this.impl = impl; } public Abstraction(Implementor impl) { this.impl = impl; } public abstract void operation(); } public class RefinedAbstraction extends Abstraction { public RefinedAbstraction(Implementor impl) { super(impl); } @Override public void operation() { getImpl()....</p>
-  </div>
-  <footer class="entry-footer"><span title='2013-07-31 13:44:00 +0800 CST'>July 31, 2013</span></footer>
-  <a class="entry-link" aria-label="post link to 设计模式学习-桥接模式（Bridge）" href="https://blog.qiwei.dev/posts/coding/design-patterns/design-patterns-bridge/"></a>
 </article>
 <footer class="page-footer">
   <nav class="pagination">

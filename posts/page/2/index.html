@@ -153,6 +153,25 @@
 
 <article class="post-entry"> 
   <header class="entry-header">
+    <h2>spring cloud feign 拦截器配置
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>问题 公司大规模推全链路，要求所有应用都接入。手头一个新的项目，采用spring cloud框架。通过 feign 调用rest接口。但是支持提供的支持 HttpClient4 的方式无法对 feign 起作用。
+思路 想着 feign 也是采用 HttpClient 的。按理对 HttpClient4 起作用的也应该同样有效。然后去看了下架构组全链路配置代码，原来他们是在初始化 HttpCLient 实例时候，加入了拦截器。通过拦截器，在 header 中加入链路信息。但是这个方式似乎对 feign 没啥作用。那我就自己实现添加拦截器呗。
+查了下 feign 添加拦截器，网络上提供的方式都是通过自定义 FeignConfiguration 的方式来实现。方法如下：
+新建 FeignConfiguration类
+public class FeignConfiguration { @Bean public FeignBasicAuthRequestInterceptor basicAuthRequestInterceptor() { return new FeignBasicAuthRequestInterceptor(); } } 然后在配置客户端调用时候加入配置中
+@FeignClient(value = &#34;xxx-service&#34;, path = &#34;/xxx&#34;, configuration = FeignConfiguration.class) 只是这种方法无法做到全局。找了好久，看了文档，都没有办法配置全局。
+无奈，去翻源码吧。找到了 FeignAutoConfiguration 类。看到了初始化配置。
+protected static class HttpClientFeignConfiguration { @Autowired( required = false ) private HttpClient httpClient; protected HttpClientFeignConfiguration() { } @Bean @ConditionalOnMissingBean({Client....</p>
+  </div>
+  <footer class="entry-footer"><span title='2018-01-25 20:53:21 +0800 CST'>January 25, 2018</span></footer>
+  <a class="entry-link" aria-label="post link to spring cloud feign 拦截器配置" href="https://blog.qiwei.dev/posts/coding/spring-cloud-feign-add-interceptor/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
     <h2>javabean字段文字拼接
     </h2>
   </header>
@@ -318,27 +337,6 @@ PuTTY在这边不是一款很大众的软件，使用起来遇到问题自然比
   </div>
   <footer class="entry-footer"><span title='2014-01-17 16:35:00 +0800 CST'>January 17, 2014</span></footer>
   <a class="entry-link" aria-label="post link to PuTTY下如何使用agent forwarding" href="https://blog.qiwei.dev/posts/tool/putty-using-agent-forwarding/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2>Linux下Django部署环境的搭建
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>目标 搭建起apache部署Django项目的环境，操作系统CentOS 5，软件版本如下：
-python 2.7 Django 1.5 mod_wsgi 3.3 apache 2.2 Python更新 安装 系统用的是python版本是2.6&#43;，现在需要将python版本更新至2.7&#43;版本了。
-下载python2.7的源码包，然后编译安装，命令如下：
-./configure --enable-shared make all make install 这边需要注意的是，configure的参数--enable-shared，使用这个参数为python生成动态链接库。如果没有加此参数，编译安装也可以正常完成，不会影响python的使用。但是到安装mod_wsgi会出现错误，错误内容为：
-/usr/local/lib/python2.7/config/libpython2.7.a: could not read symbols: Bad value collect2ld returned 1 exit status apxs:Error: Command failed with rc=65536
-这个错误就是在安装python时候没有./configure --enable-shared
-检查版本 完成后一般的路径是 /usr/local/lib/python2.7，可以使用命令检查其版本是否正确
-/usr/loacl/bin/python2.7 -V 若是出现错误：python: error while loading shared libraries: libpython2.7.so .1.0: cannot open shared object file: No such file or directory。使用vim新建文件/etc/ld.so.conf.d/python2.7.conf，加入内容：/usr/local/lib。保存退出后运行：ldconfig，再次运行，看是否成功。
-建立软链接 用于替换shell下的默认python命令的版本
-mv /usr/bin/python /usr/bin/oldpython ln -s /usr/local/bin/python2....</p>
-  </div>
-  <footer class="entry-footer"><span title='2013-12-11 16:19:00 +0800 CST'>December 11, 2013</span></footer>
-  <a class="entry-link" aria-label="post link to Linux下Django部署环境的搭建" href="https://blog.qiwei.dev/posts/coding/python-mode-wsgi-apache-install/"></a>
 </article>
 <footer class="page-footer">
   <nav class="pagination">
